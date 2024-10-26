@@ -26,12 +26,31 @@
   <form [formGroup]="clientForm">
     <c-col class="mx-2 my-4">
       <div class="card">
-        <div class="card-header m-0">
+        <div class="card-header m-0 d-flex justify-content-between">
           <h5>الزبون</h5>
+          <button class="btn btn-success" [disabled]="clientForm.invalid" (click)="addClient()">
+            اضافة
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                 viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+            </svg>
+          </button>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-6">
+            <div class="col-4">
+              <label> الوصف</label>
+              <ng-select
+                [items]="discreption"
+                bindLabel="description"
+                bindValue="description"
+                placeholder="اختر الوصف"
+                formControlName="descriptionId"
+              >
+              </ng-select>
+            </div>
+            <div class="col-4">
               <label> الاسم</label>
               <input
                 aria-label="default input example"
@@ -51,111 +70,68 @@
               />
             </div> -->
 
-            <div class="col-6">
-              <label> الوصف</label>
-              <ng-select
-                [items]="discreption"
-                bindLabel="discreptionName"
-                bindValue="id"
-                placeholder="اختر الوصف"
-                formControlName="descriptionId"
-              >
-              </ng-select>
-            </div>
 
 
-            <div class="col-5">
-              <label>هاتف 1 </label>
-              <input
-                readonly
-                aria-label="default input example"
-                cFormControl
-                formControlName="phoneNumber1"
-                type="tel"
-              />
-            </div>
-            <div class="col-1 mt-4">
-              <label>  </label>
-              <input
-                  type="radio"
-                  #radio
-                  name="selectedDevice"
-                />
-            </div>
 
-            <div class="col-5">
-              <label>هاتف 2 </label>
+            <div class="col-4">
+              <label>هاتف </label>
               <input
-                readonly
                 aria-label="default input example"
                 cFormControl
-                formControlName="phoneNumber2"
+                formControlName="phoneNumber"
                 type="tel"
               />
-            </div>
-            <div class="col-1 mt-4">
-              <label>  </label>
-              <input
-                  type="radio"
-                  #radio
-                  name="selectedDevice"
-                />
-            </div>
-            <div class="col-3">
-              <label>هاتف 3 </label>
-              <input
-                readonly
-                aria-label="default input example"
-                cFormControl
-                formControlName="phoneNumber3"
-                type="tel"
-              />
-            </div>
-            <div class="col-1 mt-4">
-              <label>  </label>
-              <input
-                  type="radio"
-                  #radio
-                  name="selectedDevice"
-                />
-            </div>
-            <div class="col-3">
-              <label>هاتف 4 </label>
-              <input
-                readonly
-                aria-label="default input example"
-                cFormControl
-                formControlName="phoneNumber4"
-                type="tel"
-              />
-            </div>
-            <div class="col-1 mt-4">
-              <label>  </label>
-              <input
-                  type="radio"
-                  #radio
-                  name="selectedDevice"
-                />
-            </div>
-            <div class="col-3">
-              <label>هاتف 5 </label>
-              <input
-                readonly
-                aria-label="default input example"
-                cFormControl
-                formControlName="phoneNumber5"
-                type="tel"
-              />
-            </div>
-            <div class="col-1 mt-4">
-              <label>  </label>
-              <input
-                  type="radio"
-                  #radio
-                  name="selectedDevice"
-                />
             </div>
           </div>
+
+
+
+          <div class="row mt-2" *ngIf="tableVisible" [@fadeInAnimation]>
+            <div class="col-12">
+                <table class="w-100">
+                  <table [striped]="true" cTable>
+                    <thead>
+                    <tr>
+                      <th scope="col">الوصف</th>
+                      <th scope="col">الاسم</th>
+                      <th scope="col">الهاتف</th>
+                      <th scope="col">معتمد</th>
+                      <th scope="col">تعديل</th>
+                      <th scope="col">حذف</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let client of clientList">
+                      <td>{{ client.descriptionId }}</td>
+                      <td>{{ client.name }}</td>
+                      <td>{{ client.phoneNumber }}</td>
+                      <td>
+                        <input
+                          type="radio"
+                          name="selectedClient"
+                          [value]="client.id"
+                          (change)="selectClient(client.id)"
+                          [checked]="selectedClientId === client.id"
+                        />
+                      </td>
+                      <td>
+                        <button cButton class="btn btn-light m-0 p-2" (click)="editClient(client)">
+                          <svg cIcon name="cil-pencil"></svg>
+                        </button>
+                      </td>
+                      <td>
+                        <button cButton class="btn btn-danger m-0 p-2" (click)="removeClient(client)">
+                          <svg cIcon name="cil-trash"></svg>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </table>
+            </div>
+        </div>
+
+
         </div>
       </div>
     </c-col>
@@ -183,7 +159,7 @@
                 [items]="governorate"
                 bindLabel="governorateName"
                 bindValue="id"
-                placeholder="اختر المحاغظة"
+                placeholder="اختر المحافظة"
                 formControlName="governorateId"
               >
               </ng-select>
@@ -196,7 +172,7 @@
                 [items]="area"
                 bindLabel="areaName"
                 bindValue="id"
-                placeholder="اختر المنظقة"
+                placeholder="اختر المنطقة"
                 formControlName="areaId"
               >
               </ng-select>
@@ -312,8 +288,8 @@
                 *ngFor="let option of buildingData; let i = index"
               >
                 <input
-                  type="checkbox"
-                  #checkbox
+                  type="radio"
+                  #radio
                   name="selectedBuilding"
                   [checked]="isSelected(option.statusId)"
                   formControlName="selectedBuilding"
@@ -351,8 +327,8 @@
                   </div>
                   <div class="col-3" *ngFor="let option of orderData; let i = index">
                     <input
-                      type="checkbox"
-                      #checkbox
+                      type="radio"
+                      #radio
                       name="selectedOrder"
                       [checked]="isSelected(option.statusId)"
                       formControlName="selectedOrder"
@@ -514,3 +490,35 @@
 
   </form>
 </c-card>
+
+
+<div class="modal" tabindex="-1" [class.show]="showModal" *ngIf="showModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">تعديل العميل</h5>
+        <button type="button" class="btn-close" (click)="showModal = false"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="clientForm">
+          <div class="mb-3">
+            <label>الوصف</label>
+            <input type="text" class="form-control" formControlName="descriptionId" />
+          </div>
+          <div class="mb-3">
+            <label>الاسم</label>
+            <input type="text" class="form-control" formControlName="name" />
+          </div>
+          <div class="mb-3">
+            <label>الهاتف</label>
+            <input type="tel" class="form-control" formControlName="phoneNumber" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="showModal = false">إغلاق</button>
+        <button type="button" class="btn btn-primary" (click)="saveChanges()">حفظ التعديلات</button>
+      </div>
+    </div>
+  </div>
+</div>

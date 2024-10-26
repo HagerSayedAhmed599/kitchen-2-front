@@ -22,8 +22,8 @@ export class ReceptionReportService {
     return this.http.get(`${this.domain}Report/GenerateRecieptionRequestReport?clientFileId=${clientFileId}&IsExcel=${IsExcel}`)
   }
 
-  GetAllDiscreption(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllDiscreption(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
   GetAllGovernorate(): Observable<any> {
     return this.http.get(`${this.domain}`)

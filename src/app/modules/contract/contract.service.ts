@@ -30,6 +30,10 @@ export class ContractService {
     return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
 
+  GetAllDis(id: number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+  }
+
   GetAllUsersApi(): Observable<any> {
     return this._HttpClient.get(`${this.domain}Users/GetAllUsers`)
   }
