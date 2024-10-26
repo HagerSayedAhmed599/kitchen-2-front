@@ -52,7 +52,7 @@ export class FormReceptionReportComponent {
     {name: "تحت التشطيب  ", id: 6},
     {name: "تحت الإنشاء  ", id: 7},
   ];
-  ServicesData: any = [
+  servicesData: any = [
     {name: " مطبخ ", id: 1},
     {name: " مفروشات ", id: 2},
     {name: " مغاسل ", id: 3},
@@ -73,6 +73,12 @@ export class FormReceptionReportComponent {
   MyDevices: any[]=[];
   users: any;
   Alldevices: any;
+  discreption: any;
+  governorate: any;
+  area: any;
+  BuildingData: any;
+  ServicesData: any;
+  OrderData: any;
   constructor(private _FormBuilder: FormBuilder,
               private recptionReportService:ReceptionReportService,
               private _ClientsService: ClientsService,
@@ -178,6 +184,22 @@ this._ConttactService.GetStatusCategoryById(19).subscribe(res=>{
 
 })
   }
+
+  GetBuildingData() {
+    this.recptionReportService.GetAllBuildingData().subscribe(data=> {
+      this.BuildingData = data
+    })
+  }
+  GetServicesData() {
+    this.recptionReportService.GetAllServicesData().subscribe(data=> {
+      this.ServicesData = data
+    })
+  }
+  GetOrderData() {
+    this.recptionReportService.GetAllOrderData().subscribe(data=> {
+      this.OrderData = data
+    })
+  }
   GetKitchenType(){
     this._ConttactService.GetStatusCategoryById(18).subscribe(res=>{
       this.KitchenType=res.data.statuses
@@ -282,6 +304,21 @@ AddNotice() {
 getAllUsers(){
   this._ConttactService.GetAllUsersApi().subscribe(res=>{
     this.users = res.data
+  })
+}
+getAllDiscreption() {
+  this.recptionReportService.GetAllDiscreption().subscribe(data=> {
+    this.discreption = data.data
+  })
+}
+getAllGovernorate() {
+  this.recptionReportService.GetAllGovernorate().subscribe(data=> {
+    this.governorate = data.data
+  })
+}
+getAllArea() {
+  this.recptionReportService.GetAllArea().subscribe(data=> {
+    this.area = data.data
   })
 }
 isSelected(statusId: number): boolean {

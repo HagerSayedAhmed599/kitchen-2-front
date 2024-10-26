@@ -54,8 +54,8 @@
             <div class="col-6">
               <label> الوصف</label>
               <ng-select
-                [items]="users"
-                bindLabel="userName"
+                [items]="discreption"
+                bindLabel="discreptionName"
                 bindValue="id"
                 placeholder="اختر الوصف"
                 formControlName="descriptionId"
@@ -180,8 +180,8 @@
             <div class="col-4">
               <label> المحافظة</label>
               <ng-select
-                [items]="users"
-                bindLabel="userName"
+                [items]="governorate"
+                bindLabel="governorateName"
                 bindValue="id"
                 placeholder="اختر المحاغظة"
                 formControlName="governorateId"
@@ -193,8 +193,8 @@
             <div class="col-4">
               <label> المنطقة</label>
               <ng-select
-                [items]="users"
-                bindLabel="userName"
+                [items]="area"
+                bindLabel="areaName"
                 bindValue="id"
                 placeholder="اختر المنظقة"
                 formControlName="areaId"
@@ -329,7 +329,7 @@
                   <div class="card-header mt-3">
                     <h5>الخدمات المطلوبة</h5>
                   </div>
-                  <div class="col-3" *ngFor="let option of ServicesData; let i = index">
+                  <div class="col-3" *ngFor="let option of servicesData; let i = index">
                     <input
                       type="checkbox"
                       #checkbox
