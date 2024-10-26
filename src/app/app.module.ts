@@ -46,7 +46,7 @@ import { CoreModule } from './core/core.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { ToastrModule } from 'ngx-toastr';
 import { PreventBackdropDirective } from './containers/default-layout/preventBackdropDirective';
-import { ReportReceptionReportComponent } from './modules/reception-report/report-reception-report/report-reception-report.component'
+import { ReportReceptionReportComponent } from './modules/reception-report/report-reception-report/report-reception-report.component';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultHeaderComponent,
@@ -54,7 +54,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS,PreventBackdropDirective],
+  declarations: [AppComponent, ...APP_CONTAINERS,PreventBackdropDirective,],
   imports: [
     BrowserModule,
     CommonModule,

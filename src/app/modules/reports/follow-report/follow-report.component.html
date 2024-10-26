@@ -1,7 +1,8 @@
 <c-card class="mb-4 py-4">
   <form [formGroup]="FilterForm">
     <c-row class="p-2">
-      <c-col class="d-flex">
+      <c-col class="">
+        <div class="d-flex col-12">
         <div class="col-4">
           <label>من</label>
           <input aria-label="default input example" cFormControl formControlName="DateFrom" type="date"/>
@@ -10,6 +11,11 @@
           <label>الي</label>
           <input aria-label="default input example" cFormControl formControlName="DateTo" type="date"/>
         </div>
+        <div class="col-4">
+          <label>النوع</label>
+          <input aria-label="default input example" cFormControl formControlName="TypeID" type="number">
+        </div>
+      </div>
         <div class="col-4">
 
           <button class="FindReport" (click)="getContractReport()">FindReport</button>

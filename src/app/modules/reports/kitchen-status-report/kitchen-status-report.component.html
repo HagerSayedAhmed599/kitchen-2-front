@@ -1,0 +1,73 @@
+<c-card class="mb-4 py-4">
+  <form [formGroup]="FilterForm">
+    <c-row class="p-2">
+      <c-col class="">
+        <div class="col-12 d-flex">
+          <div class="col-4">
+            <label>من</label>
+            <input aria-label="default input example" cFormControl formControlName="DateFrom" type="date" />
+          </div>
+          <div class="col-4">
+            <label>الي</label>
+            <input aria-label="default input example" cFormControl formControlName="DateTo" type="date" />
+          </div>
+          <div class="col-4">
+            <label>اختر الحاله</label>
+            <ng-select [items]="LoadFinalStatusList" bindLabel="defaultDesc" bindValue="statusId"
+              formControlName="FinalStatusID">
+
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-12 d-flex">
+          <div class="col-4">
+            <!-- (change)="setMeasurement()" -->
+            <label>من</label>
+            <ng-select [items]="allUsersData" bindLabel="userName" bindValue="id" placeholder="من"
+              formControlName="UserID">
+            </ng-select>
+          </div>
+          <div class="col-2 checkboxisChecked">
+            <label>
+              <input type="checkbox" [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}" /> حركات تاريخية
+            </label>
+
+          </div>
+          <div class="col-2">
+
+            <button class="FindReport" [disabled]="!FilterForm.valid" (click)="getContractReport()">FindReport</button>
+          </div>
+
+        </div>
+
+      </c-col>
+    </c-row>
+  </form>
+</c-card>
+
+<c-card class="mb-4 py-4">
+  <div class="toolbar">
+    <button (click)="zoomIn()">+</button>
+    <button (click)="zoomOut()">-</button>
+    <button (click)="downloadPDF()">Download</button>
+    <button (click)="printPDF()">Print</button>
+    <button (click)="generateExcel()">Generate Excel</button>
+    <!-- Pagination in toolbar -->
+    <!-- <span class="mx-2">Page {{page}} of {{totalPages}}</span>
+    <input type="number" [value]="page" (change)="scrollToPage($event)" min="1" [max]="totalPages" class="page-input" />
+
+    <button [disabled]="page <= 1" (click)="scrollToPreviousPage()">Previous</button>
+    <button [disabled]="page >= totalPages" (click)="scrollToNextPage()">Next</button> -->
+  </div>
+
+  <!-- Viewer Container -->
+  <div #viewerContainer class="pdf-viewer-container" style="width: 100%; height: 600px; overflow: auto;">
+    <pdf-viewer [src]="pdfSrc" [render-text]="true" [zoom]="zoom" [show-all]="true"
+      (after-load-complete)="onPDFLoad($event)" style="display: block; width: 100%; height: 100%;">
+    </pdf-viewer>
+  </div>
+
+  <div class="spinner-container" *ngIf="Isloading">
+    <c-spinner></c-spinner>
+  </div>
+</c-card>
