@@ -157,8 +157,8 @@
               <label> المحافظة</label>
               <ng-select
                 [items]="governorate"
-                bindLabel="governorateName"
-                bindValue="id"
+                bindLabel="description"
+                bindValue="statusId"
                 placeholder="اختر المحافظة"
                 formControlName="governorateId"
               >
@@ -285,7 +285,7 @@
 
               <div
                 class="col-3"
-                *ngFor="let option of buildingData; let i = index"
+                *ngFor="let option of BuildingData; let i = index"
               >
                 <input
                   type="radio"
@@ -296,7 +296,7 @@
                   [value]="option.statusId"
                   (change)="selectOption($event, option)"
                 />
-                {{ option.name }}
+                {{ option.defaultDesc }}
               </div>
             </div>
             <c-row class="p-2 mt ms-2">
@@ -305,7 +305,7 @@
                   <div class="card-header mt-3">
                     <h5>الخدمات المطلوبة</h5>
                   </div>
-                  <div class="col-3" *ngFor="let option of servicesData; let i = index">
+                  <div class="col-4" *ngFor="let option of ServicesData; let i = index">
                     <input
                       type="checkbox"
                       #checkbox
@@ -315,7 +315,7 @@
                       [value]="option.statusId"
                       (change)="selectOption($event, option)"
                     />
-                    {{ option.name }}
+                    {{ option.defaultDesc }}
                   </div>
                 </div>
               </c-col>
@@ -325,7 +325,7 @@
                   <div class="card-header mt-3">
                     <h5>النظام</h5>
                   </div>
-                  <div class="col-3" *ngFor="let option of orderData; let i = index">
+                  <div class="col-4" *ngFor="let option of OrderData; let i = index">
                     <input
                       type="radio"
                       #radio
@@ -335,7 +335,7 @@
                       [value]="option.statusId"
                       (change)="selectOption($event, option)"
                     />
-                    {{ option.name }}
+                    {{ option.defaultDesc }}
                   </div>
                 </div>
               </c-col>

@@ -117,6 +117,10 @@ export class FormReceptionReportComponent {
     this.GetKitchenType();
     this.getAllUsers()
     this.getAllDiscreption();
+    this.GetBuildingData();
+    this.GetServicesData();
+    this.GetOrderData();
+    this.getAllGovernorate();
     if (this.clientFileId) {
       this.getReceptionReportById(this.clientFileId)
     }
@@ -196,8 +200,8 @@ export class FormReceptionReportComponent {
     }
   }
   GetDevices() {
-    this._ConttactService.GetStatusCategoryById(19).subscribe(res => {
-      this.Alldevices = res.data.statuses
+    this._ConttactService.GetStatusCategoryById(19).subscribe(data => {
+      this.Alldevices = data.data.statuses
       console.log(this.Alldevices);
 
     })
@@ -205,18 +209,24 @@ export class FormReceptionReportComponent {
 
 
   GetBuildingData() {
-    this.recptionReportService.GetAllBuildingData().subscribe(data => {
-      this.BuildingData = data
+    this.recptionReportService.GetAllBuildingData(309).subscribe(data => {
+      this.BuildingData = data.data.statuses
+      console.log(this.BuildingData);
+
     })
   }
   GetServicesData() {
-    this.recptionReportService.GetAllServicesData().subscribe(data => {
-      this.ServicesData = data
+    this.recptionReportService.GetAllServicesData(311).subscribe(data => {
+      this.ServicesData = data.data.statuses
+      console.log(this.ServicesData);
+
     })
   }
   GetOrderData() {
-    this.recptionReportService.GetAllOrderData().subscribe(data => {
-      this.OrderData = data
+    this.recptionReportService.GetAllOrderData(310).subscribe(data => {
+      this.OrderData = data.data.statuses
+      console.log(this.OrderData);
+
     })
   }
   GetKitchenType() {
@@ -378,8 +388,11 @@ export class FormReceptionReportComponent {
   }
 
   getAllGovernorate() {
-    this.recptionReportService.GetAllGovernorate().subscribe(data => {
-      this.governorate = data.data
+    this.recptionReportService.GetAllGovernorate(307).subscribe(data => {
+      this.governorate = data.data.statuses;
+      console.log(this.governorate);
+
+
     })
   }
   getAllArea() {

@@ -25,19 +25,19 @@ export class ReceptionReportService {
   GetAllDiscreption(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
-  GetAllGovernorate(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllGovernorate(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
   GetAllArea(): Observable<any> {
     return this.http.get(`${this.domain}`)
   }
-  GetAllBuildingData(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllBuildingData(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
-  GetAllServicesData(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllServicesData(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
-  GetAllOrderData(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllOrderData(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
 }
