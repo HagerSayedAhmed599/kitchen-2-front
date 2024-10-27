@@ -238,7 +238,7 @@
     <button class="mx-0" [cModalToggle]="modalXl.id" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         <h5>اضافة</h5>
       </div>
@@ -270,7 +270,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="card my-4">
       <div class="card-header">
         عرض المرفقات
@@ -308,11 +308,63 @@
               </div>
             </div>
           </div>
+
+          <div class="col-12 text-center mt-4">
+            <button class="btn btn-success"  [cModalToggle]="modalXl5.id">
+              اضافة مرفق
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </c-modal-body>
 </c-modal>
+
+
+
+<c-modal #modalXl5 id="modalXl5" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>المرفقات</h5>
+    <button class="mx-0" [cModalToggle]="modalXl5.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>اضافة</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <label>تصنيف الملف</label>
+            <ng-select [items]="statusCategoryById?.statuses"
+                       bindLabel="defaultDesc"
+                       bindValue="statusId"
+                       placeholder="اختر التصنيف"
+                       [(ngModel)]="statusId">
+            </ng-select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label> الصورة </label>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)"
+                   class="form-control">
+            <div class="row" *ngIf="viewImg[0]">
+              <div class="col-2 card-image p-0 m-2 position-relative">
+                <img  height="200" class="p-0 w-100" title="images" alt="imagesEdit" [src]="viewImg[0]" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center mt-4" *ngIf="isAuthorized(281)" >
+          <button class="btn btn-success"  (click)="AddClientFileAttachment()">
+            اضافة
+          </button>
+        </div>
+      </div>
+    </div>
+  </c-modal-body>
+</c-modal>
+
+
 <c-modal #modalXl3 id="modalXl3" size="xl">
   <c-modal-header>
     <h5 cModalTitle>الحالة النهائية</h5>

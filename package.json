@@ -41,6 +41,7 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "chart.js": "^3.9.1",
+    "coreui-free-angular-admin-template": "file:",
     "jwt-decode": "^4.0.0",
     "ng2-pdf-viewer": "^10.3.1",
     "ngx-scrollbar": "^12.0.0",
