@@ -291,10 +291,8 @@
                   type="radio"
                   #radio
                   name="selectedBuilding"
-                  [checked]="isSelected(option.statusId)"
                   formControlName="selectedBuilding"
                   [value]="option.statusId"
-                  (change)="selectOption($event, option)"
                 />
                 {{ option.defaultDesc }}
               </div>
@@ -310,10 +308,10 @@
                       type="checkbox"
                       #checkbox
                       name="selectedService"
-                      [checked]="isSelected(option.statusId)"
+                      [checked]="isSelectedService(option.statusId)"
                       formControlName="selectedService"
                       [value]="option.statusId"
-                      (change)="selectOption($event, option)"
+                      (change)="selectService($event, option)"
                     />
                     {{ option.defaultDesc }}
                   </div>
@@ -330,10 +328,8 @@
                       type="radio"
                       #radio
                       name="selectedOrder"
-                      [checked]="isSelected(option.statusId)"
                       formControlName="selectedOrder"
                       [value]="option.statusId"
-                      (change)="selectOption($event, option)"
                     />
                     {{ option.defaultDesc }}
                   </div>

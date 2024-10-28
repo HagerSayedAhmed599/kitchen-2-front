@@ -37,6 +37,7 @@ export class FormReceptionReportComponent {
   fileTypeId: any;
   allClients: DataClients[] = [];
   selectedOptions: any[] = [];
+  selectedServices:any[]=[];
   dataToPatch: any[] = [];
   AmOrPm: any = [
     { name: "AM", id: 0 },
@@ -134,6 +135,8 @@ export class FormReceptionReportComponent {
   }
 
   AddClientFile() {
+    console.log('form',this.AddClientFileForm.value);
+
     this.AddClientFileForm.get('actionByHour')?.patchValue(this.AddClientFileForm.get('AmORPm')?.value == 0 ? this.AddClientFileForm.get('actionByHour')?.value : this.AddClientFileForm.get('actionByHour')?.value + 12)
     let measermentID = this.AddClientFileForm.get('measurmentId')?.value
     this.AddClientFileForm.get('measurmentId')?.patchValue(measermentID ? measermentID.toString() : '');
@@ -155,7 +158,7 @@ export class FormReceptionReportComponent {
     console.log(this.AddClientFileForm.get('devices')?.value)
     // this.AddClientFileForm.get('devices')?.reset();
     const devicesArray = this.AddClientFileForm.get('devices') as FormArray;
-
+    const servicesArray = this.AddClientFileForm.get('Services') as FormArray;
     this.selectedOptions.forEach(device => {
 
       devicesArray.push(
@@ -164,6 +167,12 @@ export class FormReceptionReportComponent {
         })
       )
     })
+    this.selectedServices.forEach(service =>{
+      servicesArray.push(
+        this._FormBuilder.group({
+          serviceId: [service, Validators.required],
+    })
+      )})
     console.log(this.AddClientFileForm.value);
 
     this.recptionReportService.AddUpdatereceptionReport(this.AddClientFileForm.value).subscribe(res => {
@@ -230,12 +239,14 @@ export class FormReceptionReportComponent {
   }
   initClientForm(): FormGroup {
     return this._FormBuilder.group({
-      //  clientId: [null, [Validators.required]],
+        clientId: [null, [Validators.required]],
       phoneNumber: [null, [Validators.required]],
       descriptionId: [null, [Validators.required]],
       name: [null, [Validators.required]],
-      //  governorateId: [null, [Validators.required]],
-      //  clientAdress:[null,[Validators.required]],
+        governorateId: [null, [Validators.required]],
+        clientAdress:[null,[Validators.required]],
+        email:[null,[Validators.required]],
+        areaId:[null,[Validators.required]],
     })
   }
 
@@ -251,7 +262,8 @@ export class FormReceptionReportComponent {
       selectedOrder: [null, [Validators.required]],
       kitchenUsers: [null, [Validators.required]],
       kitchenLocation: [null, [Validators.required]],
-      // devices: this._FormBuilder.array([]),
+       devices: this._FormBuilder.array([]),
+       Services:this._FormBuilder.array([])
     })
   }
 
@@ -393,6 +405,9 @@ export class FormReceptionReportComponent {
       this.area = data.data
     })
   }
+  isSelectedService(statusId:number):boolean{
+    return this.selectedServices.includes(statusId)
+  }
   isSelected(statusId: number): boolean {
     return this.selectedOptions.includes(statusId);
   }
@@ -440,6 +455,18 @@ export class FormReceptionReportComponent {
     day = Fdate.split('/')[1]
     let newDate = (year) + '-' + (+month < 10 ? '0' + month : month) + '-' + (+day < 10 ? '0' + day : day)
     return newDate;
+  }
+  selectService(event:any, option:any){
+    const isChecked = event.target.checked;
+    if(isChecked){
+      if (this.selectedServices.indexOf(option.statusId)===-1) {
+        this.selectedServices.push(option.statusId);
+      }
+    }else{
+      const index = this.selectedServices.indexOf(option.statusId);
+      this.selectedServices.splice(index,1);
+    }
+    console.log('selected Devices',this.selectedServices)
   }
   selectOption(event: any, option: any) {
     const isChecked = event.target.checked;
