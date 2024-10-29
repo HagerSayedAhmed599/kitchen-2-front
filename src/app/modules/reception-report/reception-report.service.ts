@@ -29,7 +29,7 @@ export class ReceptionReportService {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
   GetAllArea(id: number): Observable<any> {
-    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+    return this.http.get(`${this.domain}ClientFile/getstatusbyid?id=${id}`)
   }
   GetAllBuildingData(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
