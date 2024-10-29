@@ -66,7 +66,8 @@
           <td>{{item.contractDate | date}}</td>
           <td>{{item?.fileTypeName}}</td>
           <td>
-            <button [disabled]="!isAuthorized(352)" (click)="clientFileId = item?.clientFileId;GetLoadFinalStatusList();GetAllFinalStatusClientFile()" (click)="visible=true" class="btn btn-light m-0 p-2">
+            <!-- (click)="visible=true" -->
+            <button [disabled]="!isAuthorized(352)" (click)="clientFileId = item?.clientFileId;GetLoadFinalStatusList();GetAllFinalStatusClientFile()" [cModalToggle]="modalXl3.id"  class="btn btn-light m-0 p-2">
               {{item.finalStatusName? item.finalStatusName : 'لم يتم اضافة حالة'}}
             </button>
           </td>
@@ -229,13 +230,15 @@
     </div>
   </c-modal-body>
 </c-modal>
-<c-modal #modalXl3 [visible]="visible" id="modalXl3" size="xl">
+<!-- [visible]="visible" -->
+<c-modal #modalXl3  id="modalXl3" size="xl">
   <c-modal-header>
     <h5 cModalTitle>الحالة النهائية</h5>
-    <button class="mx-0" (click)="visible=false" cButtonClose></button>
+    <!-- (click)="visible=false" -->
+    <button class="mx-0" [cModalToggle]="modalXl3.id" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         <h5>اضافة</h5>
       </div>
@@ -261,7 +264,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="card my-4">
       <div class="card-header">
         عرض الحالات النهائية
@@ -291,11 +294,54 @@
               </c-card-body>
             </c-card>
           </c-col>
+          <div class="col-12 text-center mt-4">
+            <button class="btn btn-success"  [cModalToggle]="modalXl6.id">
+              اضافة حالة
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </c-modal-body>
 </c-modal>
+
+<c-modal #modalXl6  id="modalXl6" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>الحالة النهائية</h5>
+    <!-- (click)="visible=false" -->
+    <button class="mx-0" [cModalToggle]="modalXl6.id" cButtonClose></button>
+  </c-modal-header>
+  <div class="card">
+    <div class="card-header">
+      <h5>اضافة</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <label>قائمة الحالات</label>
+          <ng-select [items]="LoadFinalStatusList"
+                     bindLabel="defaultDesc"
+                     bindValue="statusId"
+                     placeholder="اختر التصنيف"
+                     [(ngModel)]="statusId">
+          </ng-select>
+        </div>
+        <div class="col-12">
+          <label>ملاحظة</label>
+          <textarea type="text"  class="form-control" name="Note" id="Note" [(ngModel)]="Note"></textarea>
+        </div>
+      </div>
+      <div class="col-12 text-center mt-4">
+        <button class="btn btn-success" [cModalToggle]="modalXl3.id" (click)="AddFinalStatusList()">
+          اضافة
+        </button>
+      </div>
+    </div>
+  </div>
+  <c-modal-body>
+    </c-modal-body>
+    </c-modal>
+
 <c-modal #modalXl4 id="modalXl4" size="xl">
   <c-modal-header>
     <h5 cModalTitle>محضر الاستلام</h5>
