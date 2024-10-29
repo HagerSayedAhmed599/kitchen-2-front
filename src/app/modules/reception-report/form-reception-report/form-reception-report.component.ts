@@ -122,7 +122,7 @@ export class FormReceptionReportComponent {
     this.GetBuildingData();
     this.GetServicesData();
     this.GetOrderData();
-    this.getAllArea();
+    // this.getAllArea();
     if (this.clientFileId) {
       this.getReceptionReportById(this.clientFileId)
     }
@@ -401,13 +401,25 @@ export class FormReceptionReportComponent {
 
     })
   }
-  getAllArea() {
-    this.recptionReportService.GetAllArea(308).subscribe(data => {
-      this.area = data.data.statuses
-      console.log('mm99',this.area);
+  // getAllArea() {
+  //   this.recptionReportService.GetAllArea(308).subscribe(data => {
+  //     this.area = data.data.statuses
+  //     console.log('mm99',this.area);
 
-    })
+  //   })
+  // }
+
+  getAllArea(governorateId: number) {
+    if (governorateId) {
+      this.recptionReportService.GetAllArea(governorateId).subscribe(data => {
+        this.area = data.data.statuses;
+        console.log('All Areas', this.area);
+      });
+    } else {
+      this.area = []; // إعادة تعيين القائمة إذا لم يتم اختيار محافظة
+    }
   }
+
   isSelectedService(statusId:number):boolean{
     return this.selectedServices.includes(statusId)
   }
