@@ -28,8 +28,8 @@ export class ReceptionReportService {
   GetAllGovernorate(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
-  GetAllArea(): Observable<any> {
-    return this.http.get(`${this.domain}`)
+  GetAllArea(id: number): Observable<any> {
+    return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
   GetAllBuildingData(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)

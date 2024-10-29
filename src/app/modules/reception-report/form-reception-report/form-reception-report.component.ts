@@ -116,12 +116,13 @@ export class FormReceptionReportComponent {
     this.GetAllClients();
     this.GetDevices();
     this.GetKitchenType();
-    this.getAllUsers()
+    this.getAllUsers();
     this.getAllDiscreption();
     this.getAllGovernorate();
     this.GetBuildingData();
     this.GetServicesData();
     this.GetOrderData();
+    this.getAllArea();
     if (this.clientFileId) {
       this.getReceptionReportById(this.clientFileId)
     }
@@ -401,8 +402,10 @@ export class FormReceptionReportComponent {
     })
   }
   getAllArea() {
-    this.recptionReportService.GetAllArea().subscribe(data => {
-      this.area = data.data
+    this.recptionReportService.GetAllArea(308).subscribe(data => {
+      this.area = data.data.statuses
+      console.log('mm99',this.area);
+
     })
   }
   isSelectedService(statusId:number):boolean{
