@@ -179,7 +179,7 @@
     <button class="mx-0" [cModalToggle]="modalXl2.id" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         <h5>اضافة</h5>
       </div>
@@ -206,7 +206,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="card my-4">
       <div class="card-header">
         عرض المتابعات
@@ -227,11 +227,56 @@
               </div>
             </div>
           </div>
+          <div class="col-12 text-center mt-4">
+            <button class="btn btn-success"  [cModalToggle]="modalXl7.id">
+              اضافة متابعة
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </c-modal-body>
 </c-modal>
+
+
+<c-modal #modalXl7 id="modalXl7" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>المتابعات</h5>
+    <button class="mx-0" [cModalToggle]="modalXl7.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>اضافة</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label> الصورة </label>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)"
+                   class="form-control">
+            <div class="row" *ngIf="viewImg[0]">
+              <div class="col-2 card-image p-0 m-2 position-relative">
+                <img  height="200" class="p-0 w-100" title="images" alt="imagesEdit" [src]="viewImg[0]" />
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <label>ملاحظات</label>
+            <textarea type="text"  class="form-control" name="Note" id="Note" [(ngModel)]="Note"></textarea>
+          </div>
+        </div>
+        <div class="col-12 text-center mt-4" *ngIf="isAuthorized(285)" >
+          <button class="btn btn-success" [cModalToggle]="modalXl2.id" (click)="AddClientFileFollowUp()">
+            اضافة
+          </button>
+        </div>
+      </div>
+    </div>
+    </c-modal-body>
+    </c-modal>
+
+
 <c-modal #modalXl id="modalXl" size="xl">
   <c-modal-header>
     <h5 cModalTitle>المرفقات</h5>
