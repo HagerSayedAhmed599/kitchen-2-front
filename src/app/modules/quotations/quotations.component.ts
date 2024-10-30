@@ -32,7 +32,7 @@ export class QuotationsComponent implements OnInit {
     {name: "تحت التشطيب  ", id: 6},
     {name: "تحت الإنشاء  ", id: 7},
   ];
-  ServicesData: any = [
+  servicesData: any = [
     {name: " مطبخ ", id: 1},
     {name: " مفروشات ", id: 2},
     {name: " مغاسل ", id: 3},
@@ -77,6 +77,9 @@ export class QuotationsComponent implements OnInit {
   pagesRoleToPatch:any[]=[];
   selectedPageOpions:any[]=[];
   buttons: any[]=[];
+  BuildingData: any;
+  ServicesData: any;
+  OrderData: any;
   constructor(
     private _QuotationsService: QuotationsService,
     private _FormBuilder: FormBuilder,
@@ -139,7 +142,10 @@ export class QuotationsComponent implements OnInit {
     this.GetPermissionsOfRole(1);
     this.getDevices()
     this.GetLoadFinalStatusList()
-    this.GetAllUsers()
+    this.GetAllUsers();
+    this.GetBuildingData();
+    this.GetServicesData();
+    this.GetOrderData();
     console.log(this.device)
   }
   getDevices(){
@@ -255,6 +261,21 @@ export class QuotationsComponent implements OnInit {
       next: (res: any) => {
         this.allUsersData = res.data
       }
+    })
+  }
+  GetBuildingData() {
+    this._QuotationsService.GetAllBuildingData(309).subscribe(data => {
+      this.BuildingData = data.data.statuses
+    })
+  }
+  GetOrderData() {
+    this._QuotationsService.GetAllOrderData(310).subscribe(data => {
+      this.OrderData = data.data.statuses
+    })
+  }
+  GetServicesData() {
+    this._QuotationsService.GetAllServicesData(311).subscribe(data => {
+      this.ServicesData = data.data.statuses
     })
   }
   setMeasurement() {

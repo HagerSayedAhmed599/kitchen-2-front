@@ -243,27 +243,27 @@ export class FormReceptionReportComponent {
         clientId: [null, [Validators.required]],
         phone: [null, [Validators.required]],
         wasf: [null, [Validators.required]],
-        isconfirmed: [null, [Validators.required]],
         name: [null, [Validators.required]],
-        governorateId: [null, [Validators.required]],
-        clientAdress:[null,[Validators.required]],
-        email:[null,[Validators.required]],
-        areaId:[null,[Validators.required]],
-        kitchenLocation: [null, [Validators.required]],
-        devices: this._FormBuilder.array([]),
-       Services:this._FormBuilder.array([]),
-       selectedBuilding: [null, [Validators.required]],
-      selectedService: [null, [Validators.required]],
-      kitchenUsers: [null, [Validators.required]],
+        // isconfirmed: [null, [Validators.required]],
+      //   governorateId: [null, [Validators.required]],
+      //   clientAdress:[null,[Validators.required]],
+      //   email:[null,[Validators.required]],
+      //   areaId:[null,[Validators.required]],
+      //   kitchenLocation: [null, [Validators.required]],
+      //   devices: this._FormBuilder.array([]),
+      //  Services:this._FormBuilder.array([]),
+      //  selectedBuilding: [null, [Validators.required]],
+      // selectedService: [null, [Validators.required]],
+      // kitchenUsers: [null, [Validators.required]],
     })
   }
 
   initClientFileForm(): FormGroup {
     return this._FormBuilder.group({
-      phone: [null, [Validators.required]],
-        wasf: [null, [Validators.required]],
-        isconfirmed: [null, [Validators.required]],
-        name: [null, [Validators.required]],
+      // phone: [null, [Validators.required]],
+      // wasf: [null, [Validators.required]],
+      // isconfirmed: [null, [Validators.required]],
+      // name: [null, [Validators.required]],
       email: [null, [Validators.required]],
       areaId: [null, [Validators.required]],
       salesId: [null, [Validators.required]],
@@ -275,8 +275,8 @@ export class FormReceptionReportComponent {
       kitchenLocation: [null, [Validators.required]],
       kitchenUsers: [null, [Validators.required]],
       kitchenknow: [null, [Validators.required]],
-       devices: this._FormBuilder.array([]),
-       Services:this._FormBuilder.array([])
+      devices: this._FormBuilder.array([]),
+      Services:this._FormBuilder.array([])
     })
   }
 
@@ -285,7 +285,6 @@ export class FormReceptionReportComponent {
       const newClient = { ...this.clientForm.value, id: this.clientList.length + 1 };
       this.clientList.push(newClient);
       console.log(this.clientList);
-      // تعيين العميل الأول كمعتمد إذا لم يتم اختيار أي عميل
       if (this.selectedClientId === null) {
         this.selectedClientId = newClient.id;
       }
@@ -296,8 +295,8 @@ export class FormReceptionReportComponent {
 
   editClient(client: any) {
     this.clientToEdit = client;
-    this.clientForm.patchValue(client); // تعبئة النموذج بالبيانات الحالية
-    this.showModal = true; // عرض البوب-أب
+    this.clientForm.patchValue(client);
+    this.showModal = true;
   }
 
   saveChanges() {
@@ -313,13 +312,12 @@ export class FormReceptionReportComponent {
   removeClient(client: any) {
     const index = this.clientList.indexOf(client);
     if (index > -1) {
-      this.clientList.splice(index, 1); // إزالة العنصر من القائمة
+      this.clientList.splice(index, 1);
     }
     if (this.clientList.length === 0) {
-      this.tableVisible = false; // إخفاء الجدول إذا لم يتبق أي بيانات
-      this.selectedClientId = null; // إعادة التهيئة إذا تم حذف جميع العملاء
+      this.tableVisible = false;
+      this.selectedClientId = null;
     } else if (this.selectedClientId === client.id) {
-      // إذا تم حذف العميل المعتمد، اجعل الأول في القائمة هو المعتمد
       this.selectedClientId = this.clientList[0].id;
     }
   }
@@ -470,8 +468,11 @@ export class FormReceptionReportComponent {
       })
       this.clientForm.patchValue({
         clientId: receptionReport.client.clientId,
-        phoneNumber: receptionReport.client.mobile,
-        clientAdress: receptionReport.client.clientAddress
+        wasf: receptionReport.client.wasf,
+        phone: receptionReport.client.phone,
+        name: receptionReport.client.name
+        // phoneNumber: receptionReport.client.mobile,
+        // clientAdress: receptionReport.client.clientAddress
       })
 
 

@@ -92,4 +92,13 @@ export class QuotationsService {
   GetqutationReport(clientFileId,IsExcel=false){
     return this._HttpClient.get(`${this.domain}Report/GeneratePurchaseOrderReport?clientFileId=${clientFileId}&IsExcel=${IsExcel}`)
   }
+  GetAllBuildingData(id: number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+  }
+  GetAllServicesData(id: number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+  }
+  GetAllOrderData(id: number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+  }
 }
