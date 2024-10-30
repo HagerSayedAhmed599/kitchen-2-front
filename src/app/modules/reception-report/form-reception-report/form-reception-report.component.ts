@@ -412,11 +412,14 @@ export class FormReceptionReportComponent {
   getAllArea(governorateId: number) {
     if (governorateId) {
       this.recptionReportService.GetAllArea(governorateId).subscribe(data => {
-        this.area = data.data.statuses;
+        console.log('Response from API:', data);
+        this.area = data.data;
         console.log('All Areas', this.area);
+      },error => {
+        console.error('Error fetching areas:', error);
       });
     } else {
-      this.area = []; // إعادة تعيين القائمة إذا لم يتم اختيار محافظة
+      this.area = [];
     }
   }
 
