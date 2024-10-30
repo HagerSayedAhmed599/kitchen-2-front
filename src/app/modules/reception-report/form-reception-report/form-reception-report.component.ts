@@ -139,20 +139,20 @@ export class FormReceptionReportComponent {
     console.log('form',this.AddClientFileForm.value);
 
     this.AddClientFileForm.get('actionByHour')?.patchValue(this.AddClientFileForm.get('AmORPm')?.value == 0 ? this.AddClientFileForm.get('actionByHour')?.value : this.AddClientFileForm.get('actionByHour')?.value + 12)
-    let measermentID = this.AddClientFileForm.get('measurmentId')?.value
-    this.AddClientFileForm.get('measurmentId')?.patchValue(measermentID ? measermentID.toString() : '');
-    let val1, val2
-    val1 = this.AddClientFileForm.controls['measurmentId']?.value
-    val2 = val1.toString()
-    console.log(val2)
+    // let measermentID = this.AddClientFileForm.get('measurmentId')?.value
+    // this.AddClientFileForm.get('measurmentId')?.patchValue(measermentID ? measermentID.toString() : '');
+    // let val1, val2
+    // val1 = this.AddClientFileForm.controls['measurmentId']?.value
+    // val2 = val1.toString()
+    // console.log(val2)
     if (this.clientFileId != null) {
 
       this.AddClientFileForm.get('clientFileId')?.patchValue(this.clientFileId)
     }
 
-    this.AddClientFileForm.patchValue({
-      measurmentId: val2
-    })
+    // this.AddClientFileForm.patchValue({
+    //   measurmentId: val2
+    // })
     this.AddClientFileForm.patchValue({
       clientId: this.clientForm.get('clientId')?.value
     })
@@ -241,18 +241,29 @@ export class FormReceptionReportComponent {
   initClientForm(): FormGroup {
     return this._FormBuilder.group({
         clientId: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
-      descriptionId: [null, [Validators.required]],
-      name: [null, [Validators.required]],
+        phone: [null, [Validators.required]],
+        wasf: [null, [Validators.required]],
+        isconfirmed: [null, [Validators.required]],
+        name: [null, [Validators.required]],
         governorateId: [null, [Validators.required]],
         clientAdress:[null,[Validators.required]],
         email:[null,[Validators.required]],
         areaId:[null,[Validators.required]],
+        kitchenLocation: [null, [Validators.required]],
+        devices: this._FormBuilder.array([]),
+       Services:this._FormBuilder.array([]),
+       selectedBuilding: [null, [Validators.required]],
+      selectedService: [null, [Validators.required]],
+      kitchenUsers: [null, [Validators.required]],
     })
   }
 
   initClientFileForm(): FormGroup {
     return this._FormBuilder.group({
+      phone: [null, [Validators.required]],
+        wasf: [null, [Validators.required]],
+        isconfirmed: [null, [Validators.required]],
+        name: [null, [Validators.required]],
       email: [null, [Validators.required]],
       areaId: [null, [Validators.required]],
       salesId: [null, [Validators.required]],
@@ -261,8 +272,9 @@ export class FormReceptionReportComponent {
       selectedBuilding: [null, [Validators.required]],
       selectedService: [null, [Validators.required]],
       selectedOrder: [null, [Validators.required]],
-      kitchenUsers: [null, [Validators.required]],
       kitchenLocation: [null, [Validators.required]],
+      kitchenUsers: [null, [Validators.required]],
+      kitchenknow: [null, [Validators.required]],
        devices: this._FormBuilder.array([]),
        Services:this._FormBuilder.array([])
     })

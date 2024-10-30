@@ -46,7 +46,7 @@
                 bindLabel="description"
                 bindValue="description"
                 placeholder="اختر الوصف"
-                formControlName="descriptionId"
+                formControlName="wasf"
               >
               </ng-select>
             </div>
@@ -78,7 +78,7 @@
               <input
                 aria-label="default input example"
                 cFormControl
-                formControlName="phoneNumber"
+                formControlName="phone"
                 type="tel"
               />
             </div>
@@ -112,6 +112,7 @@
                           [value]="client.id"
                           (change)="selectClient(client.id)"
                           [checked]="selectedClientId === client.id"
+                          formControlName="isconfirmed"
                         />
                       </td>
                       <td>
@@ -440,7 +441,7 @@
           readonly
           aria-label="default input example"
           cFormControl
-          formControlName="kitchenLocation"
+          formControlName="kitchenknow"
           rows="3"
         >
         </textarea>

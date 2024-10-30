@@ -12,8 +12,11 @@ export class ReceptionReportService {
   getReceptionReport(){
     return this.http.get(`${this.domain}ClientFile/GetAllPreparingReception`)
   }
+  // AddUpdatereceptionReport(event:any){
+  //   return this.http.put(`${this.domain}ClientFile/AddPreparingReception`,event)
+  // }
   AddUpdatereceptionReport(event:any){
-    return this.http.put(`${this.domain}ClientFile/AddPreparingReception`,event)
+    return this.http.put(`${this.domain}ClientFile/AddPreparingReception2`,event)
   }
   GetReceptionReportById(id:any){
     return this.http.get(`${this.domain}ClientFile/GetPreparingReception?clientFileId=${id}`)
