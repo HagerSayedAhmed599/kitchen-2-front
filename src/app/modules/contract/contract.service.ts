@@ -20,11 +20,18 @@ export class ContractService {
     }
     return this._HttpClient.get(`${this.domain}ClientFile/GetShortClientFiles` , {params:value})
   }
+  // AddContract(body:FormGroup): Observable<any> {
+  //   return this._HttpClient.post(`${this.domain}ClientFile/AddContract`,body)
+  // }
   AddContract(body:FormGroup): Observable<any> {
-    return this._HttpClient.post(`${this.domain}ClientFile/AddContract`,body)
+    return this._HttpClient.post(`${this.domain}ClientFile/AddContract2`,body)
   }
+  // EditClientFile(body:FormGroup, id: number): Observable<any> {
+  //   return this._HttpClient.put(`${this.domain}ClientFile/EditContract/${id}`,body)
+  // }
+
   EditClientFile(body:FormGroup, id: number): Observable<any> {
-    return this._HttpClient.put(`${this.domain}ClientFile/EditContract/${id}`,body)
+    return this._HttpClient.put(`${this.domain}ClientFile/EditContract2/${id}`,body)
   }
   GetStatusCategoryById(id: number): Observable<any> {
     return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)

@@ -80,15 +80,20 @@ export class ContractFormComponent implements OnInit {
       contractDate: [this.handleDate(Date.now()), [Validators.required]],
       phoneNumber: [null, [Validators.required]],
       address: [null, [Validators.required]],
-      allPrice: [null, [Validators.required]],
-      contractStatusId: [0, [Validators.required]],
-      startWeek: [null, [Validators.required]],
-      startMonth: [null, [Validators.required]],
-      invoiceDate: [this.handleDate(Date.now()), [Validators.required]],
-      withTax: [0, [Validators.required]],
-      fileTypeId: [null, [Validators.required]],
-      notes: [null, [Validators.required]],
-      items: this._FormBuilder.array([]),
+      nationalid : [null, [Validators.required]],
+      AllPrice : [null, [Validators.required]],
+      contaract : [null, [Validators.required]],
+      beformaking : [null, [Validators.required]],
+      week : [null, [Validators.required]],
+      finish : [null, [Validators.required]],
+      // contractStatusId: [0, [Validators.required]],
+      // startWeek: [null, [Validators.required]],
+      // startMonth: [null, [Validators.required]],
+      // invoiceDate: [this.handleDate(Date.now()), [Validators.required]],
+      // withTax: [0, [Validators.required]],
+      // fileTypeId: [null, [Validators.required]],
+      // notes: [null, [Validators.required]],
+      // items: this._FormBuilder.array([]),
     })
   }
   handleDate(date:any){
@@ -154,12 +159,12 @@ export class ContractFormComponent implements OnInit {
 
   }
   addContract() {
-    for (let i = 0; i < this.AddClientFileForm.value.items.length; i++) {
+    // for (let i = 0; i < this.AddClientFileForm.value.items.length; i++) {
 
-      if (this.AddClientFileForm.value.items[i].itemId==null){
-          this.AddClientFileForm.value.items.shift(this.AddClientFileForm.value.items[i].itemId)
-      }
-    }
+    //   if (this.AddClientFileForm.value.items[i].itemId==null){
+    //       this.AddClientFileForm.value.items.shift(this.AddClientFileForm.value.items[i].itemId)
+    //   }
+    // }
 
     if (!this.clientFileId) {
       this._contractService.AddContract(this.AddClientFileForm.value).subscribe({
@@ -224,15 +229,20 @@ export class ContractFormComponent implements OnInit {
         this.AddClientFileForm.patchValue({
           clientId: data.client?.clientId,
           contractDate: newContractDate,
-          allPrice: data.allPrice,
-          contractStatusId: data.contractStatusId,
-          startWeek: data.startWeek,
-          startMonth: data.startMonth,
-          invoiceDate: newInvoiceDate,
-          withTax: data.withTax,
-          notes: data.notes,
           phoneNumber:data.client.mobile,
-          address:data.client.email
+          address:data.client.email,
+          nationalid: data.nationalid,
+          AllPrice : data.allPrice,
+          beformaking : data.beformaking,
+          contaract : data.contaract,
+          week: data.week,
+          finish: data.finish,
+          // contractStatusId: data.contractStatusId,
+          // startWeek: data.startWeek,
+          // startMonth: data.startMonth,
+          // invoiceDate: newInvoiceDate,
+          // withTax: data.withTax,
+          // notes: data.notes,
         });
         // console.log(this.newLoadPriceOffer)
         data.withTax == 1 ? this.checkValue = true : this.checkValue = false
