@@ -44,7 +44,7 @@
               <ng-select
                 [items]="discreption"
                 bindLabel="description"
-                bindValue="description"
+                bindValue="statusId"
                 placeholder="اختر الوصف"
                 formControlName="wasf"
               >
@@ -102,9 +102,9 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let client of clientList">
-                      <td>{{ client.descriptionId }}</td>
+                      <td>{{ client.wasf }}</td>
                       <td>{{ client.name }}</td>
-                      <td>{{ client.phoneNumber }}</td>
+                      <td>{{ client.phone }}</td>
                       <td>
                         <input
                           type="radio"
@@ -112,7 +112,6 @@
                           [value]="client.id"
                           (change)="selectClient(client.id)"
                           [checked]="selectedClientId === client.id"
-                          formControlName="isconfirmed"
                         />
                       </td>
                       <td>

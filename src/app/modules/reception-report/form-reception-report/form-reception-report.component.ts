@@ -240,7 +240,7 @@ export class FormReceptionReportComponent {
   }
   initClientForm(): FormGroup {
     return this._FormBuilder.group({
-        clientId: [null, [Validators.required]],
+        // clientId: [null, [Validators.required]],
         phone: [null, [Validators.required]],
         wasf: [null, [Validators.required]],
         name: [null, [Validators.required]],
