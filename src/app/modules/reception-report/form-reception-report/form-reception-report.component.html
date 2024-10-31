@@ -210,7 +210,7 @@
             <div class="col-12 mt-2">
               <label>العنوان التفصيلي</label>
               <textarea
-                readonly
+
                 aria-label="default input example"
                 cFormControl
                 formControlName="clientAdress"
@@ -310,7 +310,7 @@
                       #checkbox
                       name="selectedService"
                       [checked]="isSelectedService(option.statusId)"
-                      formControlName="selectedService"
+                      formControlName="service"
                       [value]="option.statusId"
                       (change)="selectService($event, option)"
                     />
@@ -437,7 +437,7 @@
       <div class="col-12 mt-2">
         <label>كيف عرفت عنا </label>
         <textarea
-          readonly
+
           aria-label="default input example"
           cFormControl
           formControlName="kitchenknow"

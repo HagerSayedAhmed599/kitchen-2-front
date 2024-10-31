@@ -159,7 +159,7 @@ export class FormReceptionReportComponent {
     console.log(this.AddClientFileForm.get('devices')?.value)
     // this.AddClientFileForm.get('devices')?.reset();
     const devicesArray = this.AddClientFileForm.get('devices') as FormArray;
-    const servicesArray = this.AddClientFileForm.get('Services') as FormArray;
+    const servicesArray = this.AddClientFileForm.get('selectedService') as FormArray;
     this.selectedOptions.forEach(device => {
 
       devicesArray.push(
@@ -245,10 +245,10 @@ export class FormReceptionReportComponent {
         wasf: [null, [Validators.required]],
         name: [null, [Validators.required]],
         // isconfirmed: [null, [Validators.required]],
-      //   governorateId: [null, [Validators.required]],
-      //   clientAdress:[null,[Validators.required]],
-      //   email:[null,[Validators.required]],
-      //   areaId:[null,[Validators.required]],
+         governorateId: [null,],
+      clientAdress:[null,],
+         email:[null,],
+         areaId:[null,],
       //   kitchenLocation: [null, [Validators.required]],
       //   devices: this._FormBuilder.array([]),
       //  Services:this._FormBuilder.array([]),
@@ -264,19 +264,20 @@ export class FormReceptionReportComponent {
       // wasf: [null, [Validators.required]],
       // isconfirmed: [null, [Validators.required]],
       // name: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      //governorateId: [null, [Validators.required]],
+      //email: [null, [Validators.required]],
       areaId: [null, [Validators.required]],
       salesId: [null, [Validators.required]],
       fileDate: [null, [Validators.required]],
       selectedDevice: [null, [Validators.required]],
       selectedBuilding: [null, [Validators.required]],
-      selectedService: [null, [Validators.required]],
+      service: [null, [Validators.required]],
       selectedOrder: [null, [Validators.required]],
       kitchenLocation: [null, [Validators.required]],
       kitchenUsers: [null, [Validators.required]],
       kitchenknow: [null, [Validators.required]],
       devices: this._FormBuilder.array([]),
-      Services:this._FormBuilder.array([])
+      selectedService:this._FormBuilder.array([])
     })
   }
 
