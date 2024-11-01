@@ -804,11 +804,9 @@
                     <input
                       type="radio"
                       #radio
-                      name="selectedDevice"
-                      [checked]="isSelected(option.statusId)"
-                      formControlName="selectedDevice"
+                      name="selectedBuilding"
+                      formControlName="selectedBuilding"
                       [value]="option.statusId"
-                      (change)="selectOption($event, option)"
                     />
                     {{ option.defaultDesc }}
                   </div>
@@ -942,11 +940,11 @@
                   <input
                     type="checkbox"
                     #checkbox
-                    name="selectedDevice"
-                    [checked]="isSelected(option.statusId)"
-                    formControlName="selectedDevice"
+                    name="service"
+                    [checked]="isSelectedService(option.statusId)"
+                    formControlName="service"
                     [value]="option.statusId"
-                    (change)="selectOption($event, option)"
+                    (change)="selectServiceOption($event, option)"
                   />
                   {{ option.defaultDesc }}
                 </div>
@@ -966,11 +964,10 @@
                   <input
                     type="radio"
                     #radio
-                    name="selectedDevice"
-                    [checked]="isSelected(option.statusId)"
-                    formControlName="selectedDevice"
+                    name="selectedOrder"
+                    formControlName="selectedOrder"
                     [value]="option.statusId"
-                    (change)="selectOption($event, option)"
+
                   />
                   {{ option.defaultDesc }}
                 </div>

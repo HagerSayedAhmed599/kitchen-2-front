@@ -7,6 +7,7 @@ import {environment} from "../../../environments/environment";
 import { ContractService } from '../contract/contract.service';
 import { ProductionRequestsService } from '../production-requests/production-requests.service';
 import { UsersService } from '../users/users.service';
+import { ReceptionReportService } from '../reception-report/reception-report.service';
 
 @Component({
   selector: 'app-quotations',
@@ -80,13 +81,16 @@ export class QuotationsComponent implements OnInit {
   BuildingData: any;
   ServicesData: any;
   OrderData: any;
+  Services: any[]=[];
   constructor(
     private _QuotationsService: QuotationsService,
     private _FormBuilder: FormBuilder,
     private toastr: ToastrService,
     private _productionRequestsService:ProductionRequestsService,
     private _ConttactService:ContractService,
-    private userService:UsersService
+    private userService:UsersService,
+    private recptionReportService : ReceptionReportService
+
   ) {
     this.AddReceiveNotice = this.initReceiveNoticeForm();
     this.SearchForm=this.initSearchForm();
@@ -94,19 +98,18 @@ export class QuotationsComponent implements OnInit {
   initReceiveNoticeForm(): FormGroup {
     return this._FormBuilder.group({
       clientFileId: [null, [Validators.required]],
-      fileDate: [null, [Validators.required]],//
-      actionByHour: [null, [Validators.required]],
-      clientNeed: [null, [Validators.required]],
-      designerId: [null, [Validators.required]],///
-      designerDate: [null, [Validators.required]],///
-      measurmentId: [null, [Validators.required]],////
-      measurmentDate: [null, [Validators.required]],////
-      kitchenModelId: [null, [Validators.required]],////
-      kitchenLocation: [null, [Validators.required]],///
-      salesId: [null, [Validators.required]],//
-      selectedDevice: [null, [Validators.required]],//
-      AmORPm:[0,[Validators.required]],
+      areaId: [null, [Validators.required]],
+      salesId: [null, [Validators.required]],
+      fileDate: [null, [Validators.required]],
+      selectedDevice: [null, [Validators.required]],
+      selectedBuilding: [null, [Validators.required]],
+      service: [null, [Validators.required]],
+      selectedOrder: [null, [Validators.required]],
+      kitchenLocation: [null, [Validators.required]],
+      kitchenUsers: [null, [Validators.required]],
+      kitchenknow: [null, [Validators.required]],
       devices: this._FormBuilder.array([]),
+      selectedService:this._FormBuilder.array([])
     })
   }
   initSearchForm():FormGroup{
@@ -207,8 +210,26 @@ export class QuotationsComponent implements OnInit {
         this.selectedOptions.splice(index, 1);
 
   }
+
+  }}
+  selectServiceOption(event:any,option:any){
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      // Add the option to the selectedOptions array
+      if (this.Services.indexOf(option.statusId) === -1) {
+        this.Services.push(option.statusId);
+      }
+    } else {
+      // Remove the option from the selectedOptions array
+      const index = this.Services.indexOf(option.statusId);
+      if (index !== -1) {
+        this.Services.splice(index, 1);
+
   }
-  console.log(this.selectedOptions);
+
+  }
+  console.log(this.Services);
   }
   dateformat(indate :any){
     let year, month, day;
@@ -324,6 +345,9 @@ export class QuotationsComponent implements OnInit {
   isSelected(statusId: number): boolean {
     return this.selectedOptions.includes(statusId);
   }
+  isSelectedService(statusId: number):boolean{
+    return this.Services.includes(statusId);
+  }
   AddFinalStatusList() {
     let value: any = {};
     value['clientFileId'] = this.clientFileId;
@@ -422,7 +446,7 @@ export class QuotationsComponent implements OnInit {
     let measermentID=this.AddReceiveNotice.get('measurmentId')?.value
     this.AddReceiveNotice.get('measurmentId')?.patchValue(measermentID.toString());
     const devicesArray = this.AddReceiveNotice.get('devices') as FormArray;
-
+    const ServicesArray = this.AddReceiveNotice.get('selectedService') as FormArray;
     this.selectedOptions.forEach(device=>{
 
       devicesArray.push(
@@ -431,12 +455,18 @@ export class QuotationsComponent implements OnInit {
         })
       )
     })
+    this.Services.forEach(service => {
+      ServicesArray.push(
+      this._FormBuilder.group({
+        serviceId:[service,Validators.required]
+      }))
+    });
     let value: any = this.AddReceiveNotice.value;
 
     value['clientFileId'] = this.clientFileId
     console.log("test",value)
 
-    this._QuotationsService.AddNotices(value).subscribe({
+    this.recptionReportService.AddUpdatereceptionReport(value).subscribe({
       next: (res: any) => {
 
         this.toastr.success(`${res.message}`);
