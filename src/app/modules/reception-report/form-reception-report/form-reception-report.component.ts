@@ -39,6 +39,7 @@ export class FormReceptionReportComponent {
   selectedOptions: any[] = [];
   selectedServices:any[]=[];
   dataToPatch: any[] = [];
+  isConfirmed: boolean = false;
   AmOrPm: any = [
     { name: "AM", id: 0 },
     { name: "PM", id: 1 }
@@ -138,7 +139,7 @@ export class FormReceptionReportComponent {
   AddClientFile() {
     console.log('form',this.AddClientFileForm.value);
 
-    this.AddClientFileForm.get('actionByHour')?.patchValue(this.AddClientFileForm.get('AmORPm')?.value == 0 ? this.AddClientFileForm.get('actionByHour')?.value : this.AddClientFileForm.get('actionByHour')?.value + 12)
+    // this.AddClientFileForm.get('actionByHour')?.patchValue(this.AddClientFileForm.get('AmORPm')?.value == 0 ? this.AddClientFileForm.get('actionByHour')?.value : this.AddClientFileForm.get('actionByHour')?.value + 12)
     // let measermentID = this.AddClientFileForm.get('measurmentId')?.value
     // this.AddClientFileForm.get('measurmentId')?.patchValue(measermentID ? measermentID.toString() : '');
     // let val1, val2
@@ -174,9 +175,29 @@ export class FormReceptionReportComponent {
           serviceId: [service, Validators.required],
     })
       )})
-    console.log(this.AddClientFileForm.value);
+    // console.log(this.AddClientFileForm.value);
 
-    this.recptionReportService.AddUpdatereceptionReport(this.AddClientFileForm.value).subscribe(res => {
+    const clientFileData = {
+      clients: this.clientList.length > 0 ? this.clientList : [],
+      clientFileId: this.clientFileId || 0,
+      email: this.AddClientFileForm.get('email')?.value || "string",
+      governorateId: this.AddClientFileForm.get('governorateId')?.value || 0,
+      areaId: this.AddClientFileForm.get('areaId')?.value || 0,
+      kitchenUsers: this.AddClientFileForm.get('kitchenUsers')?.value || 0,
+      salesId: this.AddClientFileForm.get('salesId')?.value || 0,
+      fileDate: this.AddClientFileForm.get('fileDate')?.value ? new Date(this.AddClientFileForm.get('fileDate')?.value).toISOString() : new Date().toISOString(),
+      kitchenLocation: this.AddClientFileForm.get('kitchenLocation')?.value || "string",
+      kitchenknow: this.AddClientFileForm.get('kitchenknow')?.value || "string",
+      devices: devicesArray.value.length > 0 ? devicesArray.value : [],
+      selectedService: servicesArray.value.length > 0 ? servicesArray.value : [],
+      selectedBuilding: this.AddClientFileForm.get('selectedBuilding')?.value || 0,
+      selectedOrder: this.AddClientFileForm.get('selectedOrder')?.value || 0,
+      clientNeed: this.AddClientFileForm.get('clientNeed')?.value || "string"
+    };
+
+    console.log('Form Data:', clientFileData);
+
+    this.recptionReportService.AddUpdatereceptionReport(clientFileData).subscribe(res => {
       this.toastr.success("added")
       this.getReceptionReportById(this.clientFileId)
       this._Router.navigateByUrl('/reception-report')
@@ -245,10 +266,10 @@ export class FormReceptionReportComponent {
         wasf: [null, [Validators.required]],
         name: [null, [Validators.required]],
         // isconfirmed: [null, [Validators.required]],
-         governorateId: [null,],
-      clientAdress:[null,],
-         email:[null,],
-         areaId:[null,],
+        //  governorateId: [null,],
+        //  clientAdress:[null,],
+        //  email:[null,],
+        //  areaId:[null,],
       //   kitchenLocation: [null, [Validators.required]],
       //   devices: this._FormBuilder.array([]),
       //  Services:this._FormBuilder.array([]),
@@ -264,8 +285,8 @@ export class FormReceptionReportComponent {
       // wasf: [null, [Validators.required]],
       // isconfirmed: [null, [Validators.required]],
       // name: [null, [Validators.required]],
-      //governorateId: [null, [Validators.required]],
-      //email: [null, [Validators.required]],
+      governorateId: [null, [Validators.required]],
+      email: [null, [Validators.required]],
       areaId: [null, [Validators.required]],
       salesId: [null, [Validators.required]],
       fileDate: [null, [Validators.required]],
@@ -273,9 +294,11 @@ export class FormReceptionReportComponent {
       selectedBuilding: [null, [Validators.required]],
       service: [null, [Validators.required]],
       selectedOrder: [null, [Validators.required]],
+      clientNeed: [null, Validators.required],
       kitchenLocation: [null, [Validators.required]],
       kitchenUsers: [null, [Validators.required]],
       kitchenknow: [null, [Validators.required]],
+      clients: this._FormBuilder.array([]),
       devices: this._FormBuilder.array([]),
       selectedService:this._FormBuilder.array([])
     })
@@ -283,15 +306,37 @@ export class FormReceptionReportComponent {
 
   addClient() {
     if (this.clientForm.valid) {
-      const newClient = { ...this.clientForm.value, id: this.clientList.length + 1 };
+      // const newClient = { ...this.clientForm.value, id: this.clientList.length + 1 };
+      // this.clientList.push(newClient);
+      // console.log(this.clientList);
+      // if (this.selectedClientId === null) {
+      //   this.selectedClientId = newClient.id;
+      // }
+      const newClient = {
+        clientDetailsId: 0,
+        name: this.clientForm.get('name')?.value,
+        phone: this.clientForm.get('phone')?.value,
+        isconfirmed: this.isConfirmed,
+        wasf: this.clientForm.get('wasf')?.value,
+        clientId: this.generateClientId()
+      };
       this.clientList.push(newClient);
-      console.log(this.clientList);
-      if (this.selectedClientId === null) {
-        this.selectedClientId = newClient.id;
-      }
+      console.log('Client added:', newClient);
+    console.log('Current clients list:', this.clientList);
+    if (this.selectedClientId === null) {
+      this.selectedClientId = newClient.clientId;
+    }
+    if (this.clientList.length === 0) {
+      this.isConfirmed = true;
+    }
       this.tableVisible = true;
       this.clientForm.reset();
     }
+  }
+
+  generateClientId(): number {
+    // Generate unique clientId based on existing list
+    return this.clientList.length > 0 ? Math.max(...this.clientList.map(c => c.clientId)) + 1 : 1;
   }
 
   editClient(client: any) {
@@ -323,8 +368,9 @@ export class FormReceptionReportComponent {
     }
   }
 
-  selectClient(id: number) {
+  selectClient(id: number, confirmed: boolean) {
     this.selectedClientId = id;
+    this.isConfirmed = confirmed;
   }
   //   initClientFileForm(): FormGroup {
   //     return this._FormBuilder.group({

@@ -44,7 +44,7 @@
               <ng-select
                 [items]="discreption"
                 bindLabel="description"
-                bindValue="statusId"
+                bindValue="description"
                 placeholder="اختر الوصف"
                 formControlName="wasf"
               >
@@ -110,7 +110,7 @@
                           type="radio"
                           name="selectedClient"
                           [value]="client.id"
-                          (change)="selectClient(client.id)"
+                          (change)="selectClient(client.id, true)"
                           [checked]="selectedClientId === client.id"
                         />
                       </td>
@@ -210,10 +210,9 @@
             <div class="col-12 mt-2">
               <label>العنوان التفصيلي</label>
               <textarea
-
                 aria-label="default input example"
                 cFormControl
-                formControlName="clientAdress"
+                formControlName="kitchenLocation"
                 rows="3"
               >
               </textarea>
