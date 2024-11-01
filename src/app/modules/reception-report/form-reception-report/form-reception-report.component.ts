@@ -40,6 +40,7 @@ export class FormReceptionReportComponent {
   selectedServices:any[]=[];
   dataToPatch: any[] = [];
   isConfirmed: boolean = false;
+  isEditMode: boolean = false
   AmOrPm: any = [
     { name: "AM", id: 0 },
     { name: "PM", id: 1 }
@@ -316,9 +317,9 @@ export class FormReceptionReportComponent {
         clientDetailsId: 0,
         name: this.clientForm.get('name')?.value,
         phone: this.clientForm.get('phone')?.value,
-        isconfirmed: this.isConfirmed,
+        isconfirmed: this.clientList.length === 0 ? true : false,
         wasf: this.clientForm.get('wasf')?.value,
-        clientId: this.generateClientId()
+        clientId: this.clientList.length + 1
       };
       this.clientList.push(newClient);
       console.log('Client added:', newClient);
@@ -326,11 +327,14 @@ export class FormReceptionReportComponent {
     if (this.selectedClientId === null) {
       this.selectedClientId = newClient.clientId;
     }
-    if (this.clientList.length === 0) {
-      this.isConfirmed = true;
+    if (this.clientList.length === 1) {
+      this.selectedClientId = newClient.clientId;
     }
+    // if (this.clientList.length === 0) {
+      // }
       this.tableVisible = true;
       this.clientForm.reset();
+      this.isConfirmed = false;
     }
   }
 
@@ -343,14 +347,17 @@ export class FormReceptionReportComponent {
     this.clientToEdit = client;
     this.clientForm.patchValue(client);
     this.showModal = true;
+    this.isEditMode = true;
   }
 
-  saveChanges() {
+  updateClient() {
     if (this.clientForm.valid) {
-      const index = this.clientList.findIndex((c) => c.id === this.clientToEdit.id);
+      const index = this.clientList.findIndex((c) => c.clientId === this.clientToEdit.clientId);
       if (index > -1) {
-        this.clientList[index] = { ...this.clientForm.value, id: this.clientToEdit.id };
+        this.clientList[index] = { ...this.clientForm.value, clientId: this.clientToEdit.clientId };
       }
+      this.clientForm.reset();
+      this.isEditMode = false;
       this.showModal = false;
     }
   }

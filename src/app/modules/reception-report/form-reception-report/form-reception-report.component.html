@@ -28,8 +28,8 @@
       <div class="card">
         <div class="card-header m-0 d-flex justify-content-between">
           <h5>الزبون</h5>
-          <button class="btn btn-success" [disabled]="clientForm.invalid" (click)="addClient()">
-            اضافة
+          <button class="btn btn-success" [disabled]="clientForm.invalid" (click)="isEditMode ? updateClient() : addClient()">
+            {{ isEditMode ? 'تعديل' : 'إضافة' }}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                  viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -109,9 +109,9 @@
                         <input
                           type="radio"
                           name="selectedClient"
-                          [value]="client.id"
-                          (change)="selectClient(client.id, true)"
-                          [checked]="selectedClientId === client.id"
+                          [value]="client.clientId"
+                          (change)="selectClient(client.clientId, true)"
+                          [checked]="selectedClientId === client.clientId"
                         />
                       </td>
                       <td>
@@ -135,94 +135,94 @@
         </div>
       </div>
     </c-col>
-    <c-col class="mx-2 my-4">
-      <div class="card">
-        <div class="card-header m-0">
-          <h5>الزبون</h5>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-4">
-              <label>البريد الالكترونى </label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="email"
-                formControlName="email"
-              />
-            </div>
+
+  </form>
+  <form [formGroup]="AddClientFileForm"> <c-col class="mx-2 my-4">
+    <div class="card">
+      <div class="card-header m-0">
+        <h5>الزبون</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-4">
+            <label>البريد الالكترونى </label>
+            <input
+              aria-label="default input example"
+              cFormControl
+              type="email"
+              formControlName="email"
+            />
+          </div>
 
 
-            <div class="col-4">
-              <label> المحافظة</label>
-              <ng-select
-                [items]="governorate"
-                bindLabel="description"
-                bindValue="statusId"
-                placeholder="اختر المحافظة"
-                formControlName="governorateId"
-                (change)="getAllArea($event.statusId)"
-              >
-              </ng-select>
-            </div>
+          <div class="col-4">
+            <label> المحافظة</label>
+            <ng-select
+              [items]="governorate"
+              bindLabel="description"
+              bindValue="statusId"
+              placeholder="اختر المحافظة"
+              formControlName="governorateId"
+              (change)="getAllArea($event.statusId)"
+            >
+            </ng-select>
+          </div>
 
 
-            <div class="col-4">
-              <label> المنطقة</label>
-              <ng-select
-                [items]="area"
-                bindLabel="description"
-                bindValue="statusId"
-                placeholder="اختر المنطقة"
-                formControlName="areaId"
-              >
-              </ng-select>
-            </div>
+          <div class="col-4">
+            <label> المنطقة</label>
+            <ng-select
+              [items]="area"
+              bindLabel="description"
+              bindValue="statusId"
+              placeholder="اختر المنطقة"
+              formControlName="areaId"
+            >
+            </ng-select>
+          </div>
 
-            <!-- <div class="col-4">
-              <label>الزبون</label>
-              <ng-select
-                [items]="allClients"
-                bindLabel="clientName"
-                bindValue="clientId"
-                placeholder="اختر الزبون"
-                formControlName="clientId"
-                (ngModelChange)="getClientInfo($event)"
-              >
-              </ng-select>
-            </div> -->
-            <!-- <div class="col-4">
-              <label>رقم الجوال</label>
-              <input
-                readonly
-                aria-label="default input example"
-                cFormControl
-                formControlName="phoneNumber"
-                type="tel"
-              />
-            </div> -->
+          <!-- <div class="col-4">
+            <label>الزبون</label>
+            <ng-select
+              [items]="allClients"
+              bindLabel="clientName"
+              bindValue="clientId"
+              placeholder="اختر الزبون"
+              formControlName="clientId"
+              (ngModelChange)="getClientInfo($event)"
+            >
+            </ng-select>
+          </div> -->
+          <!-- <div class="col-4">
+            <label>رقم الجوال</label>
+            <input
+              readonly
+              aria-label="default input example"
+              cFormControl
+              formControlName="phoneNumber"
+              type="tel"
+            />
+          </div> -->
 
-            <!-- <div class="col-4">
-                    <label>تاريخ الانتاج</label>
-                    <input aria-label="default input example" cFormControl
-                           formControlName="contractDate" type="date"/>
-                  </div> -->
-            <div class="col-12 mt-2">
-              <label>العنوان التفصيلي</label>
-              <textarea
-                aria-label="default input example"
-                cFormControl
-                formControlName="kitchenLocation"
-                rows="3"
-              >
-              </textarea>
-            </div>
+          <!-- <div class="col-4">
+                  <label>تاريخ الانتاج</label>
+                  <input aria-label="default input example" cFormControl
+                         formControlName="contractDate" type="date"/>
+                </div> -->
+          <div class="col-12 mt-2">
+            <label>العنوان التفصيلي</label>
+            <textarea
+              aria-label="default input example"
+              cFormControl
+              formControlName="kitchenLocation"
+              rows="3"
+            >
+            </textarea>
           </div>
         </div>
       </div>
-    </c-col>
-  </form>
-  <form [formGroup]="AddClientFileForm">
+    </div>
+  </c-col>
     <!-- <c-row class="p-2">
           <c-col *ngFor="let type of clientFileTypes">
               <c-form-check>
@@ -488,7 +488,7 @@
 </c-card>
 
 
-<div class="modal" tabindex="-1" [class.show]="showModal" *ngIf="showModal">
+<!-- <div class="modal" tabindex="-1" [class.show]="showModal" *ngIf="showModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -517,4 +517,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

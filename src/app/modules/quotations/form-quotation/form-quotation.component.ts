@@ -568,28 +568,55 @@ export class FormQuotationComponent implements OnInit {
     // }
   }
 
-  setPrice1(e: any) {
-    console.log('units item by category',this.UnitsItemsbyCategory);
+  // setPrice1(e: any) {
+  //   console.log('units item by category',this.UnitsItemsbyCategory);
 
-    console.log(this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0]);
-    //let price = this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0].price?this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0].price:0;
-    let data= {
-      "itemTypeId": this.items1Form.get('itemId').value,
-      "itemID": this.items1Form.get('categoryId').value
+  //   console.log(this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0]);
+  //   //let price = this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0].price?this.UnitsItemsbyCategory.filter((ele: any) => ele.statusId == e.statusId)[0].price:0;
+  //   let data= {
+  //     "itemTypeId": this.items1Form.get('itemId').value,
+  //     "itemID": this.items1Form.get('categoryId').value
+  //   }
+  //   let price ;
+  //   this._QuotationsService.LoadPriceForUnits(data).subscribe({
+  //     next:(res:any)=>{
+  //       price=res;
+  //       console.log(price);
+  //       this.items1Form.get('eachItemPrice')?.patchValue(price)
+  //       console.log(this.items1Form.get('eachItemPrice')?.value)
+  //     },error:(err:any)=>{
+  //       this.items1Form.get('eachItemPrice')?.patchValue(0)
+  //     }
+  //   })
+  //  // this.items1Form.get('eachItemPrice')?.patchValue(price)
+  //  // console.log(this.items1Form.get('eachItemPrice')?.value)
+  // }
+  setPrice1(e: any) {
+    console.log('units item by category', this.UnitsItemsbyCategory);
+    console.log(this.UnitsItemsbyCategory.find((ele: any) => ele.statusId == e.statusId));
+
+    let data = {
+      itemTypeId: Number(this.items1Form.get('itemId')?.value),
+      itemID: Number(this.items1Form.get('categoryId')?.value)
+    };
+
+    if (data.itemTypeId == null || data.itemID == null) {
+      console.warn("itemId أو categoryId غير محدد");
+      return;
     }
-    let price ;
+
     this._QuotationsService.LoadPriceForUnits(data).subscribe({
-      next:(res:any)=>{
-        price=res;
+      next: (res: any) => {
+        const price = res ?? 0;
         console.log(price);
-        this.items1Form.get('eachItemPrice')?.patchValue(price)
-        console.log(this.items1Form.get('eachItemPrice')?.value)
-      },error:(err:any)=>{
-        this.items1Form.get('eachItemPrice')?.patchValue(0)
+        this.items1Form.get('eachItemPrice')?.patchValue(price);
+        console.log(this.items1Form.get('eachItemPrice')?.value);
+      },
+      error: (err: any) => {
+        console.error("حدث خطأ أثناء تحميل السعر:", err);
+        this.items1Form.get('eachItemPrice')?.patchValue(0);
       }
-    })
-   // this.items1Form.get('eachItemPrice')?.patchValue(price)
-   // console.log(this.items1Form.get('eachItemPrice')?.value)
+    });
   }
 
   getPrice1() {
@@ -628,9 +655,12 @@ export class FormQuotationComponent implements OnInit {
       unit: this.loadPriceOffer['unites']?.statuses.filter((item: any) => item.statusId == this.items1Form.get('itemId')?.value)[0]?.description,
       unitName: this.UnitsItemsbyCategory?.filter((item: any) => item.statusId == this.items1Form.get('categoryId')?.value)[0]?.description,
     })
+    console.log('mmm',this.items1Form);
+
     // this.items1Form.get('categoryId')?.patchValue(0)
     // this.items1Form.get('itemPrice')?.patchValue(0.0)
       this.selectUnit.focus();
+      this.items1Form.get('categoryId')?.reset();
 
   }
 
@@ -649,6 +679,7 @@ export class FormQuotationComponent implements OnInit {
     console.log(this.myArrayAsForm2);
 
     console.log(this.myArray2);
+    this.items2Form.reset();
 
   }
 
