@@ -77,7 +77,8 @@ export class ContractFormComponent implements OnInit {
   initClientFileForm(): FormGroup {
     return this._FormBuilder.group({
       clientId: [null, [Validators.required]],
-      contractDate: [this.handleDate(Date.now()), [Validators.required]],
+      // contractDate: [this.handleDate(Date.now()), [Validators.required]],
+      contractDate: [this.handleDate(new Date()), [Validators.required]],
       phoneNumber: [null, [Validators.required]],
       address: [null, [Validators.required]],
       nationalid : [null, [Validators.required]],
@@ -86,6 +87,8 @@ export class ContractFormComponent implements OnInit {
       beformaking : [null, [Validators.required]],
       week : [null, [Validators.required]],
       finish : [null, [Validators.required]],
+      withTax: [0, [Validators.required]],
+      clientFileConvertedId: [0,[Validators.required]]
       // contractStatusId: [0, [Validators.required]],
       // startWeek: [null, [Validators.required]],
       // startMonth: [null, [Validators.required]],
@@ -96,14 +99,18 @@ export class ContractFormComponent implements OnInit {
       // items: this._FormBuilder.array([]),
     })
   }
-  handleDate(date:any){
-    let year, month, day;
-     let Fdate = new Date(date).toLocaleString().split(',')[0]
-    year = Fdate.split('/')[2]
-    month = Fdate.split('/')[0]
-    day = Fdate.split('/')[1]
-    let newDate = (year)+'-'+(+month < 10 ? '0'+month : month )+'-'+(+day < 10 ? '0'+day : day )
-    return newDate;
+  // handleDate(date:any){
+  //   let year, month, day;
+  //    let Fdate = new Date(date).toLocaleString().split(',')[0]
+  //   year = Fdate.split('/')[2]
+  //   month = Fdate.split('/')[0]
+  //   day = Fdate.split('/')[1]
+  //   let newDate = (year)+'-'+(+month < 10 ? '0'+month : month )+'-'+(+day < 10 ? '0'+day : day )
+  //   return newDate;
+  // }
+
+  handleDate(date: Date): string {
+    return date.toISOString().split('T')[0]; // Format to `YYYY-MM-DD` if you only need the date part
   }
   get itemsFormArray() {
     return this.AddClientFileForm.controls["items"] as FormArray;
@@ -165,9 +172,23 @@ export class ContractFormComponent implements OnInit {
     //       this.AddClientFileForm.value.items.shift(this.AddClientFileForm.value.items[i].itemId)
     //   }
     // }
+    const formData = this.AddClientFileForm.value;
+
+    // Convert specific fields to integers
+    const transformedData = {
+      ...formData,
+      AllPrice: Number(formData.AllPrice),
+      contaract: Number(formData.contaract),
+      beformaking: Number(formData.beformaking),
+      week: Number(formData.week),
+      finish: Number(formData.finish),
+      contractDate: new Date(formData.contractDate).toISOString() // Convert to DateTime format
+    };
+    console.log('Transformed Data:', transformedData);
+
 
     if (!this.clientFileId) {
-      this._contractService.AddContract(this.AddClientFileForm.value).subscribe({
+      this._contractService.AddContract(transformedData).subscribe({
         next: (res: any) => {
           this.toastr.success(`${res.message}`);
           this._Router.navigateByUrl('/contract')
