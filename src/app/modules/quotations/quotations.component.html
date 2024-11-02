@@ -1107,6 +1107,53 @@
       </div>
       <div class="card-body">
         <div class="row">
+          <div class="col-4" *ngFor="let paper of paperData; let i = index">
+            <label>{{paper.defaultDesc}}</label>
+
+            <div class="input-group d-flex align-items-center">
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+              />
+
+              <div class="radio-group d-flex">
+                <label style="margin-right: 10px;">
+                  نعم
+                  <input type="radio" name="option{{i}}" />
+                </label>
+                <label style="margin-right: 10px;">
+                  لا
+                  <input type="radio" name="option{{i}}" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4"></div>
+          <div class="col-4 mt-3">
+            <label>جاهزية الموقع</label>
+            <div class="input-group d-flex align-items-center">
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+              />
+
+              <div class="radio-group d-flex">
+                <label style="margin-right: 10px;">
+                  نعم
+                  <input type="radio" name="option" />
+                </label>
+                <label style="margin-right: 10px;">
+                  لا
+                  <input type="radio" name="option" />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-4"></div>
+
           <!-- <div class="col-6">
             <label>تصنيف الملف</label>
             <ng-select
@@ -1146,6 +1193,91 @@
         </div>
       </div>
     </div>
+    <form [formGroup]="noteForm">
+    <c-col class="mx-2 my-4">
+      <div class="card">
+        <div class="card-header m-0 d-flex justify-content-between">
+          <h5>ملاحظات</h5>
+          <button class="btn btn-success" [disabled]="noteForm.invalid" (click)="isEditMode ? updateNote() : addNote()">
+            {{ isEditMode ? 'تعديل' : 'إضافة' }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                 viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+            </svg>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <label> ملاحظة</label>
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+                formControlName="name"
+              />
+            </div>
+           </div>
+
+
+
+          <div class="row mt-2" *ngIf="tableVisible" [@fadeInAnimation]>
+            <div class="col-12">
+                <table class="w-100">
+                  <table [striped]="true" cTable>
+                    <thead>
+                    <tr>
+                      <th scope="col">الملاحظة</th>
+                      <th scope="col">تعديل</th>
+                      <th>حذف</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  *ngFor="let note of noteList">
+                      <td>{{ note.text }}</td>
+                      <td>
+                        <button cButton class="btn btn-light m-0 p-2" (click)="editNote(note)">
+                          <svg cIcon name="cil-pencil"></svg>
+                        </button>
+                      </td>
+                      <td>
+                        <button cButton class="btn btn-danger m-0 p-2"  (click)="deleteNote(note.id)">
+                          <svg cIcon name="cil-trash"></svg>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </table>
+            </div>
+        </div>
+
+
+        </div>
+      </div>
+    </c-col>
+    </form>
+    <div class="row">
+    <div class="col-6 text-center mt-4" *ngIf="isAuthorized(277)">
+      <button
+        class="btn btn-success"
+        (click)="AddNotice()"
+        [cModalToggle]="modalXl4.id"
+      >
+        حفظ
+      </button>
+    </div>
+    <div class="col-6 text-center mt-4" *ngIf="isAuthorized(277)">
+      <button
+        class="btn btn-success"
+        (click)="AddNotice()"
+        [cModalToggle]="modalXl4.id"
+      >
+        عودة
+      </button>
+    </div>
+  </div>
   </c-modal-body>
 </c-modal>
 

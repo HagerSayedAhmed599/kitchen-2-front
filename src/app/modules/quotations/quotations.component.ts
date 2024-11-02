@@ -7,11 +7,20 @@ import {environment} from "../../../environments/environment";
 import { ContractService } from '../contract/contract.service';
 import { ProductionRequestsService } from '../production-requests/production-requests.service';
 import { UsersService } from '../users/users.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-quotations',
   templateUrl: './quotations.component.html',
-  styleUrls: ['./quotations.component.scss']
+  styleUrls: ['./quotations.component.scss'],
+  animations: [
+    trigger('fadeInAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class QuotationsComponent implements OnInit {
   Domain: any = environment.apiUrl;
@@ -79,7 +88,14 @@ export class QuotationsComponent implements OnInit {
   buttons: any[]=[];
   BuildingData: any;
   ServicesData: any;
+  paperData: any
   OrderData: any;
+  isEditMode: boolean = false
+  tableVisible = false;
+  noteList: { id: number; text: string }[] = []; // List to store notes
+  noteForm: FormGroup;
+  currentNoteId: number | null = null;
+
   constructor(
     private _QuotationsService: QuotationsService,
     private _FormBuilder: FormBuilder,
@@ -90,6 +106,9 @@ export class QuotationsComponent implements OnInit {
   ) {
     this.AddReceiveNotice = this.initReceiveNoticeForm();
     this.SearchForm=this.initSearchForm();
+    this.noteForm = this._FormBuilder.group({
+      name: ['', Validators.required]
+    });
   }
   initReceiveNoticeForm(): FormGroup {
     return this._FormBuilder.group({
@@ -146,6 +165,7 @@ export class QuotationsComponent implements OnInit {
     this.GetBuildingData();
     this.GetServicesData();
     this.GetOrderData();
+    this.GetPaperData();
     console.log(this.device)
   }
   getDevices(){
@@ -276,6 +296,12 @@ export class QuotationsComponent implements OnInit {
   GetServicesData() {
     this._QuotationsService.GetAllServicesData(311).subscribe(data => {
       this.ServicesData = data.data.statuses
+    })
+  }
+
+  GetPaperData() {
+    this._QuotationsService.GetAllPaperData(313).subscribe(data => {
+      this.paperData = data.data.statuses
     })
   }
   setMeasurement() {
@@ -500,5 +526,51 @@ export class QuotationsComponent implements OnInit {
   }
   isAuthorized(permissionId:number) : boolean{
     return this.buttons.includes(permissionId)
+  }
+
+   // Add a new note
+   addNote() {
+    if (this.noteForm.valid) {
+      const newNote = {
+        id: this.noteList.length + 1,
+        text: this.noteForm.get('name')?.value || ''
+      };
+      this.noteList.push(newNote);
+      this.noteForm.reset();
+      this.tableVisible = true;
+    }
+  }
+
+  // Edit an existing note
+  editNote(note: any) {
+    this.isEditMode = true;
+    this.currentNoteId = note.id;
+    this.noteForm.patchValue({ name: note.text });
+  }
+
+  // Update the note after editing
+  updateNote() {
+    if (this.noteForm.valid && this.currentNoteId !== null) {
+      const index = this.noteList.findIndex(note => note.id === this.currentNoteId);
+      if (index !== -1) {
+        this.noteList[index].text = this.noteForm.get('name')?.value || '';
+      }
+      this.cancelEdit();
+    }
+  }
+
+  // Delete a note
+  deleteNote(noteId: number) {
+    this.noteList = this.noteList.filter(note => note.id !== noteId);
+    if (this.noteList.length === 0) {
+      this.tableVisible = false;
+    }
+  }
+
+  // Cancel edit mode
+  cancelEdit() {
+    this.isEditMode = false;
+    this.currentNoteId = null;
+    this.noteForm.reset();
   }
 }

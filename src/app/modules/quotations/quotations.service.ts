@@ -98,6 +98,9 @@ export class QuotationsService {
   GetAllServicesData(id: number): Observable<any> {
     return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
+  GetAllPaperData(id: number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
+  }
   GetAllOrderData(id: number): Observable<any> {
     return this._HttpClient.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
