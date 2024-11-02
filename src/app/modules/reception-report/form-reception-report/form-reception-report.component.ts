@@ -518,10 +518,10 @@ export class FormReceptionReportComponent {
         kitchenknow: receptionReport.howknow,
         kitchenUsers: receptionReport.kitchenUsers,
         adress: receptionReport.adress,
-        selectedService: receptionReport.services.id,
-        selectedDevice: receptionReport.devices.id,
+        service: receptionReport.services.id,
+        selectedDevice: receptionReport.devices[0].id,
         selectedOrder: receptionReport.selectedOrderId,
-        selectedBuilding: receptionReport.selectedBuilding,
+        selectedBuilding: receptionReport.selectedBuildingId,
         governorateId: receptionReport.governorateId,
         areaId: receptionReport.areaId,
         email: receptionReport.client.email
