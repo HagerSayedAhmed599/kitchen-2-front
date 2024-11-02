@@ -507,24 +507,36 @@ export class FormReceptionReportComponent {
 
       this.AddClientFileForm.patchValue({
         // clientId:receptionReport
-        actionByHour: res.data.actionByHour > 12 ? res.data.actionByHour - 12 : res.data.actionByHour,
-        designerId: receptionReport.designerId,
-        designerDate: this.handleDate(receptionReport.designerDate),
-        measurmentId: receptionReport.measurmentid,
-        measurmentDate: this.handleDate(receptionReport.measurmentDate),
+        // actionByHour: res.data.actionByHour > 12 ? res.data.actionByHour - 12 : res.data.actionByHour,
+        // designerId: receptionReport.designerId,
+        // designerDate: this.handleDate(receptionReport.designerDate),
+        // measurmentId: receptionReport.measurmentid,
+        // measurmentDate: this.handleDate(receptionReport.measurmentDate),
         salesId: receptionReport.salesId,
         kitchenLocation: receptionReport.kitchenLocation,
         fileDate: this.handleDate(receptionReport.fileDate),
-        kitchenModelId: receptionReport.kitchecnModelId,
-        clientNeed: receptionReport.clientNeed,
-        AmORPm: res.data.actionByHour > 12 ? 1 : 0,
+        kitchenknow: receptionReport.howknow,
+        kitchenUsers: receptionReport.kitchenUsers,
+        adress: receptionReport.adress,
+        selectedService: receptionReport.services.id,
+        selectedDevice: receptionReport.devices.id,
+        selectedOrder: receptionReport.selectedOrderId,
+        selectedBuilding: receptionReport.selectedBuilding,
+        governorateId: receptionReport.governorateId,
+        areaId: receptionReport.areaId,
+        email: receptionReport.client.email
+
+
+        // kitchenModelId: receptionReport.kitchecnModelId,
+        // clientNeed: receptionReport.clientNeed,
+        // AmORPm: res.data.actionByHour > 12 ? 1 : 0,
 
       })
       this.clientForm.patchValue({
         clientId: receptionReport.client.clientId,
         wasf: receptionReport.client.wasf,
         phone: receptionReport.client.phone,
-        name: receptionReport.client.name
+        name: receptionReport.client.clientName
         // phoneNumber: receptionReport.client.mobile,
         // clientAdress: receptionReport.client.clientAddress
       })
