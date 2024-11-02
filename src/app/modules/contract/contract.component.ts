@@ -40,7 +40,7 @@ export class ContractComponent implements OnInit {
   Note: String = '';
   query: any = {
     PageType: 1,
-    fileTypeId: 1,
+    // fileTypeId: 1,
   }
   AddReceiveNotice!: FormGroup;
   visible=false;

@@ -45,7 +45,7 @@ export class ContractService {
     return this._HttpClient.get(`${this.domain}Users/GetAllUsers`)
   }
   GetClientFileByIdApi(id: number): Observable<any> {
-    return this._HttpClient.get(`${this.domain}ClientFile/GetClientFileById/${id}`)
+    return this._HttpClient.get(`${this.domain}ClientFile/GetClientFileById2/${id}`)
   }
   LoadPriceOffer(): Observable<any> {
     return this._HttpClient.get(`${this.domain}ClientFile/LoadContractPageRequests`)

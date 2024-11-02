@@ -60,7 +60,7 @@ export class ContractFormComponent implements OnInit {
     for (let i= 1; 13>i; i++){
       this.months.push({id: i})
     }
-    this.LoadPriceOffer();
+    // this.LoadPriceOffer();
     this.GetAllClients();
     let fileTypeId: any = _activatedRoute.snapshot.queryParamMap.get('fileTypeId')
     let clientFileId: any = _activatedRoute.snapshot.queryParamMap.get('clientFileId')
@@ -71,6 +71,7 @@ export class ContractFormComponent implements OnInit {
         fileTypeId: +fileTypeId
       });
     }
+    this.GetClientFileById();
   }
 
 
@@ -132,27 +133,27 @@ export class ContractFormComponent implements OnInit {
       categoryId: null,
     })
   }
-  LoadPriceOffer() {
-    this._contractService.LoadPriceOffer().subscribe({
-      next: (res: any) => {
-        this.loadPriceOfferList = []
-        this.loadPriceOffer = res.data
-        Object.entries(res.data).forEach(([key, value], index) => {
-          this.addItemsFormArray();
-          this.loadPriceOfferList.push({
-            key: key,
-            defaultDesc: res.data[key]?.defaultDesc,
-          })
-          this.itemsFormArray.controls[index]?.patchValue({
-            itemTypeId: 4,
-            // categoryId: res.data[key]?.statusCategoryId,
-          })
-          if(this.clientFileId) this.newLoadPriceOffer.push(value)
-        })
-        if(this.clientFileId) this.GetClientFileById();
-      }
-    })
-  }
+  // LoadPriceOffer() {
+  //   this._contractService.LoadPriceOffer().subscribe({
+  //     next: (res: any) => {
+  //       this.loadPriceOfferList = []
+  //       this.loadPriceOffer = res.data
+  //       Object.entries(res.data).forEach(([key, value], index) => {
+  //         this.addItemsFormArray();
+  //         this.loadPriceOfferList.push({
+  //           key: key,
+  //           defaultDesc: res.data[key]?.defaultDesc,
+  //         })
+  //         this.itemsFormArray.controls[index]?.patchValue({
+  //           itemTypeId: 4,
+  //           // categoryId: res.data[key]?.statusCategoryId,
+  //         })
+  //         if(this.clientFileId) this.newLoadPriceOffer.push(value)
+  //       })
+  //       if(this.clientFileId) this.GetClientFileById();
+  //     }
+  //   })
+  // }
 
   GetAllClients() {
     this._ClientsService.GetAllClients().subscribe({

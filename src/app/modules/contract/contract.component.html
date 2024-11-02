@@ -1,7 +1,8 @@
 <c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
     <strong>العقود</strong>
-    <button [disabled]="!query.fileTypeId" *ngIf="isAuthorized(346)"
+    <!-- [disabled]="!query.fileTypeId" -->
+    <button  *ngIf="isAuthorized(346)"
       class="btn btn-success" routerLink="add" [queryParams]="{fileTypeId: query.fileTypeId}">
       اضافة
       <i class='bx bx-plus'></i>
