@@ -44,7 +44,7 @@
               <ng-select
                 [items]="discreption"
                 bindLabel="description"
-                bindValue="description"
+                bindValue="statusId"
                 placeholder="اختر الوصف"
                 formControlName="wasf"
               >
@@ -59,18 +59,6 @@
                 formControlName="name"
               />
             </div>
-
-            <!-- <div class="col-6">
-              <label> الوصف </label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="text"
-                formControlName="kitchenLocation"
-              />
-            </div> -->
-
-
 
 
             <div class="col-4">
@@ -309,7 +297,7 @@
                       #checkbox
                       name="selectedService"
                       [checked]="isSelectedService(option.statusId)"
-                      formControlName="service"
+                      formControlName="selectedService"
                       [value]="option.statusId"
                       (change)="selectService($event, option)"
                     />

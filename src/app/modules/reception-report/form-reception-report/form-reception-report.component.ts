@@ -37,8 +37,11 @@ export class FormReceptionReportComponent {
   fileTypeId: any;
   allClients: DataClients[] = [];
   selectedOptions: any[] = [];
+  selectedClient: any[] = [];
   selectedServices:any[]=[];
   dataToPatch: any[] = [];
+  clientPatch: any[] = [];
+  serviceToPatch: any[] = [];
   isConfirmed: boolean = false;
   isEditMode: boolean = false
   AmOrPm: any = [
@@ -162,6 +165,21 @@ export class FormReceptionReportComponent {
     // this.AddClientFileForm.get('devices')?.reset();
     const devicesArray = this.AddClientFileForm.get('devices') as FormArray;
     const servicesArray = this.AddClientFileForm.get('selectedService') as FormArray;
+    const clintArray = this.AddClientFileForm.get('clients') as FormArray;
+    this.selectedClient.forEach(client => {
+
+      clintArray.push(
+        this._FormBuilder.group({
+          clientId: [client.clientId, Validators.required],
+          name: [client.name, Validators.required],
+          phone: [client.phone, Validators.required],
+          wasf: [client.wasf, Validators.required],
+          isconfirmed: [client.isconfirmed, Validators.required]
+        })
+      )
+      console.log('mm',client);
+
+    })
     this.selectedOptions.forEach(device => {
 
       devicesArray.push(
@@ -175,12 +193,13 @@ export class FormReceptionReportComponent {
         this._FormBuilder.group({
           serviceId: [service, Validators.required],
     })
-      )})
+      )
+    })
     // console.log(this.AddClientFileForm.value);
 
     const clientFileData = {
-      clients: this.clientList.length > 0 ? this.clientList : [],
-      clientFileId: this.clientFileId || 0,
+      clients: clintArray.value.length > 0 ? clintArray.value : [],
+      clientFileId: Number(this.clientFileId) || 0,
       email: this.AddClientFileForm.get('email')?.value || "string",
       governorateId: this.AddClientFileForm.get('governorateId')?.value || 0,
       areaId: this.AddClientFileForm.get('areaId')?.value || 0,
@@ -293,7 +312,7 @@ export class FormReceptionReportComponent {
       fileDate: [null, [Validators.required]],
       selectedDevice: [null, [Validators.required]],
       selectedBuilding: [null, [Validators.required]],
-      service: [null, [Validators.required]],
+      // service: [null, [Validators.required]],
       selectedOrder: [null, [Validators.required]],
       clientNeed: [null, Validators.required],
       kitchenLocation: [null, [Validators.required]],
@@ -498,11 +517,21 @@ export class FormReceptionReportComponent {
     this.recptionReportService.GetReceptionReportById(clientFileId).subscribe((res: any) => {
       let receptionReport = res.data;
       this.dataToPatch = res.data.devices; // Replace this with actual data
+      this.clientPatch = res.data.client.clientDetails;
+      this.serviceToPatch = res.data.services;
       this.dataToPatch.forEach(device => {
         this.selectedOptions.push(device.id)
       })
-
       console.log(this.selectedOptions);
+
+      this.clientPatch.forEach(client => {
+        this.selectedClient.push(client)
+      })
+      this.serviceToPatch.forEach(service => {
+        this.selectedServices.push(service)
+      })
+
+      console.log('mmm111',this.selectedServices);
 
 
       this.AddClientFileForm.patchValue({
@@ -519,14 +548,12 @@ export class FormReceptionReportComponent {
         kitchenUsers: receptionReport.kitchenUsers,
         adress: receptionReport.adress,
         service: receptionReport.services.id,
-        selectedDevice: receptionReport.devices[0].id,
+        selectedDevice: receptionReport.devices.id,
         selectedOrder: receptionReport.selectedOrderId,
         selectedBuilding: receptionReport.selectedBuildingId,
         governorateId: receptionReport.governorateId,
         areaId: receptionReport.areaId,
-        email: receptionReport.client.email
-
-
+        email: receptionReport.client.email,
         // kitchenModelId: receptionReport.kitchecnModelId,
         // clientNeed: receptionReport.clientNeed,
         // AmORPm: res.data.actionByHour > 12 ? 1 : 0,
@@ -535,11 +562,13 @@ export class FormReceptionReportComponent {
       this.clientForm.patchValue({
         clientId: receptionReport.client.clientId,
         wasf: receptionReport.client.wasf,
-        phone: receptionReport.client.phone,
+        phone: receptionReport.client.mobile,
         name: receptionReport.client.clientName
         // phoneNumber: receptionReport.client.mobile,
         // clientAdress: receptionReport.client.clientAddress
-      })
+      }),
+      console.log('mmmm',receptionReport);
+
 
 
     })
