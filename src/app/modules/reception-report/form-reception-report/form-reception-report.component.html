@@ -151,7 +151,7 @@
               bindValue="statusId"
               placeholder="اختر المحافظة"
               formControlName="governorateId"
-              (change)="getAllArea($event.statusId)"
+              (ngModelChange)="getAllArea($event)"
             >
             </ng-select>
           </div>
@@ -297,7 +297,7 @@
                       #checkbox
                       name="selectedService"
                       [checked]="isSelectedService(option.statusId)"
-                      formControlName="selectedService"
+                      formControlName="service"
                       [value]="option.statusId"
                       (change)="selectService($event, option)"
                     />

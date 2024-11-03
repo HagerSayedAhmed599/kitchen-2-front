@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReceptionReportService } from '../reception-report.service';
 import { take } from 'rxjs';
 import { trigger, style, transition, animate } from '@angular/animations'; // استيراد الأنيميشن
+import { log } from 'node:console';
 
 
 @Component({
@@ -177,7 +178,6 @@ export class FormReceptionReportComponent {
           isconfirmed: [client.isconfirmed, Validators.required]
         })
       )
-      console.log('mm',client);
 
     })
     this.selectedOptions.forEach(device => {
@@ -212,7 +212,8 @@ export class FormReceptionReportComponent {
       selectedService: servicesArray.value.length > 0 ? servicesArray.value : [],
       selectedBuilding: this.AddClientFileForm.get('selectedBuilding')?.value || 0,
       selectedOrder: this.AddClientFileForm.get('selectedOrder')?.value || 0,
-      clientNeed: this.AddClientFileForm.get('clientNeed')?.value || "string"
+      clientNeed: this.AddClientFileForm.get('clientNeed')?.value || "string",
+      clientid: this.AddClientFileForm.get('clientid')?.value || 0
     };
 
     console.log('Form Data:', clientFileData);
@@ -312,7 +313,7 @@ export class FormReceptionReportComponent {
       fileDate: [null, [Validators.required]],
       selectedDevice: [null, [Validators.required]],
       selectedBuilding: [null, [Validators.required]],
-      // service: [null, [Validators.required]],
+      service: [null, [Validators.required]],
       selectedOrder: [null, [Validators.required]],
       clientNeed: [null, Validators.required],
       kitchenLocation: [null, [Validators.required]],
@@ -528,7 +529,7 @@ export class FormReceptionReportComponent {
         this.selectedClient.push(client)
       })
       this.serviceToPatch.forEach(service => {
-        this.selectedServices.push(service)
+        this.selectedServices.push(service.id)
       })
 
       console.log('mmm111',this.selectedServices);
@@ -554,6 +555,7 @@ export class FormReceptionReportComponent {
         governorateId: receptionReport.governorateId,
         areaId: receptionReport.areaId,
         email: receptionReport.client.email,
+        clientid: receptionReport.clientId,
         // kitchenModelId: receptionReport.kitchecnModelId,
         // clientNeed: receptionReport.clientNeed,
         // AmORPm: res.data.actionByHour > 12 ? 1 : 0,
