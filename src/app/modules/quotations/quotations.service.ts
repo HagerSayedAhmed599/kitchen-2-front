@@ -83,6 +83,12 @@ export class QuotationsService {
   addTashyk(data:any): Observable<any> {
     return this._HttpClient.put(`${this.domain}ClientFile/addtashyk`,data)
   }
+  gettashyk(clientFileId:number): Observable<any> {
+    return this._HttpClient.get(`${this.domain}ClientFile/gettashyk?ClientFileId=${clientFileId}`)
+  }
+  updateTashyk(formData: any): Observable<any> {
+    return this._HttpClient.put(`${this.domain}ClientFile/updatetashyk`, formData);
+  }
   GetAllFollowUp(clientFileId:number): Observable<any> {
     return this._HttpClient.get(`${this.domain}FollowUp/GetAllFollowUp?clientFileId=${clientFileId}`)
   }

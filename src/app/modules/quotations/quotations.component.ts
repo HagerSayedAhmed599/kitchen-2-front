@@ -81,6 +81,7 @@ export class QuotationsComponent implements OnInit {
   }
   AddReceiveNotice!: FormGroup;
   dataToPatch:any[]=[];
+  notesData: any[]=[];
   selectedOptions: any[] = [];
   Alldevices: any;
   pagesRoleToPatch:any[]=[];
@@ -182,6 +183,9 @@ export class QuotationsComponent implements OnInit {
     this.GetOrderData();
     this.GetPaperData();
     console.log(this.device)
+    if (this.clientFileId) {
+      this.gettashykById(this.clientFileId);
+    }
   }
   getDevices(){
     this._ConttactService.GetStatusCategoryById(19).subscribe(res=>{
@@ -330,9 +334,40 @@ export class QuotationsComponent implements OnInit {
           })
         );
       });
+      if (this.clientFileId) {
+        this.gettashykById(this.clientFileId);
+      }
     });
   }
+  gettashykById(clientFileId: any) {
+    this._QuotationsService.gettashyk(clientFileId).subscribe((res: any) => {
+      let tashyk = res.data;
+      this.notesData = res.data.notes;
+      console.log(tashyk);
+      console.log(this.notesData);
 
+      this.notesData.forEach(notes => {
+        this.selectedOptions.push(notes.id);
+      });
+      console.log(this.selectedOptions);
+
+      this.form.patchValue({
+        clientFileId: tashyk.cLientFileId
+        // clientNeed: tashyk.clientNeed, // Update this line as needed
+      });
+      this.unfinishedWorks.clear(); // Clear current FormArray
+    tashyk.unfinishedWorks.forEach(work => {
+      this.unfinishedWorks.push(
+        this._FormBuilder.group({
+          statusId: [work.statusId || 0],
+          isReady: [work.isReady],
+          note: [work.note || ''],
+          clientFileId: [tashyk.clientFileId],
+        })
+      );
+    });
+  });
+}
   onSubmit() {
     if (this.form.valid) {
       const formData = {

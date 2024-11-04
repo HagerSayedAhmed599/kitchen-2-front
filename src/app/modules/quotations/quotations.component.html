@@ -251,9 +251,10 @@
               </button>
             </td>
             <td>
+              <!-- ; GetAllClientFileAttachment() -->
               <button
                 [disabled]="!isAuthorized(280)"
-                (click)="clientFileId = item?.clientFileId; GetAllClientFileAttachment()"
+                (click)="clientFileId = item?.clientFileId"
                 [cModalToggle]="modalXl9.id"
                 class="btn btn-light m-0 p-2"
               >
