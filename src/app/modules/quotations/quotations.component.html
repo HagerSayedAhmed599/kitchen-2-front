@@ -1100,31 +1100,34 @@
     <h5 cModalTitle>ورقة التشيك</h5>
     <button class="mx-0" [cModalToggle]="modalXl9.id" cButtonClose></button>
   </c-modal-header>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <c-modal-body>
     <div class="card">
       <div class="card-header">
         <h5>جدول الاعمال الغير منجزة</h5>
       </div>
       <div class="card-body">
-        <div class="row">
-          <div class="col-4" *ngFor="let paper of paperData; let i = index">
-            <label>{{paper.defaultDesc}}</label>
+        <div class="row" formArrayName="unfinishedWorks">
+          <div class="col-4"  *ngFor="let work of unfinishedWorks.controls; let i = index"
+          [formGroupName]="i">
+          <label>{{ paperData[i]?.defaultDesc }}</label>
 
             <div class="input-group d-flex align-items-center">
               <input
                 aria-label="default input example"
                 cFormControl
                 type="text"
+                formControlNamenote
               />
 
               <div class="radio-group d-flex">
                 <label style="margin-right: 10px;">
                   نعم
-                  <input type="radio" name="option{{i}}" />
+                  <input type="radio"formControlName="isReady" [value]="true" />
                 </label>
                 <label style="margin-right: 10px;">
                   لا
-                  <input type="radio" name="option{{i}}" />
+                  <input type="radio"formControlName="isReady" [value]="false" />
                 </label>
               </div>
             </div>
@@ -1186,11 +1189,7 @@
             </div>
           </div> -->
         </div>
-        <div class="col-12 text-center mt-4" *ngIf="isAuthorized(281)">
-          <button class="btn btn-success" (click)="AddClientFileAttachment()">
-            اضافة
-          </button>
-        </div>
+
       </div>
     </div>
     <form [formGroup]="noteForm">
@@ -1215,7 +1214,7 @@
                 aria-label="default input example"
                 cFormControl
                 type="text"
-                formControlName="name"
+                formControlName="note"
               />
             </div>
            </div>
@@ -1262,8 +1261,7 @@
     <div class="col-6 text-center mt-4" *ngIf="isAuthorized(277)">
       <button
         class="btn btn-success"
-        (click)="AddNotice()"
-        [cModalToggle]="modalXl4.id"
+        type="submit"
       >
         حفظ
       </button>
@@ -1279,6 +1277,7 @@
     </div>
   </div>
   </c-modal-body>
+</form>
 </c-modal>
 
 

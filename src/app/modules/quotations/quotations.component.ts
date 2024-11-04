@@ -92,9 +92,10 @@ export class QuotationsComponent implements OnInit {
   OrderData: any;
   isEditMode: boolean = false
   tableVisible = false;
-  noteList: { id: number; text: string }[] = []; // List to store notes
+  noteList: any[] = [];
   noteForm: FormGroup;
   currentNoteId: number | null = null;
+  form: FormGroup;
 
   constructor(
     private _QuotationsService: QuotationsService,
@@ -107,8 +108,20 @@ export class QuotationsComponent implements OnInit {
     this.AddReceiveNotice = this.initReceiveNoticeForm();
     this.SearchForm=this.initSearchForm();
     this.noteForm = this._FormBuilder.group({
-      name: ['', Validators.required]
+      note: ['', Validators.required]
     });
+    this.form = this._FormBuilder.group({
+      clientFileId: [0],
+      notes: this._FormBuilder.array([]),
+      unfinishedWorks: this._FormBuilder.array([]), // إعداد FormArray للحقل الديناميكي
+    });
+  }
+
+  get unfinishedWorks(): FormArray {
+    return this.form.get('unfinishedWorks') as FormArray;
+  }
+  get notes(): FormArray {
+    return this.form.get('notes') as FormArray;
   }
   initReceiveNoticeForm(): FormGroup {
     return this._FormBuilder.group({
@@ -302,8 +315,42 @@ export class QuotationsComponent implements OnInit {
   GetPaperData() {
     this._QuotationsService.GetAllPaperData(313).subscribe(data => {
       this.paperData = data.data.statuses
-    })
+      this.unfinishedWorks.clear();
+
+      // تعبئة الـ FormArray ببيانات ديناميكية
+      this.paperData.forEach((paper) => {
+        this.unfinishedWorks.push(
+          this._FormBuilder.group({
+            statusId: [paper.statusId || 0],
+            isReady: [''], // الحقل الذي سيكون عليه خيارات نعم/لا
+            note: [''], // حقل ملاحظات
+            clientFileId: [0],
+          })
+        );
+      });
+    });
   }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const formData = {
+        clientFileId: this.form.get('clientFileId')?.value || 0,
+        notes: this.form.get('notes')?.value, // يجلب الملاحظات من الـ FormArray
+        unfinishedWorks: this.form.get('unfinishedWorks')?.value // يجلب الأعمال غير المنتهية
+      };
+
+      console.log('Data to be sent:', formData);
+
+      // هنا يمكنك استدعاء خدمة HTTP لإرسال البيانات
+      // this.yourService.sendData(formData).subscribe(response => {
+      //   // معالجة الاستجابة هنا
+      //   console.log('Response:', response);
+      // }, error => {
+      //   console.error('Error:', error);
+      // });
+    }
+  }
+
   setMeasurement() {
     let val1, val2
     val1 = this.AddReceiveNotice.get('measurmentId')?.value
@@ -533,9 +580,16 @@ export class QuotationsComponent implements OnInit {
     if (this.noteForm.valid) {
       const newNote = {
         id: this.noteList.length + 1,
-        text: this.noteForm.get('name')?.value || ''
+        text: this.noteForm.get('note')?.value || ''
       };
-      this.noteList.push(newNote);
+
+      // إضافة الملاحظة إلى الملاحظات في FormArray
+      this.notes.push(this._FormBuilder.group({
+        id: [newNote.id], // يمكنك تخزين الـ ID هنا إذا كنت تحتاجه
+        note: [newNote.text] // تخزين نص الملاحظة
+      }));
+
+      this.noteList.push(newNote); // إذا كنت ترغب في الحفاظ على الملاحظات في قائمة
       this.noteForm.reset();
       this.tableVisible = true;
     }
@@ -545,7 +599,7 @@ export class QuotationsComponent implements OnInit {
   editNote(note: any) {
     this.isEditMode = true;
     this.currentNoteId = note.id;
-    this.noteForm.patchValue({ name: note.text });
+    this.noteForm.patchValue({ note: note.text });
   }
 
   // Update the note after editing
@@ -553,7 +607,11 @@ export class QuotationsComponent implements OnInit {
     if (this.noteForm.valid && this.currentNoteId !== null) {
       const index = this.noteList.findIndex(note => note.id === this.currentNoteId);
       if (index !== -1) {
-        this.noteList[index].text = this.noteForm.get('name')?.value || '';
+        this.noteList[index].text = this.noteForm.get('note')?.value || '';
+
+        // تحديث الملاحظة في FormArray
+        const noteFormGroup = this.notes.at(index) as FormGroup;
+        noteFormGroup.patchValue({ note: this.noteForm.get('note')?.value || '' });
       }
       this.cancelEdit();
     }
@@ -562,6 +620,7 @@ export class QuotationsComponent implements OnInit {
   // Delete a note
   deleteNote(noteId: number) {
     this.noteList = this.noteList.filter(note => note.id !== noteId);
+    this.notes.removeAt(this.notes.controls.findIndex(n => n.value.id === noteId)); // حذف الملاحظة من FormArray
     if (this.noteList.length === 0) {
       this.tableVisible = false;
     }
@@ -573,4 +632,5 @@ export class QuotationsComponent implements OnInit {
     this.currentNoteId = null;
     this.noteForm.reset();
   }
+
 }
