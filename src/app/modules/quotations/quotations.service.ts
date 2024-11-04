@@ -80,6 +80,9 @@ export class QuotationsService {
   AddNotices(value:any): Observable<any> {
     return this._HttpClient.put(`${this.domain}ClientFile/AddPreparingReception?clientFileId=${value.clientFileId}`,value)
   }
+  addTashyk(data:any): Observable<any> {
+    return this._HttpClient.put(`${this.domain}ClientFile/addtashyk`,data)
+  }
   GetAllFollowUp(clientFileId:number): Observable<any> {
     return this._HttpClient.get(`${this.domain}FollowUp/GetAllFollowUp?clientFileId=${clientFileId}`)
   }
