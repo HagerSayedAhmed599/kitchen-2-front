@@ -43,4 +43,7 @@ export class ReceptionReportService {
   GetAllOrderData(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
+  sendConfirmation(query): Observable<any> {
+    return this.http.post(`${this.domain}`,query);
+  }
 }

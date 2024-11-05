@@ -40,6 +40,22 @@ export class ReceptionReportComponent implements OnInit {
     this.GetStatusCategoryById()
     this.GetPermissionsOfRole(1)
   }
+
+  submit() {
+    const query = {
+      clientFileId: this.clientFileId,
+      statusId: this.statusId,
+      // isConfirmed: isConfirmed
+    };
+    this.recptionReportService.sendConfirmation(query).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      },
+    });
+  }
   filter(event: any) {
     console.log(event.value);
     event.value ? this.query['fileTypeId'] = event.value : this.query['fileTypeId'] = null;
