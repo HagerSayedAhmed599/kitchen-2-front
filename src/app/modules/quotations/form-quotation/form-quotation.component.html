@@ -1,14 +1,14 @@
 <c-card class="mb-4">
     <c-card-header class="d-flex justify-content-between align-items-center py-4">
         <strong> اضافة عروض الأسعار</strong>
-        <button class="btn btn-success" (click)="AddClientFile()">
+        <!-- <button class="btn btn-success" (click)="AddClientFile()">
             {{clientFileId? 'تعديل' : 'إضافة'}}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                 viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                     d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
             </svg>
-        </button>
+        </button> -->
         <button class="btn btn-success" routerLink="/quotations">رجوع</button>
 
     </c-card-header>
@@ -41,7 +41,7 @@
                                        [readonly]="clientFileId||clientFileId==0?false:true">
                             </ng-select>
                         </div>
-                        <div class="col-4 my-4">
+                        <!-- <div class="col-4 my-4">
                           <button class="btn btn-success" (click)="clientFormvisible=true">
                             اضافة زبون جديد
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
@@ -50,7 +50,7 @@
                                     d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                             </svg>
                         </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -398,6 +398,18 @@
 
               </div>
           </div>
+          <div class="row d-flex justify-content-center ">
+            <div class="col-12 texet-center" style="display: contents;">
+          <button class="btn btn-success mt-3" (click)="AddClientFile()">
+            {{clientFileId? 'تعديل' : 'حفظ'}}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+            </svg>
+        </button>
+        </div>
+        </div>
       </c-col>
     </form>
 

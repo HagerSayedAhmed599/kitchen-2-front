@@ -73,10 +73,10 @@
         <tr>
           <th scope="col">المبيعات</th>
           <th scope="col">اسم الزبون</th>
-          <th scope="col">الوصف</th>
+          <!-- <th scope="col">الوصف</th> -->
           <th scope="col">النوع</th>
           <th scope="col">تاريخ الانشاء</th>
-          <th scope="col">رقم العرض</th>
+          <!-- <th scope="col">رقم العرض</th> -->
           <th scope="col">المرفقات</th>
           <th scope="col">ملاحظات</th>
           <!-- <th scope="col">متابعات</th> -->
@@ -84,17 +84,17 @@
           <th scope="col">الحالة النهائية</th>
           <!-- <th scope="col"></th> -->
           <th scope="col">تعديل</th>
-          <th scope="col">تحويل الى عرض سعر</th>
+          <th scope="col">  عرض سعر</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of allReceptionReports">
           <td>{{item?.createdBy}}</td>
           <td>{{item?.clientName}}</td>
-          <td>{{item.clientNeed}}</td>
+          <!-- <td>{{item.clientNeed}}</td> -->
           <td>{{item?.type}}</td>
           <td>{{item?.creationDate| date}}</td>
-          <td>1</td>
+          <!-- <td>1</td> -->
           <td>
             <!-- (click)="clientFileId = item?.clientFileId;GetAllClientFileAttachment()"  [cModalToggle]="modalXl.id" -->
             <button (click)="clientFileId = item?.clientFileId;GetAllClientFileAttachment()"  [cModalToggle]="modalXl.id" class="btn btn-light m-0 p-2">

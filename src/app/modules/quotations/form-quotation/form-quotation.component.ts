@@ -592,6 +592,7 @@ export class FormQuotationComponent implements OnInit {
   //  // console.log(this.items1Form.get('eachItemPrice')?.value)
   // }
   setPrice1(e: any) {
+    console.log('Selected Status:', e);
     console.log('units item by category', this.UnitsItemsbyCategory);
     console.log(this.UnitsItemsbyCategory.find((ele: any) => ele.statusId == e.statusId));
 
@@ -608,7 +609,7 @@ export class FormQuotationComponent implements OnInit {
     this._QuotationsService.LoadPriceForUnits(data).subscribe({
       next: (res: any) => {
         const price = res ?? 0;
-        console.log(price);
+        console.log('Loaded Price:', price);
         this.items1Form.get('eachItemPrice')?.patchValue(price);
         console.log(this.items1Form.get('eachItemPrice')?.value);
       },
@@ -620,8 +621,11 @@ export class FormQuotationComponent implements OnInit {
   }
 
   getPrice1() {
-
-   let totPrice = (this.items1Form.get('eachItemPrice')?.value * this.items1Form.get('itemCount')?.value??0).toFixed(2)
+    let eachItemPrice = this.items1Form.get('eachItemPrice')?.value ?? 0;
+    let itemCount = this.items1Form.get('itemCount')?.value ?? 0;
+    console.log('Each Item Price:', eachItemPrice, 'Item Count:', itemCount);
+    let totPrice = (eachItemPrice * itemCount).toFixed(2);
+    // let totPrice = (this.items1Form.get('eachItemPrice')?.value * this.items1Form.get('itemCount')?.value??0).toFixed(2)
     this.items1Form.get('itemPrice')?.patchValue(Number.parseFloat(totPrice))
   }
 

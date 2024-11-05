@@ -44,7 +44,8 @@ export class FormReceptionReportComponent {
   clientPatch: any[] = [];
   serviceToPatch: any[] = [];
   isConfirmed: boolean = false;
-  isEditMode: boolean = false
+  isEditMode: boolean = false;
+  today = new Date().toISOString().substring(0, 10);
   AmOrPm: any = [
     { name: "AM", id: 0 },
     { name: "PM", id: 1 }
@@ -205,7 +206,9 @@ export class FormReceptionReportComponent {
       areaId: this.AddClientFileForm.get('areaId')?.value || 0,
       kitchenUsers: this.AddClientFileForm.get('kitchenUsers')?.value || 0,
       salesId: this.AddClientFileForm.get('salesId')?.value || 0,
-      fileDate: this.AddClientFileForm.get('fileDate')?.value ? new Date(this.AddClientFileForm.get('fileDate')?.value).toISOString() : new Date().toISOString(),
+      fileDate: this.AddClientFileForm.get('fileDate')?.value
+    ? new Date(this.AddClientFileForm.get('fileDate')?.value).toISOString().substring(0, 10)
+    : new Date().toISOString().substring(0, 10),
       kitchenLocation: this.AddClientFileForm.get('kitchenLocation')?.value || "string",
       kitchenknow: this.AddClientFileForm.get('kitchenknow')?.value || "string",
       devices: devicesArray.value.length > 0 ? devicesArray.value : [],
@@ -301,7 +304,9 @@ export class FormReceptionReportComponent {
   }
 
   initClientFileForm(): FormGroup {
+    const today = new Date().toISOString().substring(0, 10);
     return this._FormBuilder.group({
+      fileDate: today,
       // phone: [null, [Validators.required]],
       // wasf: [null, [Validators.required]],
       // isconfirmed: [null, [Validators.required]],
@@ -310,7 +315,7 @@ export class FormReceptionReportComponent {
       email: [null, [Validators.required]],
       areaId: [null, [Validators.required]],
       salesId: [null, [Validators.required]],
-      fileDate: [null, [Validators.required]],
+      // fileDate: ['', [Validators.required]],
       selectedDevice: [null, [Validators.required]],
       selectedBuilding: [null, [Validators.required]],
       service: [null, [Validators.required]],
