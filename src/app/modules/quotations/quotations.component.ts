@@ -147,7 +147,7 @@ export class QuotationsComponent implements OnInit {
   initSearchForm():FormGroup{
     return this._FormBuilder.group({
       clientName:[null],
-      fileTypeId:[1],
+      // fileTypeId:[1],
       finalStatusId:[null],
       userId:[null],
       PageType:[0]
