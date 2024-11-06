@@ -42,16 +42,18 @@ export class ReceptionReportComponent implements OnInit {
   }
 
   submit() {
-    const query = {
-      clientFileId: this.clientFileId,
-      statusId: this.statusId,
-      // isConfirmed: isConfirmed
-    };
-    this.recptionReportService.sendConfirmation(query).subscribe({
+    // const query = {
+    //   ClientFileId: this.clientFileId,
+    //   tostatus: 0,
+    //   // isConfirmed: isConfirmed
+    // };
+    this.recptionReportService.sendConfirmation(this.clientFileId, 0).subscribe({
       next: (response) => {
+        this.toastr.success(response.message)
         console.log('Response:', response);
       },
       error: (err) => {
+        this.toastr.error(err.message)
         console.error('Error:', err);
       },
     });

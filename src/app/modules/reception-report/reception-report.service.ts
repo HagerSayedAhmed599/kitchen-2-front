@@ -43,7 +43,9 @@ export class ReceptionReportService {
   GetAllOrderData(id: number): Observable<any> {
     return this.http.get(`${this.domain}StatusCategory/GetStatusCategoryById/${id}`)
   }
-  sendConfirmation(query): Observable<any> {
-    return this.http.post(`${this.domain}`,query);
-  }
+
+
+  sendConfirmation(clientFileId: number, tostatus: number): Observable<any> {
+    return this.http.put(`${this.domain}ClientFile/ConvertClientFile?clientFileId=${clientFileId}&tostatus=${tostatus}`, {});
+}
 }
