@@ -74,7 +74,7 @@
 
 
 
-          <div class="row mt-2" *ngIf="tableVisible" [@fadeInAnimation]>
+          <div class="row mt-2" *ngIf="tableVisible && clientList.length > 0" [@fadeInAnimation]>
             <div class="col-12">
                 <table class="w-100">
                   <table [striped]="true" cTable>

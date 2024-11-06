@@ -168,7 +168,7 @@ export class FormReceptionReportComponent {
     const devicesArray = this.AddClientFileForm.get('devices') as FormArray;
     const servicesArray = this.AddClientFileForm.get('selectedService') as FormArray;
     const clintArray = this.AddClientFileForm.get('clients') as FormArray;
-    this.selectedClient.forEach(client => {
+    this.clientList.forEach(client => {
 
       clintArray.push(
         this._FormBuilder.group({
@@ -376,6 +376,7 @@ export class FormReceptionReportComponent {
   }
 
   updateClient() {
+    this.tableVisible = true;
     if (this.clientForm.valid) {
       const index = this.clientList.findIndex((c) => c.clientId === this.clientToEdit.clientId);
       if (index > -1) {
@@ -531,7 +532,7 @@ export class FormReceptionReportComponent {
       console.log(this.selectedOptions);
 
       this.clientPatch.forEach(client => {
-        this.selectedClient.push(client)
+        this.clientList.push(client)
       })
       this.serviceToPatch.forEach(service => {
         this.selectedServices.push(service.id)
