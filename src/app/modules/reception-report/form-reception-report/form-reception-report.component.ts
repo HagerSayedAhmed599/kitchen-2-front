@@ -376,7 +376,6 @@ export class FormReceptionReportComponent {
   }
 
   updateClient() {
-    this.tableVisible = true;
     if (this.clientForm.valid) {
       const index = this.clientList.findIndex((c) => c.clientId === this.clientToEdit.clientId);
       if (index > -1) {
