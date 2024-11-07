@@ -42,7 +42,7 @@ export class ProductionRequestsComponent implements OnInit{
   Note: String = '';
   query: any = {
     PageType: 4,
-    fileTypeId: 1,
+    // fileTypeId: 1,
   }
   AddReceiveNotice!: FormGroup;
   followsVisible=false;
@@ -87,7 +87,7 @@ export class ProductionRequestsComponent implements OnInit{
   initFilterForm(): FormGroup {
     return this._FormBuilder.group({
       userId: [null],
-      fileTypeId: [null],
+      // fileTypeId: [null],
       finalStatusId: [null],
       PageType: 0,
     })
@@ -95,7 +95,7 @@ export class ProductionRequestsComponent implements OnInit{
 
   filter(event: any) {
     console.log(event.value);
-    event.value ? this.query['fileTypeId'] = event.value : this.query['fileTypeId'] = null;
+    // event.value ? this.query['fileTypeId'] = event.value : this.query['fileTypeId'] = null;
     this.GetShortClientFiles();
   }
 

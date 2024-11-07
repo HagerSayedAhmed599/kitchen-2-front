@@ -93,4 +93,10 @@ export class ContractService {
   GetContractReport(clientFileId,IsExcel=false){
     return this._HttpClient.get(`${this.domain}Report/GenerateContractReport?clientFileId=${clientFileId}&IsExcel=${IsExcel}`)
   }
+  sendConfirmation(clientFileId: number, tostatus: number): Observable<any> {
+    return this._HttpClient.put(
+      `${this.domain}ClientFile/ConvertClientFile?clientFileId=${clientFileId}&tostatus=${tostatus}`,
+      {}
+    );
+  }
 }

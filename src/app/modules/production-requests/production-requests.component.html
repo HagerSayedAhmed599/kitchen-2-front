@@ -1,7 +1,8 @@
 <c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
     <strong>طلبات الانتاج</strong>
-    <button [disabled]="!query.fileTypeId" *ngIf="isAuthorized(312)"
+    <!-- [disabled]="!query.fileTypeId" -->
+    <button  *ngIf="isAuthorized(312)"
       class="btn btn-success" routerLink="add">
       اضافة
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"

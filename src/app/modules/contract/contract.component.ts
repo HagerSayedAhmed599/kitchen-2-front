@@ -95,6 +95,19 @@ export class ContractComponent implements OnInit {
     console.log(this.device)
   }
 
+  submit() {
+    this._contractService.sendConfirmation(this.clientFileId, 4).subscribe({
+      next: (response) => {
+        this.toastr.success(`${response.message}`);
+        console.log('Response:', response);
+      },
+      error: (err) => {
+        this.toastr.error(`${err.message}`);
+        console.error('Error:', err);
+      },
+    });
+  }
+
   GetShortClientFiles() {
     this._contractService.GetShortClientFiles(this.query).subscribe({
       next: (res: any) => {

@@ -49,11 +49,11 @@ export class ReceptionReportComponent implements OnInit {
     // };
     this.recptionReportService.sendConfirmation(this.clientFileId, 0).subscribe({
       next: (response) => {
-        this.toastr.success(response.message)
+        this.toastr.success(`${response.message}`);
         console.log('Response:', response);
       },
       error: (err) => {
-        this.toastr.error(err.message)
+        this.toastr.error(`${err.message}`);
         console.error('Error:', err);
       },
     });

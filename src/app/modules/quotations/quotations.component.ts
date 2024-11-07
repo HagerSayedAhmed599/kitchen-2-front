@@ -187,6 +187,19 @@ export class QuotationsComponent implements OnInit {
       this.gettashykById(this.clientFileId);
     }
   }
+
+  submit() {
+    this._ConttactService.sendConfirmation(this.clientFileId, 1).subscribe({
+      next: (response) => {
+        this.toastr.success(`${response.message}`);
+        console.log('Response:', response);
+      },
+      error: (err) => {
+        this.toastr.error(`${err.message}`);
+        console.error('Error:', err);
+      },
+    });
+  }
   getDevices(){
     this._ConttactService.GetStatusCategoryById(19).subscribe(res=>{
       this.DevicesData=res.data.statuses
