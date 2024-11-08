@@ -10,16 +10,26 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ReportsHomeComponent } from './reports-home/reports-home.component';
 import { ContractReportsComponent } from './contract-reports/contract-reports.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { TarkeebReminderComponent } from './tarkeeb-reminder/tarkeeb-reminder.component';
+import { FollowReportComponent } from './follow-report/follow-report.component';
+import { KitchenStatusReportComponent } from './kitchen-status-report/kitchen-status-report.component';
 const routes: Routes = [
   {path:'',component: ReportsHomeComponent},
-  {path:'contractReport',component: ContractReportsComponent}
+  {path:'contractReport',component: ContractReportsComponent},
+  {path:'TarkeebReminder',component: TarkeebReminderComponent},
+  {path:'FollowReport',component: FollowReportComponent},
+  {path:'KitchenStatusReport',component: KitchenStatusReportComponent}
+
 ];
 
 
 @NgModule({
   declarations: [
     ReportsHomeComponent,
-    ContractReportsComponent
+    ContractReportsComponent,
+    TarkeebReminderComponent,
+    FollowReportComponent,
+    KitchenStatusReportComponent
   ],
   imports: [
     CommonModule,

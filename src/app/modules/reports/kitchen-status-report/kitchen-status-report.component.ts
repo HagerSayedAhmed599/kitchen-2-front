@@ -1,16 +1,16 @@
-import { ActivatedRoute } from '@angular/router';
-import { ReportsService } from './../reports.service';
 import { Component } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ReportsService } from '../reports.service';
+import { ActivatedRoute } from '@angular/router';
+import { QuotationsService } from '../../quotations/quotations.service';
 @Component({
-  selector: 'app-contract-reports',
-  templateUrl: './contract-reports.component.html',
-  styleUrls: ['./contract-reports.component.scss']
+  selector: 'app-kitchen-status-report',
+  templateUrl: './kitchen-status-report.component.html',
+  styleUrls: ['./kitchen-status-report.component.scss']
 })
-export class ContractReportsComponent {
+export class KitchenStatusReportComponent {
   base64String: string = '';
   excelBase64String: string = '';
   clientFileId: any;
@@ -24,6 +24,9 @@ export class ContractReportsComponent {
    currentDate = new Date();
  threeMonthsAgo = new Date();
  pageHeights: number[] = [];
+ isChecked=false
+  LoadFinalStatusList: any[]=[];
+  allUsersData: any[]=[];
   ngAfterViewInit(): void {
     const loadingTask = pdfjsLib.getDocument({ data: this.base64ToArrayBuffer(this.base64String) });
     loadingTask.promise.then((pdf) => {
@@ -49,6 +52,7 @@ export class ContractReportsComponent {
   constructor(
     private _ReportService: ReportsService,
     private _activatedRoute: ActivatedRoute,
+    private _QuotationsService:QuotationsService,
     private _FormBuilder:FormBuilder
   ) {
     let clientFileId: any = _activatedRoute.snapshot.queryParamMap.get('clientFileId')
@@ -57,12 +61,15 @@ export class ContractReportsComponent {
     this.FilterForm = this.filterFormGroup();
   }
   ngOnInit(): void {
-
+    this.GetLoadFinalStatusList();
+    this.GetAllUsers();
   }
   filterFormGroup(): FormGroup {
     return this._FormBuilder.group({
       DateFrom:[this.handleDate(this.threeMonthsAgo.setMonth(this.currentDate.getMonth() - 3)),Validators.required],
       DateTo:[this.handleDate(Date.now()),Validators.required],
+      UserID:[null,Validators.required],
+      FinalStatusID:[null,Validators.required],
       IsExel:[false]
     })}
   get pdfSrc() {
@@ -89,10 +96,25 @@ export class ContractReportsComponent {
     let quaryData= {
       dateFrom : this.FilterForm.get('DateFrom')?.value,
       dateTo : this.FilterForm.get('DateTo')?.value,
+      UserID:this.FilterForm.get('UserID')?.value,
+      FinalStatusID:this.FilterForm.get('FinalStatusID')?.value,
       IsExcel : this.FilterForm.get('IsExel')?.value
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
+    if(this.isChecked){
+      this._ReportService.GetKitchenStatusLogReport(quaryData).subscribe({
+        next:(res:any)=>{
+          this.base64String = res.data;
+          this.Isloading=false
+        },
+        error:(err:any)=>{
+          this.Isloading=false
+        }
+      })
+    }else{
+
+
+    this._ReportService.GetKitchenStatusReport(quaryData).subscribe({
       next:(res:any)=>{
         this.base64String = res.data;
         this.Isloading=false
@@ -100,7 +122,7 @@ export class ContractReportsComponent {
       error:(err:any)=>{
         this.Isloading=false
       }
-    })
+    })}
   }
   zoomIn() {
     this.zoom += 0.1;
@@ -148,20 +170,37 @@ export class ContractReportsComponent {
     let quaryData= {
       dateFrom : this.FilterForm.get('DateFrom')?.value,
       dateTo : this.FilterForm.get('DateTo')?.value,
-      IsExcel : true
+      UserID:this.FilterForm.get('UserID')?.value,
+      FinalStatusID:this.FilterForm.get('FinalStatusID')?.value,
+      IsExcel : this.FilterForm.get('IsExel')?.value
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
-      next:(res:any)=>{
-        this.excelBase64String = res.data;
-        const link = document.createElement('a');
-        link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + this.excelBase64String;
-        link.download = 'Document.xlsx';
-        link.click();
-      },
-      error:(err:any)=>{
-      }
-    })
+    if (this.isChecked) {
+      this._ReportService.GetKitchenStatusLogReport(quaryData).subscribe({
+        next:(res:any)=>{
+          this.excelBase64String = res.data;
+          const link = document.createElement('a');
+          link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + this.excelBase64String;
+          link.download = 'Document.xlsx';
+          link.click();
+        },
+        error:(err:any)=>{
+        }
+      })
+    }else{
+      this._ReportService.GetKitchenStatusReport(quaryData).subscribe({
+        next:(res:any)=>{
+          this.excelBase64String = res.data;
+          const link = document.createElement('a');
+          link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + this.excelBase64String;
+          link.download = 'Document.xlsx';
+          link.click();
+        },
+        error:(err:any)=>{
+        }
+      })
+    }
+
   }
   handleDate(date:any){
     let year, month, day;
@@ -225,5 +264,19 @@ export class ContractReportsComponent {
       this.page++;
       this.scrollToPage(this.page);
     }
+  }
+  GetLoadFinalStatusList() {
+    this._QuotationsService.LoadFinalStatusList(0).subscribe({
+      next: (res: any) => {
+        this.LoadFinalStatusList = res.data.statuses
+      }
+    })
+  }
+  GetAllUsers() {
+    this._QuotationsService.GetAllUsersApi().subscribe({
+      next: (res: any) => {
+        this.allUsersData = res.data
+      }
+    })
   }
 }
