@@ -29,7 +29,7 @@
             </div>
             <div class="col-3">
               <label>تصنيف المادة</label>
-              <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+              <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
               placeholder="اختر تصنيف الماده" >
             </ng-select>
             </div>
@@ -136,25 +136,25 @@
           </div>
           <div class="col-4">
             <label>التصنيف</label>
-            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+            <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
               placeholder="اختر التصنيف " >
             </ng-select>
           </div>
           <div class="col-4">
             <label>الضريبة</label>
-            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+            <ng-select [items]="tax" bindLabel="defaultDesc" bindValue="statusId"
               placeholder="اختر الضريبة " >
             </ng-select>
           </div>
           <div class="col-4">
             <label>المنشا</label>
-            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+            <ng-select [items]="origin" bindLabel="defaultDesc" bindValue="statusId"
               placeholder="اختر المنشا " >
             </ng-select>
           </div>
           <div class="col-4">
             <label>الوحدة</label>
-            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+            <ng-select [items]="units" bindLabel="defaultDesc" bindValue="statusId"
               placeholder="اختر الوحدة " >
             </ng-select>
           </div>
