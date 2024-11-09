@@ -153,6 +153,12 @@ const routes: Routes = [
           import('./views/pages/pages.module').then((m) => m.PagesModule),
         canActivate:[authGuard]
       },
+      {
+        path: 'warehouses',
+        loadChildren: () =>
+          import('./modules/warehouses/warehouses.module').then((m) => m.WarehousesModule),
+        canActivate: [authGuard]
+      },
 
     ]
   },
