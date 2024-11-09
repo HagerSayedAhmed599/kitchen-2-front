@@ -7,16 +7,39 @@
       <i class='bx bx-plus'></i>
     </button>
     <button class="btn btn-success" routerLink="/home">رجوع</button>
-
   </c-card-header>
 </c-card>
 <c-card class="mb-4 py-4">
   <c-row class="p-2">
     <c-col>
-      <c-form-check>
-        <input cFormCheckInput [checked]="true" type="radio"  />
-        <label cFormCheckLabel>المستودعات</label>
-      </c-form-check>
+      <c-card-body>
+        <form >
+        <div class="row">
+          <div class="col-4">
+            <label>اسم المورد</label>
+            <ng-select [items]=""
+                       bindLabel="clientName"
+                       bindValue="clientId"
+                       placeholder="اختر اسم المورد"
+                       formControlName="clientId"
+                       >
+            </ng-select>
+          </div>
+          <div class="col-4">
+            <label>من تاريخ</label>
+            <input aria-label="default input example" cFormControl
+                   formControlName="startDate" type="date"/>
+
+          </div>
+          <div class="col-4">
+            <label>الي تاريخ</label>
+            <input aria-label="default input example" cFormControl
+                   formControlName="endDate" type="date" />
+
+          </div>
+        </div>
+      </form>
+      </c-card-body>
     </c-col>
   </c-row>
 </c-card>
