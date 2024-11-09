@@ -130,7 +130,7 @@
 
             <td>
               <!-- ; GetAllClientFileAttachment() -->
-              <button [disabled]="!isAuthorized(280)" (click)="clientFileId = item?.clientFileId"
+              <button [disabled]="!isAuthorized(280)" (click)="clientFileId = item?.clientFileId ; this.form.reset();noteList=[]"
                 [cModalToggle]="modalXl9.id" class="btn btn-light m-0 p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-journal-arrow-up" viewBox="0 0 16 16">

@@ -337,6 +337,7 @@ export class FormQuotationComponent implements OnInit {
   count2 = 0;
   unitsItemsPrice :any=[];
   accessoriesItemsPrice :any=[];
+  unitsPrice = 0;
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     this.countTotal()
@@ -613,9 +614,11 @@ export class FormQuotationComponent implements OnInit {
     this._QuotationsService.LoadPriceForUnits(data).subscribe({
       next: (res: any) => {
         const price = res ?? 0;
-        console.log('Loaded Price:', price);
+        this.unitsPrice=price;
+        console.log('Loaded Price:', price,this.unitsPrice);
         this.items1Form.get('eachItemPrice')?.patchValue(price);
         console.log(this.items1Form.get('eachItemPrice')?.value);
+        this.getPrice1();
       },
       error: (err: any) => {
         console.error("حدث خطأ أثناء تحميل السعر:", err);
@@ -625,8 +628,9 @@ export class FormQuotationComponent implements OnInit {
   }
 
   getPrice1() {
-    let eachItemPrice = this.items1Form.get('eachItemPrice')?.value ?? 0;
-    let itemCount = this.items1Form.get('itemCount')?.value ?? 0;
+    let eachItemPrice = this.unitsPrice;
+    console.log(this.unitsPrice)
+    let itemCount = this.items1Form.get('itemCount')?.value ?? 1;
     console.log('Each Item Price:', eachItemPrice, 'Item Count:', itemCount);
     let totPrice = (eachItemPrice * itemCount).toFixed(2);
     // let totPrice = (this.items1Form.get('eachItemPrice')?.value * this.items1Form.get('itemCount')?.value??0).toFixed(2)
