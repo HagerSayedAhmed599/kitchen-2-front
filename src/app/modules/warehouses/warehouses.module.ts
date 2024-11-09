@@ -9,7 +9,8 @@ import { NgbPaginationModule, NgbToast } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { WarehousesService } from './warehouses.service';
-import { WarehousesComponent } from './warehouses/warehouses.component'
+import { WarehousesComponent } from './warehouses/warehouses.component';
+import { WarehousesFormComponent } from './warehouses-form/warehouses-form.component'
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    WarehousesComponent
+    WarehousesComponent,
+    WarehousesFormComponent
   ],
   imports: [
     CommonModule,
