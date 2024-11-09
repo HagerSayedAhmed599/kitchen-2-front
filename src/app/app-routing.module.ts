@@ -153,6 +153,23 @@ const routes: Routes = [
           import('./views/pages/pages.module').then((m) => m.PagesModule),
         canActivate:[authGuard]
       },
+      {
+        path: 'warehouses',
+        loadChildren: () =>
+          import('./modules/warehouses/warehouses.module').then((m) => m.WarehousesModule),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'supplier',
+        loadChildren: () =>
+          import('./modules/supplier/supplier.module').then((m) => m.SupplierModule),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'material',
+        loadChildren: () =>
+          import('./modules/material/material.module').then((m) => m.MaterialModule)
+      },
 
     ]
   },

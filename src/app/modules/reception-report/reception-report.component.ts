@@ -295,6 +295,7 @@ export class ReceptionReportComponent implements OnInit {
       this._QuotationsService.addTashyk(formData).subscribe({
         next: (res: any) => {
           this.toastr.success(`${res.message}`);
+          this.form.reset(),
           console.log('Data sent successfully:', res);
         },
         error: (err: any) => {

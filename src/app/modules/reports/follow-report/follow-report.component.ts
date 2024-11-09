@@ -1,16 +1,15 @@
-import { ActivatedRoute } from '@angular/router';
-import { ReportsService } from './../reports.service';
 import { Component } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ReportsService } from '../reports.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
-  selector: 'app-contract-reports',
-  templateUrl: './contract-reports.component.html',
-  styleUrls: ['./contract-reports.component.scss']
+  selector: 'app-follow-report',
+  templateUrl: './follow-report.component.html',
+  styleUrls: ['./follow-report.component.scss']
 })
-export class ContractReportsComponent {
+export class FollowReportComponent {
   base64String: string = '';
   excelBase64String: string = '';
   clientFileId: any;
@@ -63,6 +62,7 @@ export class ContractReportsComponent {
     return this._FormBuilder.group({
       DateFrom:[this.handleDate(this.threeMonthsAgo.setMonth(this.currentDate.getMonth() - 3)),Validators.required],
       DateTo:[this.handleDate(Date.now()),Validators.required],
+      TypeID:[null,Validators.required],
       IsExel:[false]
     })}
   get pdfSrc() {
@@ -89,10 +89,11 @@ export class ContractReportsComponent {
     let quaryData= {
       dateFrom : this.FilterForm.get('DateFrom')?.value,
       dateTo : this.FilterForm.get('DateTo')?.value,
+      TypeID : this.FilterForm.get('TypeID')?.value,
       IsExcel : this.FilterForm.get('IsExel')?.value
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
+    this._ReportService.GetFollowReports(quaryData).subscribe({
       next:(res:any)=>{
         this.base64String = res.data;
         this.Isloading=false
@@ -148,10 +149,11 @@ export class ContractReportsComponent {
     let quaryData= {
       dateFrom : this.FilterForm.get('DateFrom')?.value,
       dateTo : this.FilterForm.get('DateTo')?.value,
+      TypeID : this.FilterForm.get('TypeID')?.value,
       IsExcel : true
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
+    this._ReportService.GetFollowReports(quaryData).subscribe({
       next:(res:any)=>{
         this.excelBase64String = res.data;
         const link = document.createElement('a');

@@ -1,16 +1,15 @@
-import { ActivatedRoute } from '@angular/router';
-import { ReportsService } from './../reports.service';
 import { Component } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ReportsService } from '../reports.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
-  selector: 'app-contract-reports',
-  templateUrl: './contract-reports.component.html',
-  styleUrls: ['./contract-reports.component.scss']
+  selector: 'app-tarkeeb-reminder',
+  templateUrl: './tarkeeb-reminder.component.html',
+  styleUrls: ['./tarkeeb-reminder.component.scss']
 })
-export class ContractReportsComponent {
+export class TarkeebReminderComponent {
   base64String: string = '';
   excelBase64String: string = '';
   clientFileId: any;
@@ -61,8 +60,8 @@ export class ContractReportsComponent {
   }
   filterFormGroup(): FormGroup {
     return this._FormBuilder.group({
-      DateFrom:[this.handleDate(this.threeMonthsAgo.setMonth(this.currentDate.getMonth() - 3)),Validators.required],
-      DateTo:[this.handleDate(Date.now()),Validators.required],
+      Month:[1,Validators.required],
+      Week:[1,Validators.required],
       IsExel:[false]
     })}
   get pdfSrc() {
@@ -87,12 +86,12 @@ export class ContractReportsComponent {
   getContractReport(){
     this.Isloading=true
     let quaryData= {
-      dateFrom : this.FilterForm.get('DateFrom')?.value,
-      dateTo : this.FilterForm.get('DateTo')?.value,
+      Month : this.FilterForm.get('Month')?.value,
+      Week : this.FilterForm.get('Week')?.value,
       IsExcel : this.FilterForm.get('IsExel')?.value
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
+    this._ReportService.getTarkeebReminderDate(quaryData).subscribe({
       next:(res:any)=>{
         this.base64String = res.data;
         this.Isloading=false
@@ -146,12 +145,12 @@ export class ContractReportsComponent {
   }
   generateExcel(){
     let quaryData= {
-      dateFrom : this.FilterForm.get('DateFrom')?.value,
-      dateTo : this.FilterForm.get('DateTo')?.value,
+      Month : this.FilterForm.get('Month')?.value,
+      Week : this.FilterForm.get('Week')?.value,
       IsExcel : true
 
     }
-    this._ReportService.GetContractsReports(quaryData).subscribe({
+    this._ReportService.getTarkeebReminderDate(quaryData).subscribe({
       next:(res:any)=>{
         this.excelBase64String = res.data;
         const link = document.createElement('a');

@@ -110,6 +110,21 @@ export class nav{
         url: '/sanitaryConnections',
         // iconComponent: { name: 'cil-speedometer' },
       },
+      {
+        name: 'مستودعات',
+        description: 'مستودعات',
+        url: '/warehouses'
+      },
+      {
+        name: 'المورد',
+        description: 'المورد',
+        url: '/supplier'
+      },
+      {
+        name: 'المادة',
+        description: 'المادة',
+        url: '/material'
+      },
 
     ];
 
