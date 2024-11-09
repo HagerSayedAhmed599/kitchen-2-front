@@ -115,6 +115,16 @@ export class nav{
         description: 'مستودعات',
         url: '/warehouses'
       },
+      {
+        name: 'المورد',
+        description: 'المورد',
+        url: '/supplier'
+      },
+      {
+        name: 'المادة',
+        description: 'المادة',
+        url: '/material'
+      },
 
     ];
 
