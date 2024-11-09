@@ -177,6 +177,9 @@ export class ReceptionReportComponent implements OnInit {
     value['notes'] = this.Note;
     this._QuotationsService.AddFinalStatusListApi(value).subscribe({
       next: (res: any) => {
+        value['clientFileId'] = ""
+        this.statusId= 0
+        this.Note = ""
         this.toastr.success(`${res.message}`);
         this.viewImg = []
         this.uploadedImg = []
