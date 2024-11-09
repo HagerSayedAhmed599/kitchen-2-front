@@ -2,7 +2,7 @@
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
     <strong>المستودعات</strong>
     <button
-      class="btn btn-success" routerLink="form-follow" [cModalToggle]="modalXl1.id">
+      class="btn btn-success" [cModalToggle]="modalXl1.id">
       اضافة
       <i class='bx bx-plus'></i>
     </button>
@@ -21,20 +21,21 @@
                        bindLabel="clientName"
                        bindValue="clientId"
                        placeholder="اختر اسم المورد"
-                       formControlName="clientId"
                        >
             </ng-select>
           </div>
           <div class="col-4">
             <label>من تاريخ</label>
+            <!-- formControlName="startDate" -->
             <input aria-label="default input example" cFormControl
-                   formControlName="startDate" type="date"/>
+                    type="date"/>
 
           </div>
           <div class="col-4">
             <label>الي تاريخ</label>
+            <!-- formControlName="endDate" -->
             <input aria-label="default input example" cFormControl
-                   formControlName="endDate" type="date" />
+                    type="date" />
 
           </div>
         </div>
@@ -64,7 +65,7 @@
             <td></td>
             <td></td>
             <td>
-              <button routerLink="form-follow" class="btn btn-light m-0 p-2">
+              <button routerLink="" class="btn btn-light m-0 p-2">
                 <i class='bx bx-edit'></i>
               </button>
           </td>
@@ -94,7 +95,7 @@
         <h5>   فاتورة مشتريات</h5>
       </div>
       <div class="card-body">
-        <div class="row" formArrayName="unfinishedWorks">
+        <div class="row">
           <div class="col-6">
             <label> رقم الفاتوره</label>
             <input
@@ -134,7 +135,7 @@
         <div class="card-header m-0 d-flex justify-content-between">
           <h5>اضافة مادة</h5>
           <button class="btn btn-success">
-            حفظ
+            اضافة
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                  viewBox="0 0 16 16">
               <path fill-rule="evenodd"
