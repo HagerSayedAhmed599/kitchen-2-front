@@ -332,14 +332,18 @@ export class FormQuotationComponent implements OnInit {
   unitsCountsAfterDis: any;
   accessCountsAfterDis: any;
   TotalCountAfterdis: any;
-
+  count = 0;
+  count1 = 0;
+  count2 = 0;
+  unitsItemsPrice :any=[];
+  accessoriesItemsPrice :any=[];
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     this.countTotal()
   }
 
   countTotal() {
-    let count = 0;
+
     console.log(this.itemsFormArray.controls);
 
     let filtered= this.itemsFormArray.controls.filter((group: AbstractControl) => {
@@ -348,26 +352,26 @@ export class FormQuotationComponent implements OnInit {
     }) as FormGroup[];
     let filteredFormArray = new FormArray(filtered);
     console.log(filtered);
-
+    this.count=0
     for (let i = 0; i < filteredFormArray.controls.length; i++) {
 
 
-      count += filteredFormArray.controls[i]?.get('itemPrice')?.value
+      this.count += filteredFormArray.controls[i]?.get('itemPrice')?.value
 
     }
-    this.TopCount = count
-    let count1 = 0;
+    this.TopCount = this.count
+    this.count1=0
     console.log(this.myArrayAsForm1);
 
-    for (let i = 0; i < this.myArrayAsForm1.length; i++) {
-      count1 +=  this.myArrayAsForm1[i]?.get('itemPrice')?.value
+    for (let i = 0; i < this.unitsItemsPrice.length; i++) {
+      this.count1 +=  this.unitsItemsPrice[i].itemPrice
     }
-    this.unitsCounts = count1
-    let count2 = 0;
-    for (let i = 0; i < this.myArrayAsForm2.length; i++) {
-      count2 += this.myArrayAsForm2[i]?.get('itemPrice')?.value
+    this.unitsCounts = this.count1
+    this.count2=0
+    for (let i = 0; i < this.accessoriesItemsPrice.length; i++) {
+      this.count2 += this.accessoriesItemsPrice[i].itemPrice
     }
-    this.accessoriesCount=count2
+    this.accessoriesCount=this.count2
     this.totalCount=this.accessoriesCount+this.unitsCounts+this.TopCount
   }
 
@@ -660,7 +664,11 @@ export class FormQuotationComponent implements OnInit {
       unitName: this.UnitsItemsbyCategory?.filter((item: any) => item.statusId == this.items1Form.get('categoryId')?.value)[0]?.description,
     })
     console.log('mmm',this.items1Form);
-
+    let itemPrice={
+     "itemId":this.items1Form.get('itemId')?.value,
+     "itemPrice":this.items1Form.get('itemPrice')?.value??0.0
+    }
+    this.unitsItemsPrice.push(itemPrice)
     // this.items1Form.get('categoryId')?.patchValue(0)
     // this.items1Form.get('itemPrice')?.patchValue(0.0)
       this.selectUnit.focus();
@@ -680,10 +688,16 @@ export class FormQuotationComponent implements OnInit {
       categoryId: this.items2Form.get('categoryId')?.value,
       unit: this.loadPriceOffer['accessories']?.statuses.filter((item: any) => item.statusId == this.items2Form.get('itemId')?.value)[0]?.description,
     })
+    let itemPrice={
+      "itemId":this.items2Form.get('itemId')?.value,
+      "itemPrice":this.items2Form.get('itemPrice')?.value??0.0
+     }
+     this.accessoriesItemsPrice.push(itemPrice)
     console.log(this.myArrayAsForm2);
 
     console.log(this.myArray2);
-    this.items2Form.reset();
+    this.items2Form.get('itemId')?.patchValue('')
+    // this.items2Form.reset();
 
   }
 
@@ -711,7 +725,7 @@ export class FormQuotationComponent implements OnInit {
     this.myArrayAsForm1.splice(index, 1);
     this.myArray1.splice(index, 1);
     this.myViewArray1.splice(index, 1);
-
+    this.unitsItemsPrice.splice(index,1)
   }
 
   deleteAccessories(index: number) {
