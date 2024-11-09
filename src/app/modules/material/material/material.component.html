@@ -1,8 +1,8 @@
-<!-- <c-card class="mb-4">
+<c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
-    <strong>المستودعات</strong>
+    <strong>المادة</strong>
     <button
-      class="btn btn-success" routerLink="form-follow" [cModalToggle]="modalXl1.id">
+      class="btn btn-success" [cModalToggle]="modalXl1.id">
       اضافة
       <i class='bx bx-plus'></i>
     </button>
@@ -14,30 +14,43 @@
     <c-col>
       <c-card-body>
         <form >
-        <div class="row">
-          <div class="col-4">
-            <label>اسم المورد</label>
-            <ng-select [items]=""
-                       bindLabel="clientName"
-                       bindValue="clientId"
-                       placeholder="اختر اسم المورد"
-                       formControlName="clientId"
-                       >
+          <div class="row">
+            <div class="col-3">
+              <label>المادة</label>
+              <input aria-label="default input example"
+              cFormControl
+              type="text">
+            </div>
+            <div class="col-3">
+              <label>رمز المادة</label>
+              <input aria-label="default input example"
+              cFormControl
+              type="text">
+            </div>
+            <div class="col-3">
+              <label>تصنيف المادة</label>
+              <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر تصنيف الماده" >
             </ng-select>
-          </div>
-          <div class="col-4">
-            <label>من تاريخ</label>
-            <input aria-label="default input example" cFormControl
-                   formControlName="startDate" type="date"/>
+            </div>
+            <div class="col-2">
+              <div>
+                <button class="btn btn-success mt-4">بحث</button>
+              </div>
+            </div>
+            <!-- <div class="col-4">
+              <label>من تاريخ</label>
+              <input aria-label="default input example" cFormControl
+                      type="date"/>
 
-          </div>
-          <div class="col-4">
-            <label>الي تاريخ</label>
-            <input aria-label="default input example" cFormControl
-                   formControlName="endDate" type="date" />
+            </div>
+            <div class="col-4">
+              <label>الي تاريخ</label>
+              <input aria-label="default input example" cFormControl
+                      type="date" />
 
+            </div> -->
           </div>
-        </div>
       </form>
       </c-card-body>
     </c-col>
@@ -49,10 +62,11 @@
       <table [striped]="true" cTable>
         <thead>
           <tr>
-            <th scope="col">رقم الفاتوره</th>
-            <th scope="col">اسم المورد</th>
-            <th scope="col">تاريخ الفاتوره</th>
-            <th scope="col">المجموع الكلي</th>
+            <th scope="col">المادة</th>
+            <th scope="col">رمز المادة</th>
+            <th scope="col">تصنيف المادة</th>
+            <th scope="col">سعر المادة الافتراضي</th>
+            <th scope="col">نوع الضريبة</th>
             <th scope="col">تعديل</th>
             <th scope="col">حذف</th>
           </tr>
@@ -63,8 +77,9 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
             <td>
-              <button routerLink="form-follow" class="btn btn-light m-0 p-2">
+              <button routerLink="" class="btn btn-light m-0 p-2">
                 <i class='bx bx-edit'></i>
               </button>
           </td>
@@ -84,144 +99,68 @@
 
 <c-modal #modalXl1 id="modalXl1" size="xl">
   <c-modal-header>
-    <h5 cModalTitle> فاتورة مشتريات</h5>
+    <h5 cModalTitle>المادة</h5>
     <button class="mx-0" [cModalToggle]="modalXl1.id" cButtonClose></button>
   </c-modal-header>
   <form>
   <c-modal-body>
     <div class="card">
       <div class="card-header">
-        <h5>   فاتورة مشتريات</h5>
+        <h5>اضافة مادة</h5>
       </div>
       <div class="card-body">
-        <div class="row" formArrayName="unfinishedWorks">
-          <div class="col-6">
-            <label> رقم الفاتوره</label>
+        <div class="row">
+          <div class="col-4">
+            <label>المادة</label>
             <input
               aria-label="default input example"
               cFormControl
               type="text"
             />
           </div>
-          <div class="col-6">
-            <label> تاريخ الفاتوره</label>
+          <div class="col-4">
+            <label>سعر المادة الافتراضي</label>
             <input
               aria-label="default input example"
               cFormControl
-              type="date"
+              type="text"
             />
           </div>
-          <div class="col-6">
-            <label> اسم المورد</label>
+          <div class="col-4">
+            <label>اقل كميه ممكنه</label>
+            <input
+              aria-label="default input example"
+              cFormControl
+              type="text"
+            />
+          </div>
+          <div class="col-4">
+            <label>التصنيف</label>
             <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر اسم المورد" >
+              placeholder="اختر التصنيف " >
             </ng-select>
           </div>
-          <div class="col-6">
-            <label> ملاحظة</label>
-            <input
-              aria-label="default input example"
-              cFormControl
-              type="text"
-            />
+          <div class="col-4">
+            <label>الضريبة</label>
+            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر الضريبة " >
+            </ng-select>
+          </div>
+          <div class="col-4">
+            <label>المنشا</label>
+            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر المنشا " >
+            </ng-select>
+          </div>
+          <div class="col-4">
+            <label>الوحدة</label>
+            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر الوحدة " >
+            </ng-select>
           </div>
         </div>
       </div>
     </div>
-    <form >
-    <c-col class="mx-2 my-4">
-      <div class="card">
-        <div class="card-header m-0 d-flex justify-content-between">
-          <h5>اضافة مادة</h5>
-          <button class="btn btn-success">
-            حفظ
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
-                 viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-            </svg>
-          </button>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-4">
-              <label> الماده</label>
-              <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر الماده" >
-            </ng-select>
-            </div>
-            <div class="col-4">
-              <label> العدد</label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="text"
-              />
-            </div>
-            <div class="col-4">
-              <label> السعر</label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="text"
-              />
-            </div>
-            <div class="col-4">
-              <label> الضريبة</label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="text"
-              />
-            </div>
-            <div class="col-4">
-              <label> البونص</label>
-              <input
-                aria-label="default input example"
-                cFormControl
-                type="text"
-              />
-            </div>
-           </div>
-
-
-
-          <div class="row mt-2">
-            <div class="col-12">
-                <table class="w-100">
-                  <table [striped]="true" cTable>
-                    <thead>
-                    <tr>
-                      <th scope="col">الملاحظة</th>
-                      <th scope="col">تعديل</th>
-                      <th>حذف</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td></td>
-                      <td>
-                        <button cButton class="btn btn-light m-0 p-2" >
-                          <svg cIcon name="cil-pencil"></svg>
-                        </button>
-                      </td>
-                      <td>
-                        <button cButton class="btn btn-danger m-0 p-2"  >
-                          <svg cIcon name="cil-trash"></svg>
-                        </button>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </table>
-            </div>
-        </div>
-
-
-        </div>
-      </div>
-    </c-col>
-    </form>
     <div class="row">
     <div class="col-6 text-center mt-4">
       <button
@@ -244,4 +183,4 @@
   </div>
   </c-modal-body>
 </form>
-</c-modal> -->
+</c-modal>

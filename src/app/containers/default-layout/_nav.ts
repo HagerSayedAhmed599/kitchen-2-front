@@ -112,7 +112,7 @@ export class nav{
       },
       {
         name: 'مستودعات',
-        description: 'مستودعات',
+        description: 'المستودع',
         url: '/warehouses'
       },
       {
