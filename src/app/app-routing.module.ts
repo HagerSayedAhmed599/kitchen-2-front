@@ -159,6 +159,12 @@ const routes: Routes = [
           import('./modules/warehouses/warehouses.module').then((m) => m.WarehousesModule),
         canActivate: [authGuard]
       },
+      {
+        path: 'supplier',
+        loadChildren: () =>
+          import('./modules/supplier/supplier.module').then((m) => m.SupplierModule),
+        canActivate: [authGuard]
+      },
 
     ]
   },
