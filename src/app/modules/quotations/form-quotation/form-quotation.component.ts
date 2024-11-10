@@ -547,7 +547,7 @@ export class FormQuotationComponent implements OnInit {
       itemTypeId: [4, [Validators.required]],
       itemPrice: [0.0],
       eachItemPrice: [null],
-      notes: [null],
+      notes: [''],
       categoryId: 16
     })
   }
@@ -700,7 +700,7 @@ export class FormQuotationComponent implements OnInit {
     console.log(this.myArrayAsForm2);
 
     console.log(this.myArray2);
-    this.items2Form.get('itemId')?.patchValue('')
+    //this.items2Form.get('itemId')?.patchValue('')
     // this.items2Form.reset();
 
   }
