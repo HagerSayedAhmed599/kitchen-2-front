@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  domain: string = 'http://194.163.132.242:8080/api/';
+  domain: string = 'http://194.163.132.242:8181/api/';
 
   constructor(@Inject(Injector) private readonly injector: Injector) { }
   private get authService() {
