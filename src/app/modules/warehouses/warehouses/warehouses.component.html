@@ -88,7 +88,7 @@
     <h5 cModalTitle> فاتورة مشتريات</h5>
     <button class="mx-0" [cModalToggle]="modalXl1.id" cButtonClose></button>
   </c-modal-header>
-  <form>
+  <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
   <c-modal-body>
     <div class="card">
       <div class="card-header">
@@ -102,6 +102,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="invoiceNumber"
             />
           </div>
           <div class="col-6">
@@ -110,12 +111,13 @@
               aria-label="default input example"
               cFormControl
               type="date"
+              formControlName="invoiceDate"
             />
           </div>
           <div class="col-6">
             <label> اسم المورد</label>
-            <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر اسم المورد" >
+            <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر اسم المورد" formControlName="supplierName">
             </ng-select>
           </div>
           <div class="col-6">
@@ -124,17 +126,18 @@
               aria-label="default input example"
               cFormControl
               type="text"
+               formControlName="note"
             />
           </div>
         </div>
       </div>
     </div>
-    <form >
+    <form [formGroup]="addItemForm">
     <c-col class="mx-2 my-4">
       <div class="card">
         <div class="card-header m-0 d-flex justify-content-between">
           <h5>اضافة مادة</h5>
-          <button class="btn btn-success">
+          <button class="btn btn-success" [disabled]="addItemForm.invalid"  (click)="isEditMode ? updateItem() : addItem()">
             اضافة
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                  viewBox="0 0 16 16">
@@ -147,8 +150,8 @@
           <div class="row">
             <div class="col-4">
               <label> الماده</label>
-              <ng-select [items]="" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر الماده" >
+              <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
+              placeholder="اختر الماده" formControlName="material">
             </ng-select>
             </div>
             <div class="col-4">
@@ -157,6 +160,7 @@
                 aria-label="default input example"
                 cFormControl
                 type="text"
+                formControlName="quantity"
               />
             </div>
             <div class="col-4">
@@ -165,6 +169,7 @@
                 aria-label="default input example"
                 cFormControl
                 type="text"
+                formControlName="price"
               />
             </div>
             <div class="col-4">
@@ -173,6 +178,7 @@
                 aria-label="default input example"
                 cFormControl
                 type="text"
+                formControlName="tax"
               />
             </div>
             <div class="col-4">
@@ -181,37 +187,47 @@
                 aria-label="default input example"
                 cFormControl
                 type="text"
+                formControlName="bonus"
               />
             </div>
            </div>
 
 
 
-          <div class="row mt-2">
+          <div class="row mt-2" *ngIf="tableVisible">
             <div class="col-12">
                 <table class="w-100">
                   <table [striped]="true" cTable>
                     <thead>
                     <tr>
-                      <th scope="col">الملاحظة</th>
+                      <th scope="col">الماده</th>
+                      <th scope="col">العدد</th>
+                      <th scope="col">السعر</th>
+                      <th scope="col">الضريبة</th>
+                      <th scope="col">البونص</th>
                       <th scope="col">تعديل</th>
                       <th>حذف</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td></td>
-                      <td>
-                        <button cButton class="btn btn-light m-0 p-2" >
-                          <svg cIcon name="cil-pencil"></svg>
-                        </button>
-                      </td>
-                      <td>
-                        <button cButton class="btn btn-danger m-0 p-2"  >
-                          <svg cIcon name="cil-trash"></svg>
-                        </button>
-                      </td>
-                    </tr>
+                      <tr *ngFor="let item of itemsList">
+                        <td>{{ item.material}}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.tax }}</td>
+                        <td>{{ item.bonus }}</td>
+
+                        <td>
+                          <button cButton class="btn btn-light m-0 p-2" (click)="editItem(item)">
+                            <svg cIcon name="cil-pencil"></svg>
+                          </button>
+                        </td>
+                        <td>
+                          <button cButton class="btn btn-danger m-0 p-2" (click)="removeItem(item)">
+                            <svg cIcon name="cil-trash"></svg>
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </table>
@@ -228,6 +244,7 @@
       <button
         class="btn btn-success"
         type="submit"
+        (click)="onSubmit"
       >
         حفظ
       </button>
@@ -237,7 +254,6 @@
         class="btn btn-success"
         [cModalToggle]=""
         cModalClose
-
       >
         عودة
       </button>

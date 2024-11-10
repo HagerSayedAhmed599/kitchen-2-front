@@ -111,7 +111,7 @@ export class nav{
         // iconComponent: { name: 'cil-speedometer' },
       },
       {
-        name: 'مستودعات',
+        name: 'فاتورة مشتريات',
         description: 'المستودع',
         url: '/warehouses'
       },
