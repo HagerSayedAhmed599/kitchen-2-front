@@ -32,7 +32,8 @@ export class WarehousesComponent implements OnInit{
       quantity: ['', Validators.required],
       price: ['', Validators.required],
       tax: ['', Validators.required],
-      bonus: ['', Validators.required]
+      bonus: ['', Validators.required],
+      discount: ['', Validators.required]
     })
 
   }
@@ -50,8 +51,6 @@ export class WarehousesComponent implements OnInit{
   onSubmit() {
     console.log('form',this.purchaseForm.value);
 
-
-
     const itemArray = this.purchaseForm.get('items') as FormArray;
     itemArray.clear();
     this.itemsList.forEach(item => {
@@ -63,7 +62,8 @@ export class WarehousesComponent implements OnInit{
           quantity: [item.quantity, Validators.required],
           price: [item.price, Validators.required],
           tax: [item.tax, Validators.required],
-          bonus: [item.bonus, Validators.required]
+          bonus: [item.bonus, Validators.required],
+          discount: [item.discount, Validators.required]
         })
       )
 
@@ -96,6 +96,7 @@ export class WarehousesComponent implements OnInit{
         price: this.addItemForm.get('price')?.value,
         tax: this.addItemForm.get('tax')?.value,
         bonus: this.addItemForm.get('bonus')?.value,
+        discount: this.addItemForm.get('discount')?.value,
         itemId: this.itemsList.length + 1
       };
       this.itemsList.push(newItem);
