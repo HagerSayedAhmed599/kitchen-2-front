@@ -2,7 +2,7 @@
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
     <strong>المادة</strong>
     <button
-      class="btn btn-success" [cModalToggle]="modalXl1.id">
+      class="btn btn-success" [cModalToggle]="modalXl1.id" (click)="resetForm()">
       اضافة
       <i class='bx bx-plus'></i>
     </button>
@@ -13,29 +13,29 @@
   <c-row class="p-2">
     <c-col>
       <c-card-body>
-        <form >
+        <form [formGroup]="SearchForm">
           <div class="row">
             <div class="col-3">
               <label>المادة</label>
               <input aria-label="default input example"
               cFormControl
-              type="text">
+              type="text" formControlName="ItemName">
             </div>
             <div class="col-3">
               <label>رمز المادة</label>
               <input aria-label="default input example"
               cFormControl
-              type="text">
+              type="text" formControlName="ItemNo">
             </div>
             <div class="col-3">
               <label>تصنيف المادة</label>
               <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر تصنيف الماده" >
+              placeholder="اختر تصنيف الماده" formControlName="ItemCategoryID">
             </ng-select>
             </div>
             <div class="col-2">
               <div>
-                <button class="btn btn-success mt-4">بحث</button>
+                <button class="btn btn-success mt-4" (click)="Filter()">بحث</button>
               </div>
             </div>
             <!-- <div class="col-4">
@@ -72,19 +72,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let material of materials">
+            <td>{{material.itemName}}</td>
+            <td>{{material.itemNo}}</td>
+            <td>{{material.itemCategoryId}}</td>
+            <td>{{material.singleItemCost}}</td>
+            <td>{{material.taxTypeId}}</td>
             <td>
-              <button routerLink="" class="btn btn-light m-0 p-2">
+              <button class="btn btn-light m-0 p-2" [cModalToggle]="modalXl1.id" (click)="getMaterialById(material.itemId)">
                 <i class='bx bx-edit'></i>
               </button>
           </td>
           <td>
-          <button  class="btn btn-light m-0 p-2">
+          <button  class="btn btn-danger m-0 p-2" (click)="deleteMaterial(material.itemId)">
             <i class='bx bx-trash'></i>
           </button>
         </td>
@@ -102,7 +102,7 @@
     <h5 cModalTitle>المادة</h5>
     <button class="mx-0" [cModalToggle]="modalXl1.id" cButtonClose></button>
   </c-modal-header>
-  <form>
+  <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <c-modal-body>
     <div class="card">
       <div class="card-header">
@@ -116,6 +116,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="name"
             />
           </div>
           <div class="col-4">
@@ -124,6 +125,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="price"
             />
           </div>
           <div class="col-4">
@@ -132,30 +134,32 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="minItemAmount"
             />
           </div>
           <div class="col-4">
             <label>التصنيف</label>
+            <!-- formControlName="itemCategoryId" -->
             <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر التصنيف " >
+              placeholder="اختر التصنيف " formControlName="type">
             </ng-select>
           </div>
           <div class="col-4">
             <label>الضريبة</label>
             <ng-select [items]="tax" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر الضريبة " >
+              placeholder="اختر الضريبة " formControlName="tax" >
             </ng-select>
           </div>
           <div class="col-4">
             <label>المنشا</label>
             <ng-select [items]="origin" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر المنشا " >
+              placeholder="اختر المنشا " formControlName="country_id">
             </ng-select>
           </div>
           <div class="col-4">
             <label>الوحدة</label>
             <ng-select [items]="units" bindLabel="defaultDesc" bindValue="statusId"
-              placeholder="اختر الوحدة " >
+              placeholder="اختر الوحدة " formControlName="unit_id" >
             </ng-select>
           </div>
         </div>
@@ -166,6 +170,9 @@
       <button
         class="btn btn-success"
         type="submit"
+        [cModalToggle]=""
+        cModalClose
+        (click)="onSubmit()"
       >
         حفظ
       </button>
