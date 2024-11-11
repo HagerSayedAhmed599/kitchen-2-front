@@ -13,7 +13,7 @@ export class SupplierComponent implements OnInit{
   isEditMode: boolean = false;
   suppliers: any[] = [];
   SearchForm:FormGroup;
-  clientId: number;
+  clientId: number | null = null;
 
   constructor(private supplierService: SupplierService,private fb: FormBuilder,    private toastr: ToastrService ){
     this.supplierForm = this.fb.group({

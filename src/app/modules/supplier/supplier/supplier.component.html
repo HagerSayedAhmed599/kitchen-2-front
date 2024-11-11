@@ -136,6 +136,9 @@
         class="btn btn-success"
         type="submit"
         [disabled]="supplierForm.invalid"
+        [cModalToggle]=""
+        cModalClose
+        (click)="onSubmit()"
       >
         حفظ
       </button>
@@ -171,7 +174,6 @@
     <div class="col-6 text-center mt-4">
       <button
         class="btn btn-success"
-
       >
         نعم
       </button>
