@@ -2,7 +2,7 @@
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
     <strong>المورد</strong>
     <button
-      class="btn btn-success" [cModalToggle]="modalXl1.id">
+      class="btn btn-success" [cModalToggle]="modalXl1.id" (click)="resetForm()">
       اضافة
       <i class='bx bx-plus'></i>
     </button>
@@ -13,23 +13,23 @@
   <c-row class="p-2">
     <c-col>
       <c-card-body>
-        <form >
+        <form [formGroup]="SearchForm">
         <div class="row">
           <div class="col-4">
             <label>اسم المورد</label>
             <input aria-label="default input example"
             cFormControl
-            type="text">
+            type="text" formControlName="name">
           </div>
           <div class="col-4">
             <label>رقم الهاتف</label>
             <input aria-label="default input example"
             cFormControl
-            type="text">
+            type="text" formControlName="phonenumber">
           </div>
           <div class="col-2">
             <div>
-              <button class="btn btn-success mt-4">بحث</button>
+              <button class="btn btn-success mt-4" (click)="Filter()">بحث</button>
             </div>
           </div>
           <!-- <div class="col-4">
@@ -64,17 +64,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let supplier of suppliers">
+            <td>{{supplier.clientName}}</td>
+            <td>{{supplier.clientAddress}}</td>
+            <td>{{supplier.clientPhone}}</td>
             <td>
-              <button routerLink="" class="btn btn-light m-0 p-2">
+              <button class="btn btn-light m-0 p-2" [cModalToggle]="modalXl1.id" (click)="getSupplierById(supplier.clientId)">
                 <i class='bx bx-edit'></i>
               </button>
           </td>
           <td>
-          <button  class="btn btn-light m-0 p-2">
+          <button  class="btn btn-light m-0 p-2" [cModalToggle]="modalXl2.id" >
             <i class='bx bx-trash'></i>
           </button>
         </td>
@@ -92,7 +92,7 @@
     <h5 cModalTitle>المورد</h5>
     <button class="mx-0" [cModalToggle]="modalXl1.id" cButtonClose></button>
   </c-modal-header>
-  <form>
+  <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
   <c-modal-body>
     <div class="card">
       <div class="card-header">
@@ -106,6 +106,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="name"
             />
           </div>
           <div class="col-6">
@@ -114,6 +115,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="phone"
             />
           </div>
           <div class="col-6">
@@ -122,6 +124,7 @@
               aria-label="default input example"
               cFormControl
               type="text"
+              formControlName="address"
             />
           </div>
         </div>
@@ -132,6 +135,7 @@
       <button
         class="btn btn-success"
         type="submit"
+        [disabled]="supplierForm.invalid"
       >
         حفظ
       </button>
@@ -141,7 +145,6 @@
         class="btn btn-success"
         [cModalToggle]=""
         cModalClose
-
       >
         عودة
       </button>
@@ -149,4 +152,39 @@
   </div>
   </c-modal-body>
 </form>
+</c-modal>
+
+
+
+<c-modal #modalXl2 id="modalXl2" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>المورد</h5>
+    <button class="mx-0" [cModalToggle]="modalXl2.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>هل أنت متأكد من حذف هذا المورد</h5>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+
+      >
+        نعم
+      </button>
+    </div>
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        [cModalToggle]=""
+        cModalClose
+      >
+        عودة
+      </button>
+    </div>
+  </div>
+  </c-modal-body>
 </c-modal>
