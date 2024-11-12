@@ -29,8 +29,8 @@ export class MaterialComponent {
       // iscount: ['', Validators.required],
     });
     this.SearchForm = this.fb.group({
-      ItemName: [null],
-      ItemNo: [null],
+      itemname: [null],
+      itemno: [null],
       ItemCategoryID: [null]
     });
   }
@@ -126,8 +126,8 @@ export class MaterialComponent {
       );
     }
 
-    deleteMaterial(id: number) {
-      this.materialService.DeleteMaterial(id).subscribe(
+    deleteMaterial() {
+      this.materialService.DeleteMaterial(this.itemId).subscribe(
         (response: any) => {
           this.toastr.success(`${response.message}`);
           this.GetAllMaterialData();

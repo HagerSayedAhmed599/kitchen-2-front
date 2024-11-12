@@ -19,13 +19,13 @@
               <label>المادة</label>
               <input aria-label="default input example"
               cFormControl
-              type="text" formControlName="ItemName">
+              type="text" formControlName="itemname">
             </div>
             <div class="col-3">
               <label>رمز المادة</label>
               <input aria-label="default input example"
               cFormControl
-              type="text" formControlName="ItemNo">
+              type="text" formControlName="itemno">
             </div>
             <div class="col-3">
               <label>تصنيف المادة</label>
@@ -84,7 +84,7 @@
               </button>
           </td>
           <td>
-          <button  class="btn btn-danger m-0 p-2" (click)="deleteMaterial(material.itemId)">
+          <button  class="btn btn-danger m-0 p-2" [cModalToggle]="modalXl2.id" (click)="getMaterialById(material.itemId)">
             <i class='bx bx-trash'></i>
           </button>
         </td>
@@ -190,4 +190,40 @@
   </div>
   </c-modal-body>
 </form>
+</c-modal>
+
+
+<c-modal #modalXl2 id="modalXl2" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>المورد</h5>
+    <button class="mx-0" [cModalToggle]="modalXl2.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>هل أنت متأكد من حذف هذا المورد</h5>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        (click)="deleteMaterial()"
+        [cModalToggle]=""
+        cModalClose
+      >
+        نعم
+      </button>
+    </div>
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        [cModalToggle]=""
+        cModalClose
+      >
+        عودة
+      </button>
+    </div>
+  </div>
+  </c-modal-body>
 </c-modal>
