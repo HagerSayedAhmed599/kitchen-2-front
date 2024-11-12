@@ -108,9 +108,8 @@ export class SupplierComponent implements OnInit{
     );
   }
 
-  deleteSupplier(id: number) {
-    const token = 'YOUR_JWT_TOKEN_HERE';
-    this.supplierService.DeleteSupplier(id).subscribe(
+  deleteSupplier() {
+    this.supplierService.DeleteSupplier(this.clientId).subscribe(
       (response: any) => {
         this.toastr.success(`${response.message}`);
         this.GetAllSupplierData();
