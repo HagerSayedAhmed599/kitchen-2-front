@@ -1,8 +1,8 @@
 <c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center py-4">
-    <strong>المستودعات</strong>
+    <strong>فاتورة مشتريات</strong>
     <button
-      class="btn btn-success" [cModalToggle]="modalXl1.id">
+      class="btn btn-success" [cModalToggle]="modalXl1.id" (click)="resetForm()">
       اضافة
       <i class='bx bx-plus'></i>
     </button>
@@ -15,7 +15,7 @@
       <c-card-body>
         <form [formGroup]="SearchForm">
         <div class="row">
-          <div class="col-4">
+          <div class="col-3">
             <label>اسم المورد</label>
             <ng-select [items]="suppliers"
                        bindLabel="clientName"
@@ -25,19 +25,24 @@
                        >
             </ng-select>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <label>من تاريخ</label>
             <!-- formControlName="startDate" -->
             <input aria-label="default input example" cFormControl
                     type="date" formControlName="from" />
 
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <label>الي تاريخ</label>
             <!-- formControlName="endDate" -->
             <input aria-label="default input example" cFormControl
                     type="date" formControlName="to" />
 
+          </div>
+          <div class="col-2">
+            <div>
+              <button class="btn btn-success mt-4" (click)="Filter()">بحث</button>
+            </div>
           </div>
         </div>
       </form>
@@ -66,12 +71,12 @@
             <td>{{warehouse.inv_date | date}}</td>
             <td>{{warehouse.totalamount}}</td>
             <td>
-              <button routerLink="" class="btn btn-light m-0 p-2">
+              <button class="btn btn-light m-0 p-2" [cModalToggle]="modalXl1.id" (click)="getSupplierById(warehouse.id)">
                 <i class='bx bx-edit'></i>
               </button>
           </td>
           <td>
-          <button  class="btn btn-light m-0 p-2">
+          <button  class="btn btn-danger m-0 p-2" (click)="deleteWarehouses(warehouse.id)">
             <i class='bx bx-trash'></i>
           </button>
         </td>
@@ -252,7 +257,9 @@
       <button
         class="btn btn-success"
         type="submit"
-        (click)="onSubmit"
+        [cModalToggle]=""
+        cModalClose
+        (click)="onSubmit()"
       >
         حفظ
       </button>

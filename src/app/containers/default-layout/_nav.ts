@@ -117,12 +117,12 @@ export class nav{
       },
       {
         name: 'المورد',
-        description: 'المورد',
+        description: 'عرض الموردين',
         url: '/supplier'
       },
       {
         name: 'المادة',
-        description: 'المادة',
+        description: 'عرض المواد',
         url: '/material'
       },
 

@@ -24,6 +24,7 @@ export class WarehousesComponent implements OnInit{
   warehouses: any[] = [];
   suppliers: any[] = [];
   materials: any[] = [];
+  itemId: number | null = null;
 
   constructor(private warehousesService: WarehousesService, private fb: FormBuilder, private toastr: ToastrService,private supplierService: SupplierService, private materialService: MaterialService){
     this.purchaseForm = this.fb.group({
@@ -90,6 +91,7 @@ export class WarehousesComponent implements OnInit{
       }
     })
   }
+
   GetAllMaterialData() {
     console.log(this.SearchForm.value);
 
@@ -97,6 +99,19 @@ export class WarehousesComponent implements OnInit{
       next: (res: any) => {
         this.materials = res.data
         console.log('mmm',this.materials);
+        this.addItemForm.get('material')?.valueChanges.subscribe(selectedMaterialId => {
+          const selectedMaterial = this.materials.find(mat => mat.itemId === selectedMaterialId);
+          if (selectedMaterial) {
+            // قم بملء الحقول بناءً على المادة المختارة
+            this.addItemForm.patchValue({
+              quantity: selectedMaterial.isCounted,
+              price: selectedMaterial.minItemAmount,
+              tax: selectedMaterial.tax,
+              bonus: selectedMaterial.bonus,
+              discount: selectedMaterial.discount
+            });
+          }
+        });
 
       },
       error: (err: any) => {
@@ -107,21 +122,69 @@ export class WarehousesComponent implements OnInit{
       }
     })
   }
+
+  getSupplierById(id: number) {
+    this.warehousesService.getWarehousesById(id).subscribe((res: any) => {
+      console.log(res);
+      this.itemId = res.data.inv_id;
+      console.log(this.itemId);
+
+      let warehousesData = res.data;
+      console.log(warehousesData);
+
+        this.purchaseForm.patchValue({
+          invoiceNumber: warehousesData.invoiceNumber,
+          invoiceDate: new Date(warehousesData.invoiceDate).toISOString().split('T')[0],
+          supplierName: warehousesData.supplierName,
+          note: warehousesData.note
+        });
+        this.addItemForm.patchValue({
+          material: warehousesData.items.material,
+          quantity: warehousesData.items.quantity,
+          price: warehousesData.items.price,
+          tax: warehousesData.items.tax,
+          bonus: warehousesData.items.bonus,
+          discount: warehousesData.items.discount
+        })
+      },
+      (error) => {
+        console.error('Error fetching supplier data:', error);
+      }
+    );
+  }
+
+
+  deleteWarehouses(id: number) {
+    this.warehousesService.DeleteWarehouses(id).subscribe(
+      (response: any) => {
+        this.toastr.success(`${response.message}`);
+        this.GetAllWarehousesData();
+        console.log('Client deleted successfully', response);
+      },
+      (error) => {
+        console.error('Error deleting client:', error);
+      }
+    );
+  }
   getAllRatingData() {
     this.warehousesService.GetAllRatingData(314).subscribe(data => {
       this.rating = data.data.statuses
     })
   }
+  resetForm() {
+    this.purchaseForm.reset();
+    this.itemId = null;
+  }
   onSubmit() {
-    console.log('form',this.purchaseForm.value);
+    console.log('form', this.purchaseForm.value);
 
+    // تجهيز العناصر للـ FormArray
     const itemArray = this.purchaseForm.get('items') as FormArray;
     itemArray.clear();
     this.itemsList.forEach(item => {
-
       itemArray.push(
         this.fb.group({
-          itemId: [0, Validators.required],
+          itemId: [item.itemId, Validators.required],
           material: [item.material, Validators.required],
           quantity: [item.quantity, Validators.required],
           price: [item.price, Validators.required],
@@ -130,13 +193,13 @@ export class WarehousesComponent implements OnInit{
           discount: [item.discount, Validators.required]
         })
       )
+    });
 
-    })
-
+    // تجهيز بيانات الشراء
     const purchaseData = {
       invoiceDate: this.purchaseForm.get('invoiceDate')?.value
-    ? new Date(this.purchaseForm.get('invoiceDate')?.value).toISOString().substring(0, 10)
-    : new Date().toISOString().substring(0, 10),
+        ? new Date(this.purchaseForm.get('invoiceDate')?.value).toISOString().substring(0, 10)
+        : new Date().toISOString().substring(0, 10),
       invoiceNumber: this.purchaseForm.get('invoiceNumber')?.value || "string",
       supplierName: this.purchaseForm.get('supplierName')?.value || "string",
       note: this.purchaseForm.get('note')?.value || "string",
@@ -145,12 +208,34 @@ export class WarehousesComponent implements OnInit{
 
     console.log('Form Data:', purchaseData);
 
-    this.warehousesService.AddWarehouses(purchaseData).subscribe(res => {
-      this.toastr.success("added")
-    }, err => {
-      this.toastr.error(err.errors[0])
-    })
+    // التحقق من وجود itemId لتحديد ما إذا كان سيتم تنفيذ إضافة أو تحديث
+    purchaseData.items.forEach((item: any) => {
+      if (item.itemId) {
+        // تنفيذ التحديث إذا كان itemId موجود
+        this.warehousesService.updateWarehouses(item.itemId, this.purchaseForm.value).subscribe(
+          res => {
+            this.toastr.success("تم التحديث بنجاح");
+            this.GetAllWarehousesData();
+          },
+          err => {
+            this.toastr.error("خطأ في التحديث: " + err.errors[0]);
+          }
+        );
+      } else {
+        // تنفيذ الإضافة إذا كان itemId فارغ
+        this.warehousesService.AddWarehouses(purchaseData).subscribe(
+          res => {
+            this.toastr.success("تمت الإضافة بنجاح");
+            this.GetAllWarehousesData();
+          },
+          err => {
+            this.toastr.error("خطأ في الإضافة: " + err.errors[0]);
+          }
+        );
+      }
+    });
   }
+
 
   addItem() {
     if (this.addItemForm.valid) {
