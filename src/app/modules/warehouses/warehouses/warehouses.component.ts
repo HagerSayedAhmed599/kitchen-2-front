@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WarehousesService } from '../warehouses.service';
 import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { SupplierService } from '../../supplier/supplier.service';
+import { MaterialService } from '../../material/material.service';
 
 @Component({
   selector: 'app-warehouses',
@@ -18,8 +20,12 @@ export class WarehousesComponent implements OnInit{
   showModal = false;
   rating: any;
   addItemForm: FormGroup;
+  SearchForm: FormGroup;
+  warehouses: any[] = [];
+  suppliers: any[] = [];
+  materials: any[] = [];
 
-  constructor(private warehousesService: WarehousesService, private fb: FormBuilder, private toastr: ToastrService,){
+  constructor(private warehousesService: WarehousesService, private fb: FormBuilder, private toastr: ToastrService,private supplierService: SupplierService, private materialService: MaterialService){
     this.purchaseForm = this.fb.group({
       invoiceNumber: ['', Validators.required],
       invoiceDate: ['', Validators.required],
@@ -34,6 +40,11 @@ export class WarehousesComponent implements OnInit{
       tax: ['', Validators.required],
       bonus: ['', Validators.required],
       discount: ['', Validators.required]
+    });
+    this.SearchForm = this.fb.group({
+      itemname: [null],
+      from: [null],
+      to: [null]
     })
 
   }
@@ -42,6 +53,59 @@ export class WarehousesComponent implements OnInit{
   }
   ngOnInit(): void {
     this.getAllRatingData();
+    this.GetAllWarehousesData();
+    this.GetAllSupplierData();
+    this.GetAllMaterialData();
+  }
+  Filter() {
+    this.GetAllWarehousesData();
+  }
+  GetAllWarehousesData() {
+    console.log(this.SearchForm.value);
+    this.warehousesService.GetAllWarehousesData(this.SearchForm.value).subscribe({
+      next: (res: any) => {
+        this.warehouses = res.data
+        console.log(this.warehouses);
+      },
+      error: (err: any) => {
+        Object.entries(err.errors).forEach(([key, value]) => {
+          // console.log(`Key: ${key}, Value: ${value}`);
+          this.toastr.error(`${value}`);
+        });
+      }
+    })
+  }
+  GetAllSupplierData() {
+    this.supplierService.GetAllSupplierData(this.SearchForm.value).subscribe({
+      next: (res: any) => {
+        this.suppliers = res.data
+        console.log(this.suppliers);
+
+      },
+      error: (err: any) => {
+        Object.entries(err.errors).forEach(([key, value]) => {
+          // console.log(`Key: ${key}, Value: ${value}`);
+          this.toastr.error(`${value}`);
+        });
+      }
+    })
+  }
+  GetAllMaterialData() {
+    console.log(this.SearchForm.value);
+
+    this.materialService.GetAllMaterialData(this.SearchForm.value).subscribe({
+      next: (res: any) => {
+        this.materials = res.data
+        console.log('mmm',this.materials);
+
+      },
+      error: (err: any) => {
+        Object.entries(err.errors).forEach(([key, value]) => {
+          // console.log(`Key: ${key}, Value: ${value}`);
+          this.toastr.error(`${value}`);
+        });
+      }
+    })
   }
   getAllRatingData() {
     this.warehousesService.GetAllRatingData(314).subscribe(data => {
@@ -57,7 +121,7 @@ export class WarehousesComponent implements OnInit{
 
       itemArray.push(
         this.fb.group({
-          itemId: [item.itemId, Validators.required],
+          itemId: [0, Validators.required],
           material: [item.material, Validators.required],
           quantity: [item.quantity, Validators.required],
           price: [item.price, Validators.required],
@@ -81,7 +145,7 @@ export class WarehousesComponent implements OnInit{
 
     console.log('Form Data:', purchaseData);
 
-    this.warehousesService.purchaseData(purchaseData).subscribe(res => {
+    this.warehousesService.AddWarehouses(purchaseData).subscribe(res => {
       this.toastr.success("added")
     }, err => {
       this.toastr.error(err.errors[0])

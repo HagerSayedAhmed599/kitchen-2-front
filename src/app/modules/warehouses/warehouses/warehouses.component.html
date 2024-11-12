@@ -13,14 +13,15 @@
   <c-row class="p-2">
     <c-col>
       <c-card-body>
-        <form >
+        <form [formGroup]="SearchForm">
         <div class="row">
           <div class="col-4">
             <label>اسم المورد</label>
-            <ng-select [items]=""
+            <ng-select [items]="suppliers"
                        bindLabel="clientName"
                        bindValue="clientId"
                        placeholder="اختر اسم المورد"
+                       formControlName="itemname"
                        >
             </ng-select>
           </div>
@@ -28,14 +29,14 @@
             <label>من تاريخ</label>
             <!-- formControlName="startDate" -->
             <input aria-label="default input example" cFormControl
-                    type="date"/>
+                    type="date" formControlName="from" />
 
           </div>
           <div class="col-4">
             <label>الي تاريخ</label>
             <!-- formControlName="endDate" -->
             <input aria-label="default input example" cFormControl
-                    type="date" />
+                    type="date" formControlName="to" />
 
           </div>
         </div>
@@ -59,11 +60,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let warehouse of warehouses">
+            <td>{{warehouse.inv_number}}</td>
+            <td>{{warehouse.subname}}</td>
+            <td>{{warehouse.inv_date | date}}</td>
+            <td>{{warehouse.totalamount}}</td>
             <td>
               <button routerLink="" class="btn btn-light m-0 p-2">
                 <i class='bx bx-edit'></i>
@@ -116,7 +117,7 @@
           </div>
           <div class="col-6">
             <label> اسم المورد</label>
-            <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
+            <ng-select [items]="suppliers" bindLabel="clientName" bindValue="clientId"
               placeholder="اختر اسم المورد" formControlName="supplierName">
             </ng-select>
           </div>
@@ -150,7 +151,7 @@
           <div class="row">
             <div class="col-4">
               <label> الماده</label>
-              <ng-select [items]="rating" bindLabel="defaultDesc" bindValue="statusId"
+              <ng-select [items]="materials" bindLabel="itemName" bindValue="itemNo"
               placeholder="اختر الماده" formControlName="material">
             </ng-select>
             </div>
