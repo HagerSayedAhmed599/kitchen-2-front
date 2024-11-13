@@ -207,7 +207,7 @@
             </div>
            </div>
 
-          <div class="row mt-2" *ngIf="tableVisible">
+          <div class="row mt-2"  *ngIf="tableVisible && itemsList.length > 0">
             <div class="col-12">
                 <table class="w-100">
                   <table [striped]="true" cTable>
@@ -218,6 +218,7 @@
                       <th scope="col">السعر</th>
                       <th scope="col">الضريبة</th>
                       <th scope="col">البونص</th>
+                      <th scope="col">التخفيض</th>
                       <th scope="col">تعديل</th>
                       <th>حذف</th>
                     </tr>
@@ -229,6 +230,7 @@
                         <td>{{ item.price }}</td>
                         <td>{{ item.tax }}</td>
                         <td>{{ item.bonus }}</td>
+                        <td>{{item.discount }}</td>
 
                         <td>
                           <button cButton class="btn btn-light m-0 p-2" (click)="editItem(item)">

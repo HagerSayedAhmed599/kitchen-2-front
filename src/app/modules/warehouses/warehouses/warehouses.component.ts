@@ -145,14 +145,20 @@ export class WarehousesComponent implements OnInit{
           supplierName: warehousesData.supplierName,
           note: warehousesData.note
         });
-        this.addItemForm.patchValue({
-          material: warehousesData.items.material,
-          quantity: warehousesData.items.quantity,
-          price: warehousesData.items.price,
-          tax: warehousesData.items.tax,
-          bonus: warehousesData.items.bonus,
-          discount: warehousesData.items.discount
-        })
+
+    // تحديث قائمة العناصر لعرضها في الجدول
+    this.itemsList = warehousesData.items || [];  // ملء العناصر في itemsList
+
+    // ضبط عرض الجدول حسب وجود عناصر
+    this.tableVisible = this.itemsList.length > 0;
+        // this.addItemForm.patchValue({
+        //   material: warehousesData.items.material,
+        //   quantity: warehousesData.items.quantity,
+        //   price: warehousesData.items.price,
+        //   tax: warehousesData.items.tax,
+        //   bonus: warehousesData.items.bonus,
+        //   discount: warehousesData.items.discount
+        // })
       },
       (error) => {
         console.error('Error fetching supplier data:', error);
@@ -207,9 +213,9 @@ export class WarehousesComponent implements OnInit{
       invoiceDate: this.purchaseForm.get('invoiceDate')?.value
         ? new Date(this.purchaseForm.get('invoiceDate')?.value).toISOString().substring(0, 10)
         : new Date().toISOString().substring(0, 10),
-      invoiceNumber: this.purchaseForm.get('invoiceNumber')?.value || "string",
-      supplierName: this.purchaseForm.get('supplierName')?.value || "string",
-      note: this.purchaseForm.get('note')?.value || "string",
+      invoiceNumber: this.purchaseForm.get('invoiceNumber')?.value,
+      supplierName: this.purchaseForm.get('supplierName')?.value,
+      note: this.purchaseForm.get('note')?.value,
       items: itemArray.value
     };
 
