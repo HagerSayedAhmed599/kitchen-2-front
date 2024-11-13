@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SupplierService } from '../../supplier/supplier.service';
 import { MaterialService } from '../../material/material.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-warehouses',
@@ -26,7 +27,13 @@ export class WarehousesComponent implements OnInit{
   materials: any[] = [];
   itemId: number | null = null;
 
-  constructor(private warehousesService: WarehousesService, private fb: FormBuilder, private toastr: ToastrService,private supplierService: SupplierService, private materialService: MaterialService){
+  constructor(private warehousesService: WarehousesService,
+              private fb: FormBuilder,
+              private toastr: ToastrService,
+              private supplierService: SupplierService,
+              private materialService: MaterialService,
+              private datePipe: DatePipe
+            ){
     this.purchaseForm = this.fb.group({
       invoiceNumber: ['', Validators.required],
       invoiceDate: ['', Validators.required],
@@ -134,7 +141,7 @@ export class WarehousesComponent implements OnInit{
 
         this.purchaseForm.patchValue({
           invoiceNumber: warehousesData.invoiceNumber,
-          invoiceDate: new Date(warehousesData.invoiceDate).toISOString().split('T')[0],
+          invoiceDate: this.datePipe.transform(warehousesData.invoiceDate, 'yyyy-MM-dd'),
           supplierName: warehousesData.supplierName,
           note: warehousesData.note
         });
@@ -154,8 +161,8 @@ export class WarehousesComponent implements OnInit{
   }
 
 
-  deleteWarehouses(id: number) {
-    this.warehousesService.DeleteWarehouses(id).subscribe(
+  deleteWarehouses() {
+    this.warehousesService.DeleteWarehouses(this.itemId).subscribe(
       (response: any) => {
         this.toastr.success(`${response.message}`);
         this.GetAllWarehousesData();
@@ -209,31 +216,31 @@ export class WarehousesComponent implements OnInit{
     console.log('Form Data:', purchaseData);
 
     // التحقق من وجود itemId لتحديد ما إذا كان سيتم تنفيذ إضافة أو تحديث
-    purchaseData.items.forEach((item: any) => {
-      if (item.itemId) {
+    // purchaseData.items.forEach((item: any) => {
+      if (this.itemId) {
         // تنفيذ التحديث إذا كان itemId موجود
-        this.warehousesService.updateWarehouses(item.itemId, this.purchaseForm.value).subscribe(
-          res => {
-            this.toastr.success("تم التحديث بنجاح");
+        this.warehousesService.updateWarehouses(this.itemId, this.purchaseForm.value).subscribe(
+          (res: any) => {
+            this.toastr.success(`${res.message}`);
             this.GetAllWarehousesData();
           },
-          err => {
+          (err) =>  {
             this.toastr.error("خطأ في التحديث: " + err.errors[0]);
           }
         );
       } else {
         // تنفيذ الإضافة إذا كان itemId فارغ
         this.warehousesService.AddWarehouses(purchaseData).subscribe(
-          res => {
-            this.toastr.success("تمت الإضافة بنجاح");
+          (res: any) => {
+            this.toastr.success(`${res.message}`);
             this.GetAllWarehousesData();
           },
-          err => {
+          (err) =>  {
             this.toastr.error("خطأ في الإضافة: " + err.errors[0]);
           }
         );
       }
-    });
+    // });
   }
 
 
