@@ -114,10 +114,10 @@
           <div class="col-6">
             <label> تاريخ الفاتوره</label>
             <input
-              aria-label="default input example"
-              cFormControl
-              type="date"
-              formControlName="invoiceDate"
+            aria-label="default input example"
+            cFormControl
+            type="date"
+            formControlName="invoiceDate"
             />
           </div>
           <div class="col-6">
@@ -219,6 +219,7 @@
                       <th scope="col">الضريبة</th>
                       <th scope="col">البونص</th>
                       <th scope="col">التخفيض</th>
+                      <th scope="col">المجموع</th>
                       <th scope="col">تعديل</th>
                       <th>حذف</th>
                     </tr>
@@ -231,6 +232,7 @@
                         <td>{{ item.tax }}</td>
                         <td>{{ item.bonus }}</td>
                         <td>{{item.discount }}</td>
+                        <td>{{item.price + item.tax + item.bonus + item.discount}}</td>
 
                         <td>
                           <button cButton class="btn btn-light m-0 p-2" (click)="editItem(item)">

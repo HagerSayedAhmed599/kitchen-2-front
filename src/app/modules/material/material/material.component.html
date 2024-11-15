@@ -172,6 +172,7 @@
         type="submit"
         [cModalToggle]=""
         cModalClose
+        [disabled]="!materialForm.valid"
         (click)="onSubmit()"
       >
         حفظ

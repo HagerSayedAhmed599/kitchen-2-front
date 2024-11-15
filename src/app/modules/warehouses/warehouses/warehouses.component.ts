@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WarehousesService } from '../warehouses.service';
 import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -26,17 +26,23 @@ export class WarehousesComponent implements OnInit{
   suppliers: any[] = [];
   materials: any[] = [];
   itemId: number | null = null;
+  today = new Date();
+
 
   constructor(private warehousesService: WarehousesService,
               private fb: FormBuilder,
               private toastr: ToastrService,
               private supplierService: SupplierService,
               private materialService: MaterialService,
-              private datePipe: DatePipe
+              private datePipe: DatePipe,
+              private cdr: ChangeDetectorRef
             ){
+    const today = new Date();
+    const lastWeek = new Date();
+    lastWeek.setDate(today.getDate() - 7);
     this.purchaseForm = this.fb.group({
       invoiceNumber: ['', Validators.required],
-      invoiceDate: ['', Validators.required],
+      invoiceDate: new Date().toISOString().substring(0, 10),
       supplierName: [null, Validators.required],
       note: [''],
       items: this.fb.array([]) // to hold multiple items
@@ -49,12 +55,12 @@ export class WarehousesComponent implements OnInit{
       bonus: ['', Validators.required],
       discount: ['', Validators.required]
     });
+
     this.SearchForm = this.fb.group({
       itemname: [null],
-      from: [null],
-      to: [null]
+      from: [lastWeek.toISOString().substring(0, 10)],
+      to: [today.toISOString().substring(0, 10)]
     })
-
   }
   get items(): FormArray {
     return this.purchaseForm.get('items') as FormArray;
@@ -113,9 +119,9 @@ export class WarehousesComponent implements OnInit{
             this.addItemForm.patchValue({
               quantity: selectedMaterial.isCounted,
               price: selectedMaterial.minItemAmount,
-              tax: selectedMaterial.tax,
-              bonus: selectedMaterial.bonus,
-              discount: selectedMaterial.discount
+              tax: selectedMaterial.taxTypeId,
+              bonus: 0,
+              discount: 0,
             });
           }
         });
@@ -185,7 +191,7 @@ export class WarehousesComponent implements OnInit{
     })
   }
   resetForm() {
-    this.purchaseForm.reset();
+
     this.itemId = null;
   }
   onSubmit() {
