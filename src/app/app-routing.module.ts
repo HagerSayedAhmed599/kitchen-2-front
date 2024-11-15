@@ -170,6 +170,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/material/material.module').then((m) => m.MaterialModule)
       },
+      {
+        path: 'consumables',
+        loadChildren: () =>
+          import('./modules/consumables/consumables.module').then((m) => m.ConsumablesModule)
+      }
 
     ]
   },

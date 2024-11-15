@@ -232,7 +232,7 @@
                         <td>{{ item.tax }}</td>
                         <td>{{ item.bonus }}</td>
                         <td>{{item.discount }}</td>
-                        <td>{{item.price + item.tax + item.bonus + item.discount}}</td>
+                        <td>{{(item.quantity * item.price) - (item.quantity * item.price * item.discount)}}</td>
 
                         <td>
                           <button cButton class="btn btn-light m-0 p-2" (click)="editItem(item)">
