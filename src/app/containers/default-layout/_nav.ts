@@ -125,6 +125,11 @@ export class nav{
         description: 'عرض المواد',
         url: '/material'
       },
+      {
+        name: 'المواد المستهلكة',
+        description: 'المواد المستهلكة',
+        url: '/consumables'
+      },
 
     ];
 
