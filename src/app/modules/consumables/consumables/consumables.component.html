@@ -77,4 +77,240 @@
 
 
 
+<c-modal #modalXl1 id="modalXl1" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>طلب مواد من المستودع</h5>
+    <button class="mx-0" [cModalToggle]="modalXl1.id" cButtonClose></button>
+  </c-modal-header>
+  <form>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>اضافة ملاحظة</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <label>تاريخ الفاتوره</label>
+            <input
+            aria-label="default input example"
+            cFormControl
+            type="date"
+            />
+          </div>
+          <div class="col-6">
+            <label> ملاحظة</label>
+            <input
+              aria-label="default input example"
+              cFormControl
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <form>
+    <c-col class="mx-2 my-4">
+      <div class="card">
+        <div class="card-header m-0 d-flex justify-content-between">
+          <h5>المواد المستهلكة</h5>
+          <!-- <button class="btn btn-success">
+            اضافة
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                 viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+            </svg>
+          </button> -->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <label>المادة</label>
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+                placeholder="رخام"
+              />
+            </div>
+            <div class="col-3">
+              <label>العدد</label>
+              <input
+              aria-label="default input example"
+              cFormControl
+              type="number"
+              />
+            </div>
+            <div class="col-md-3 text-center mt-md-4">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkbox"
+                  style="width: 25px; height: 25px;"
+                />
+                <label class="form-check-label fw-bold" for="checkbox">
+                  اختيار
+                </label>
+              </div>
+            </div>
 
+            <div class="col-6">
+              <label>المادة</label>
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+                placeholder="جرانيت"
+              />
+            </div>
+            <div class="col-3">
+              <label>العدد</label>
+              <input
+              aria-label="default input example"
+              cFormControl
+              type="number"
+              />
+            </div>
+            <div class="col-md-3 text-center mt-md-4">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkbox"
+                  style="width: 25px; height: 25px;"
+                />
+                <label class="form-check-label fw-bold" for="checkbox">
+                  اختيار
+                </label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label>المادة</label>
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+                placeholder="صمغ"
+              />
+            </div>
+            <div class="col-3">
+              <label>العدد</label>
+              <input
+              aria-label="default input example"
+              cFormControl
+              type="number"
+              />
+            </div>
+            <div class="col-md-3 text-center mt-md-4">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkbox"
+                  style="width: 25px; height: 25px;"
+                />
+                <label class="form-check-label fw-bold" for="checkbox">
+                  اختيار
+                </label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label>المادة</label>
+              <input
+                aria-label="default input example"
+                cFormControl
+                type="text"
+                placeholder="براغي"
+              />
+            </div>
+            <div class="col-3">
+              <label>العدد</label>
+              <input
+              aria-label="default input example"
+              cFormControl
+              type="number"
+              />
+            </div>
+            <div class="col-md-3 text-center mt-md-4">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkbox"
+                  style="width: 25px; height: 25px;"
+                />
+                <label class="form-check-label fw-bold" for="checkbox">
+                  اختيار
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </c-col>
+    </form>
+    <div class="row">
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        type="submit"
+        [cModalToggle]=""
+        cModalClose
+      >
+        حفظ
+      </button>
+    </div>
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        [cModalToggle]=""
+        cModalClose
+      >
+        عودة
+      </button>
+    </div>
+  </div>
+  </c-modal-body>
+</form>
+</c-modal>
+
+
+<c-modal #modalXl2 id="modalXl2" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>المواد المستهلكة</h5>
+    <button class="mx-0" [cModalToggle]="modalXl2.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="card">
+      <div class="card-header">
+        <h5>هل أنت متأكد من ارسال الطلب</h5>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-6 text-center mt-4">
+      <button
+      class="btn btn-success"
+      [cModalToggle]=""
+      cModalClose
+      >
+        نعم
+      </button>
+    </div>
+    <div class="col-6 text-center mt-4">
+      <button
+        class="btn btn-success"
+        [cModalToggle]=""
+        cModalClose
+      >
+        عودة
+      </button>
+    </div>
+  </div>
+  </c-modal-body>
+</c-modal>

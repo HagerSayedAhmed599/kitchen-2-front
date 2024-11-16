@@ -174,6 +174,11 @@ const routes: Routes = [
         path: 'consumables',
         loadChildren: () =>
           import('./modules/consumables/consumables.module').then((m) => m.ConsumablesModule)
+      },
+      {
+        path: 'main-warehouse',
+        loadChildren: () =>
+          import('./modules/main-warehouse/main-warehouse.module').then((m) => m.MainWarehouseModule)
       }
 
     ]

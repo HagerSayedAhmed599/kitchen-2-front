@@ -130,6 +130,11 @@ export class nav{
         description: 'المواد المستهلكة',
         url: '/consumables'
       },
+      {
+        name: 'المستودع الرئيسى',
+        description: 'المستودع الرئيسى',
+        url: 'main-warehouse'
+      }
 
     ];
 
