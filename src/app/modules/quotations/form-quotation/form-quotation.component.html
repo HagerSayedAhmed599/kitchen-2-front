@@ -460,7 +460,7 @@
 
     
       <c-row class="px-2">
-          <ng-container formGroupName="items" *ngIf="loadPriceOffer">
+          <ng-container [formGroup]="materialFormGroub" *ngIf="loadPriceOffer">
             <ng-container>
               <ng-container>
                 <ng-container>
@@ -469,7 +469,7 @@
                       <div class="card-header d-flex justify-content-between">
                         <h5>المواد</h5>
 <!--                          <button [disabled]="myViewArray2.length == 0" class="btn btn-success" (click)="addAccessoriesItem()">-->
-                        <button  class="btn btn-success"  [disabled]="!doorClientFileForm.get('items')?.valid" (click)="addAccessoriesItem()">
+                        <button  class="btn btn-success"  [disabled]="!doorClientFileForm.get('items')?.valid" (click)="AddDoorsMaterials()">
                           اضافة
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                                viewBox="0 0 16 16">
@@ -520,7 +520,7 @@
                               <table [striped]="true" cTable>
                                 <thead>
                                 <tr>
-                                  <th scope="col">الوحدة</th>
+                                  <th scope="col">المادة</th>
                                   <th scope="col">العدد</th>
                                   <th scope="col">الملاحظات</th>
                                   <th scope="col">السعر</th>
@@ -528,14 +528,15 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let units of myArray2; index as i">
-                                  <td>{{units.unit}}</td>
+                                <tr *ngFor="let units of  itemsMaterial.controls; index as i">
+                                  <!-- <td>{{units[i].unit}}</td> -->
 <!--                                    <td>{{units.unit2}}</td>-->
-                                  <td>{{units.itemCount}}</td>
-                                  <td>{{units.notes}}</td>
-                                  <td>{{units.itemPrice}}</td>
+                                  <td>{{units.value.itemId}}</td>
+                                  <td>{{units.value.itemCount}}</td>
+                                   <td>{{units.value.notes}}</td>
+                                  <td>{{units.value.itemPrice}}</td>
                                   <td>
-                                    <button (click)="deleteAccessories(i)" cButton class="btn btn-danger m-0 p-2">
+                                    <button (click)="DeleteMaterial(i)" cButton class="btn btn-danger m-0 p-2">
                                       <svg cIcon name="cil-trash"></svg>
                                     </button>
                                   </td>
