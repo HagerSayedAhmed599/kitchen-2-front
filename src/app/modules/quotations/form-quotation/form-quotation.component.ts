@@ -7,6 +7,7 @@ import { Clients, DataClients } from '../../clients/modal/clients';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { error } from 'node:console';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class FormQuotationComponent implements OnInit {
   myViewArray2: any = [];
   unitsCounts: number = 0;
   accessoriesCount: number = 0;
+  materialsCount: number = 0;
   TopCount: number = 0;
   clientsForm!: FormGroup;
   mobile: string = "";
@@ -35,7 +37,7 @@ export class FormQuotationComponent implements OnInit {
   totalCount: number = 0;
   doorClientFileForm!: FormGroup;
   myArrayMaterials: any = [];
-  materialFormGroub!:FormGroup;
+  materialFormGroub!: FormGroup;
   ListOfItems: any = [
     {
       isCount: true,
@@ -377,6 +379,15 @@ export class FormQuotationComponent implements OnInit {
     }
     this.accessoriesCount = this.count2
     this.totalCount = this.accessoriesCount + this.unitsCounts + this.TopCount
+
+    if (this.fileTypeId == 2) {
+      let countMaterials = 0
+      for (let i = 0; i < this.itemsMaterial.value.length; i++) {
+        countMaterials += this.itemsMaterial.value[i].itemPrice
+      }
+      this.materialsCount = countMaterials
+      //this.totalCount = this.accessoriesCount + this.unitsCounts + this.TopCount
+    }
   }
 
   constructor(
@@ -566,8 +577,10 @@ export class FormQuotationComponent implements OnInit {
       notes: [null],
       categoryId: [4]
     });
+
+    this.doorClientFileForm.get('fileTypeId').setValue(this.fileTypeId);
   }
-  
+
 
   ClientFileFormGroup(): FormGroup {
     return this._FormBuilder.group({
@@ -672,13 +685,13 @@ export class FormQuotationComponent implements OnInit {
     price = this.loadPriceOffer['accessories']?.statuses.filter((ele: any) => ele.statusId == e.statusId)[0].price;
     this.items2Form.get('eachItemPrice')?.patchValue(price)
   }
-  
+
   SetPriceMaterial(e: any) {
     let price = 0
     price = this.loadPriceOffer['accessories']?.statuses.filter((ele: any) => ele.statusId == e.statusId)[0].price;
     this.materialFormGroub.get('itemPrice')?.patchValue(price)
   }
-  GetPriceMaterial(){
+  GetPriceMaterial() {
     let totPrice = 0
     totPrice = (this.materialFormGroub.get('itemPrice')?.value * this.materialFormGroub.get('itemCount')?.value)
     this.materialFormGroub.get('itemPrice')?.patchValue(totPrice)
@@ -903,22 +916,24 @@ export class FormQuotationComponent implements OnInit {
   AddDoorClientFile() {
     this._QuotationsService.AddDoorClientFile(this.doorClientFileForm.value).subscribe({
       next: (data) => {
-        if(data.isSucsseded == false){
-          
-        }
-        //console.log("dataa", data)
+        this.toastr.success(`${data.message}`);
+
+      }, error: (err: any) => {
+        console.log(err);
+        this.toastr.error(`${err.errors[0]}`);
       }
+
     })
   }
 
   AddDoorsMaterials() {
-    if(this.materialFormGroub.valid) {
-      this.itemsMaterial.push(this._FormBuilder.group(this.materialFormGroub.value)); 
-      console.log("listOfMaterial:  ", this.itemsMaterial)
+    if (this.materialFormGroub.valid) {
+      this.itemsMaterial.push(this._FormBuilder.group(this.materialFormGroub.value));
+      console.log("listOfMaterial:  ", this.itemsMaterial.value)
     }
 
   }
-  DeleteMaterial(index:number){
-   this.itemsMaterial.removeAt(index);
+  DeleteMaterial(index: number) {
+    this.itemsMaterial.removeAt(index);
   }
 }
