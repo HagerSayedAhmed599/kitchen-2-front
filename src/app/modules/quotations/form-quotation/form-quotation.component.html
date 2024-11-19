@@ -488,18 +488,18 @@
                                        bindValue="statusId"
                                        placeholder="اختر الاضافات"
                                        formControlName="itemId"
-                                       (change)="setPrice2($event);getPrice2();">
+                                       (change)="SetPriceMaterial($event)">
                             </ng-select>
                           </div>
 
                           <div class="col-2">
                             <label>العدد</label>
                             <input aria-label="default input example" cFormControl
-                                   formControlName="itemCount" type="number" (change)="getPrice2()" />
+                                   formControlName="itemCount" type="number" (change)="GetPriceMaterial()" />
                           </div>
                           <div class="col-2">
                             <label>السعر</label>
-                            <input 
+                            <input
                               aria-label="default input example" cFormControl
                                    formControlName="itemPrice" type="number" />
                           </div>

@@ -669,8 +669,19 @@ export class FormQuotationComponent implements OnInit {
   setPrice2(e: any) {
 
     let price = 0
-    price = this.loadPriceOffer['accessories']?.statuses.filter((ele: any) => ele.statusId == e.statusId)[0].price
+    price = this.loadPriceOffer['accessories']?.statuses.filter((ele: any) => ele.statusId == e.statusId)[0].price;
     this.items2Form.get('eachItemPrice')?.patchValue(price)
+  }
+  
+  SetPriceMaterial(e: any) {
+    let price = 0
+    price = this.loadPriceOffer['accessories']?.statuses.filter((ele: any) => ele.statusId == e.statusId)[0].price;
+    this.materialFormGroub.get('itemPrice')?.patchValue(price)
+  }
+  GetPriceMaterial(){
+    let totPrice = 0
+    totPrice = (this.materialFormGroub.get('itemPrice')?.value * this.materialFormGroub.get('itemCount')?.value)
+    this.materialFormGroub.get('itemPrice')?.patchValue(totPrice)
   }
 
   getPrice2() {
@@ -892,7 +903,10 @@ export class FormQuotationComponent implements OnInit {
   AddDoorClientFile() {
     this._QuotationsService.AddDoorClientFile(this.doorClientFileForm.value).subscribe({
       next: (data) => {
-        console.log("dataa", data)
+        if(data.isSucsseded == false){
+          
+        }
+        //console.log("dataa", data)
       }
     })
   }
