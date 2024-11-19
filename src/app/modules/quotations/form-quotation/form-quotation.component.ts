@@ -38,6 +38,7 @@ export class FormQuotationComponent implements OnInit {
   doorClientFileForm!: FormGroup;
   myArrayMaterials: any = [];
   materialFormGroub!: FormGroup;
+  materialCountAfterDiscount:number=0;
   ListOfItems: any = [
     {
       isCount: true,
@@ -935,5 +936,13 @@ export class FormQuotationComponent implements OnInit {
   }
   DeleteMaterial(index: number) {
     this.itemsMaterial.removeAt(index);
+  }
+
+  setMaterilPriceAfterDis(){
+    let discountPercentage = this.doorClientFileForm.get('discount')?.value !== null ? this.doorClientFileForm.get('discount')?.value : 0;
+    if (typeof discountPercentage === 'number' && discountPercentage >= 0 && discountPercentage <= 100) {
+      let discountAmount = (this.materialsCount * discountPercentage) / 100;
+      this.materialCountAfterDiscount = this.materialsCount - discountAmount
+    }
   }
 }

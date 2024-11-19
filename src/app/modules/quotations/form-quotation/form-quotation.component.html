@@ -563,7 +563,7 @@
                 <div class="row">
                     <div class="col-3">
                         <label>الخصم </label>
-                        <input [pattern]="'^[0-9]+([.]\d+)?$'" aria-label="default input example" cFormControl formControlName="discount" (ngModelChange)="setTopPriceAfterDis()"
+                        <input [pattern]="'^[0-9]+([.]\d+)?$'" aria-label="default input example" cFormControl formControlName="discount" (ngModelChange)="setMaterilPriceAfterDis()"
                             type="number" />
                             <div *ngIf="AddClientFileForm.get('topDiscount')?.invalid && (AddClientFileForm.get('topDiscount')?.dirty || AddClientFileForm.get('topDiscount')?.touched)">
                               <div style="color: red;" *ngIf="AddClientFileForm.get('topDiscount')?.errors">
@@ -593,23 +593,23 @@
                     <div>
                     مجموع المواد: {{materialsCount}}
                   </div>
-                  <div *ngIf="PriceTopAfterdis" >
+                <!--   <div *ngIf="PriceTopAfterdis" >
                     مجموع المواد بعد الخصم: {{PriceTopAfterdis}}
-                  </div>
+                  </div> -->
                   </div>
                   <div class="col-3">
                     <div>
-                     الصافي: {{unitsCounts}}
+                     الصافي: {{materialCountAfterDiscount}}
                     </div>
-                    <div *ngIf="unitsCountsAfterDis" >
+                   <!--  <div *ngIf="unitsCountsAfterDis" >
                     مجموع المواد بعد الخصم: {{unitsCountsAfterDis}}
-                    </div>
+                    </div> -->
                   </div>
                   <div class="col-3">
                     <div>
                        الاجمالي : {{materialsCount}}
                     </div>
-                    <div *ngIf="PriceTopAfterdis" >المجموع الكلي بعد الخصم : {{TotalCountAfterdis}}</div>
+                  <!--   <div *ngIf="PriceTopAfterdis" >المجموع الكلي بعد الخصم : {{TotalCountAfterdis}}</div> -->
                   </div>
                 </div>
 
