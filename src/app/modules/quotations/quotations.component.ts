@@ -147,7 +147,7 @@ export class QuotationsComponent implements OnInit {
   initSearchForm():FormGroup{
     return this._FormBuilder.group({
       clientName:[null],
-      // fileTypeId:[1],
+      fileTypeId:["1"],
       finalStatusId:[null],
       userId:[null],
       PageType:[0]
@@ -163,10 +163,18 @@ export class QuotationsComponent implements OnInit {
   }
 
   filter(event: any) {
-    console.log(event.value);
+    console.log("hfhf",event.value);
+    //this.SearchForm.get("fileTypeId").setValue(event.target);
+    
+    //console.log("controoool", this.SearchForm.get("fileTypeId").value)
+    //event.value ? this.SearchForm['fileTypeId'] = event.value : this.SearchForm['fileTypeId'] = null;
+    //event.value ? this.SearchForm['fileTypeId'] = event.value : this.SearchForm['fileTypeId'] = null;
     event.value ? this.query['fileTypeId'] = event.value : this.query['fileTypeId'] = null;
+    this.SearchForm.get('fileTypeId')?.setValue(event.value || null);
     this.GetShortClientFiles();
   }
+
+  
   Filter(){
     this.GetShortClientFiles();
   }
@@ -186,6 +194,7 @@ export class QuotationsComponent implements OnInit {
     if (this.clientFileId) {
       this.gettashykById(this.clientFileId);
     }
+    this.SearchForm=this.initSearchForm();
   }
 
   submit() {
@@ -275,7 +284,7 @@ export class QuotationsComponent implements OnInit {
     return newContractDate;
   }
   GetShortClientFiles() {
-    console.log(this.SearchForm.value);
+    console.log("tttt",this.SearchForm.value);
 
     this._QuotationsService.GetShortClientFiles(this.SearchForm.value).subscribe({
       next: (res: any) => {

@@ -14,6 +14,7 @@
     </c-card-header>
 </c-card>
 <c-card class="mb-4 py-4">
+  <div *ngIf="fileTypeId==1">
     <form [formGroup]="AddClientFileForm">
         <c-row class="p-2">
             <c-col *ngFor="let type of clientFileTypes">
@@ -412,7 +413,223 @@
         </div>
       </c-col>
     </form>
+</div>
+<div *ngIf="fileTypeId==2">
+  <form [formGroup]="doorClientFileForm" >
+    {{doorClientFileForm.value | json}}
+      <c-row class="p-2">
+          <c-col *ngFor="let type of clientFileTypes">
+              <c-form-check>
+                  <input [id]="type.id" [checked]="fileTypeId === type.id" cFormCheckInput class="form-check-input"
+                         formControlName="fileTypeId" type="radio" name="fileTypeId" [value]="type.id" />
+                  <label [for]="type.id" cFormCheckLabel>{{type.name}}</label>
+              </c-form-check>
+          </c-col>
+      </c-row>
+      <c-col class="mx-2 my-4" *ngIf="loadPriceOffer">
+          <div class="card">
+              <div class="card-header m-0">
+                  <h5>الزبون</h5>
+              </div>
+              <div class="card-body">
+                  <div class="row justify-content-between">
+                      <div class="col-4">
+                          <label>الزبون</label>
+                          <ng-select [items]="allClients"
+                                     bindLabel="clientName"
+                                     bindValue="clientId"
+                                     placeholder="اختر الزبون"
+                                     formControlName="clientId"
+                                     [readonly]="clientFileId||clientFileId==0?false:true">
+                          </ng-select>
+                      </div>
+                      <!-- <div class="col-4 my-4">
+                        <button class="btn btn-success" (click)="clientFormvisible=true">
+                          اضافة زبون جديد
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                              viewBox="0 0 16 16">
+                              <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                          </svg>
+                      </button>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
+      </c-col>
 
+    
+      <c-row class="px-2">
+          <ng-container formGroupName="items" *ngIf="loadPriceOffer">
+            <ng-container>
+              <ng-container>
+                <ng-container>
+                  <div class="col-md-12 mb-3">
+                    <div class="card">
+                      <div class="card-header d-flex justify-content-between">
+                        <h5>المواد</h5>
+<!--                          <button [disabled]="myViewArray2.length == 0" class="btn btn-success" (click)="addAccessoriesItem()">-->
+                        <button  class="btn btn-success"  [disabled]="!doorClientFileForm.get('items')?.valid" (click)="addAccessoriesItem()">
+                          اضافة
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                               viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          
+                          <div class="col-4">
+                            <label >المادة</label>
+                            <ng-select [items]="loadPriceOffer['accessories']?.statuses"
+                                       bindLabel="description"
+                                       bindValue="statusId"
+                                       placeholder="اختر الاضافات"
+                                       formControlName="itemId"
+                                       (change)="setPrice2($event);getPrice2();">
+                            </ng-select>
+                          </div>
+
+                          <div class="col-2">
+                            <label>العدد</label>
+                            <input aria-label="default input example" cFormControl
+                                   formControlName="itemCount" type="number" (change)="getPrice2()" />
+                          </div>
+                          <div class="col-2">
+                            <label>السعر</label>
+                            <input 
+                              aria-label="default input example" cFormControl
+                                   formControlName="itemPrice" type="number" />
+                          </div>
+                          <div class="col-md-12 mb-3">
+                            <div class="row">
+                              <div class="col-12">
+                                <label>الملاحظة</label>
+                                <textarea formControlName="notes" id="" cols="30"
+                                          rows="3" class="form-control">
+                                </textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <table class="w-100">
+                              <table [striped]="true" cTable>
+                                <thead>
+                                <tr>
+                                  <th scope="col">الوحدة</th>
+                                  <th scope="col">العدد</th>
+                                  <th scope="col">الملاحظات</th>
+                                  <th scope="col">السعر</th>
+                                  <th scope="col">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let units of myArray2; index as i">
+                                  <td>{{units.unit}}</td>
+<!--                                    <td>{{units.unit2}}</td>-->
+                                  <td>{{units.itemCount}}</td>
+                                  <td>{{units.notes}}</td>
+                                  <td>{{units.itemPrice}}</td>
+                                  <td>
+                                    <button (click)="deleteAccessories(i)" cButton class="btn btn-danger m-0 p-2">
+                                      <svg cIcon name="cil-trash"></svg>
+                                    </button>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+      </c-row>
+      <c-col class="mx-2 my-4" *ngIf="loadPriceOffer">
+        <div class="card">
+            <div class="card-header m-0">
+                <h5>المجاميع</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <label>الخصم </label>
+                        <input [pattern]="'^[0-9]+([.]\d+)?$'" aria-label="default input example" cFormControl formControlName="discount" (ngModelChange)="setTopPriceAfterDis()"
+                            type="number" />
+                            <div *ngIf="AddClientFileForm.get('topDiscount')?.invalid && (AddClientFileForm.get('topDiscount')?.dirty || AddClientFileForm.get('topDiscount')?.touched)">
+                              <div style="color: red;" *ngIf="AddClientFileForm.get('topDiscount')?.errors">
+                                لا يمكن أن يكون الخصم قيمه سالبه من فضلك ادخل قيمه صحيحه
+                              </div>
+                            </div>
+                    </div>
+                  <div class="col-3">
+                    <label> ضريبة المبيعات</label>
+                    <input pattern="^[0-9]+([.]\d+)?$" aria-label="default input example" cFormControl formControlName="discount"  (ngModelChange)="setUnitPriceAfterDis()"
+
+                           type="number" />
+                           <div *ngIf="AddClientFileForm.get('discount')?.invalid && (AddClientFileForm.get('discount')?.dirty || AddClientFileForm.get('discount')?.touched)">
+                            <div style="color: red;" *ngIf="AddClientFileForm.get('discount')?.errors">
+                              لا يمكن أن يكون الخصم قيمه سالبه من فضلك ادخل قيمه صحيحه
+                            </div>
+                          </div>
+                  </div>
+                 
+               
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row ">
+                  <div class="col-3">
+                    <div>
+                    مجموع المواد: {{TopCount}}
+                  </div>
+                  <div *ngIf="PriceTopAfterdis" >
+                    مجموع المواد بعد الخصم: {{PriceTopAfterdis}}
+                  </div>
+                  </div>
+                  <div class="col-3">
+                    <div>
+                     الصافي: {{unitsCounts}}
+                    </div>
+                    <div *ngIf="unitsCountsAfterDis" >
+                    مجموع المواد بعد الخصم: {{unitsCountsAfterDis}}
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div>
+                       الاجمالي : {{totalCount}}
+                    </div>
+                    <div *ngIf="PriceTopAfterdis" >المجموع الكلي بعد الخصم : {{TotalCountAfterdis}}</div>
+                  </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center ">
+          <div class="col-12 texet-center" style="display: contents;">
+        <button class="btn btn-success mt-3" (click)="AddDoorClientFile()">
+          {{clientFileId? 'تعديل' : 'حفظ'}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+          </svg>
+      </button>
+      </div>
+      </div>
+    </c-col>
+  </form>
+</div>
 </c-card>
 <c-modal #modalXl [visible]="clientFormvisible" id="modalXl" size="xl">
 <c-modal-header>

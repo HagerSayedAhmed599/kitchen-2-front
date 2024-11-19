@@ -33,6 +33,7 @@ export class FormQuotationComponent implements OnInit {
   mobile:string="";
   clientFormvisible=false;
   totalCount:number=0;
+  doorClientFileForm!:FormGroup;
   ListOfItems: any = [
     {
       isCount: true,
@@ -360,7 +361,7 @@ export class FormQuotationComponent implements OnInit {
       this.count += filteredFormArray.controls[i]?.get('itemPrice')?.value
 
     }
-    this.TopCount = this.count
+    this.TopCount = this.count;
     this.count1=0
     console.log(this.myArrayAsForm1);
 
@@ -539,6 +540,28 @@ export class FormQuotationComponent implements OnInit {
       })
     })
   }
+  InitDoorClientFileForm(){
+    this.doorClientFileForm = this._FormBuilder.group({
+      clientId: [null, [Validators.required]],
+      fileTypeId: [null, [Validators.required]],
+      allPrice: [0, [Validators.pattern('^[0-9]+([.]\d+)?$')]],
+      items: this._FormBuilder.group({
+        itemId: [null, [Validators.required]],
+        itemCount: [1, [Validators.required]],
+        itemTypeId: [1, [Validators.required]],
+        itemPrice: [0.0],
+        itemPriceAfterDiscount:[0],
+        width:[0], 
+        hieght:[0],
+        length:[0],
+        notes: [null],
+        categoryId: [4, [Validators.required]]
+      }),
+      attention: [null],
+      subject: [null],
+      discount: [0]
+    })
+  }
 
   ClientFileFormGroup(): FormGroup {
     return this._FormBuilder.group({
@@ -703,7 +726,7 @@ export class FormQuotationComponent implements OnInit {
     //this.items2Form.get('itemId')?.patchValue('')
     // this.items2Form.reset();
 
-  }
+    }
 
   get itemsFormArray() {
     return this.AddClientFileForm.controls["items"] as FormArray;
@@ -777,7 +800,7 @@ export class FormQuotationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+     this.InitDoorClientFileForm();
   }
 
   AddClientFile() {
@@ -854,5 +877,14 @@ if (typeof discountPercentage === 'number' && discountPercentage >= 0 && discoun
   }
   setTotalPriceAfterDiscount(){
     this.TotalCountAfterdis = this.TotalCountAfterdis-this.AddClientFileForm.get('additionaldiscount')?.value;
+  }
+
+
+  AddDoorClientFile(){
+    this._QuotationsService.AddDoorClientFile(this.doorClientFileForm.value).subscribe({
+      next: (data)=>{
+        console.log("dataa", data)
+      }
+    })
   }
 }

@@ -25,6 +25,9 @@ export class QuotationsService {
   AddClientFile(body:FormGroup): Observable<any> {
     return this._HttpClient.post(`${this.domain}ClientFile/AddClientFile`,body)
   }
+  AddDoorClientFile(data:FormGroup): Observable<any>{
+    return this._HttpClient.post(`${this.domain}ClientFile/AddDoorsClientFile`,data)
+  }
   EditClientFile(body:FormGroup, id: number): Observable<any> {
     return this._HttpClient.put(`${this.domain}ClientFile/UpdateClientFile/${id}`,body)
   }
